@@ -119,3 +119,10 @@ footer p{
     text-align: center;
     padding-top: 35px;
 }
+::-webkit-scrollbar{
+    background-color: #062424;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #093636;
+    border-radius: 8px;
+}
