@@ -3,6 +3,7 @@
     src: url(/fonts/Kanit-Regular.ttf);
 }
 *{
+    font-family: kanit;
     margin: 0;
     padding: 0;
 }
@@ -66,7 +67,7 @@ body{
 .indie-description{
     color: white;
     text-align: center;
-    margin-left: 200px;
+    margin-left: 100px;
 }
 /*seccion pop*/
 .pop-container{
@@ -123,6 +124,6 @@ footer p{
     background-color: #062424;
 }
 ::-webkit-scrollbar-thumb{
-    background-color: #093636;
+    background-color: #0e5050;
     border-radius: 8px;
 }
