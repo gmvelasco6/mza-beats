@@ -3,6 +3,7 @@
     src: url(/fonts/Kanit-Regular.ttf);
 }
 *{
+    font-family: kanit;
     margin: 0;
     padding: 0;
 }
@@ -43,7 +44,24 @@ body{
 }
 .intro{
     text-align: center;
-    margin: 50px;
+    background-color: #031414;
+}
+/*seccion nav*/
+.rock-nav{
+    display: flex;
+    list-style: none;
+    width: 100%;
+    height: 50px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.rock-nav li a {
+    text-decoration: none;
+    font-size: x-large;
+    color: #d25525;
+}
+.rock-nav li a:hover{
+    color: #6e2d13;
 }
 /*seccion rock*/
 .rock-container{
@@ -51,9 +69,33 @@ body{
     justify-content: space-between;
     align-items: center;
     background-color: black;
-    padding: 50px;
+    padding: 40px;
     background-image: url("/images/rock-bg.png");
-    background-size: cover;
+    background-size: cover; 
+}
+hr{
+    width: 100%;
+    height: 50px;
+    border: 0px;
+    background-color: #031414;
+}
+.rock-container-dos{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    padding: 40px;
+    background-image: url("/images/karamelo-04.jpeg");
+    background-size: cover; 
+}
+.rock-container-tres{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: black;
+    padding: 40px;
+    background-image: url("/images/santo-tabu.png");
+    background-size: cover; 
 }
 .rock-img{
     height: 400px;
@@ -80,6 +122,6 @@ footer p{
     background-color: #062424;
 }
 ::-webkit-scrollbar-thumb{
-    background-color: #093636;
+    background-color: #0e5050;
     border-radius: 8px;
 }
