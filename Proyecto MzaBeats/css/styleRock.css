@@ -80,17 +80,6 @@ body{
     color: #6e2d13;
 }
 /*seccion rock*/
-.rock-container-uno{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: black;
-    color: white;
-    padding: 40px;
-    background-image: url("/images/rock-bg.png");
-    background-size: cover; 
-}
 .rock-uno{
     transition: background 0.3s, transform 0.2s;
 }
@@ -102,6 +91,18 @@ hr{
     height: 50px;
     border: 0px;
     background-color: #031414;
+}
+/*contenedores de las bandas*/
+.rock-container-uno{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    padding: 40px;
+    background-image: url("/images/rock-bg.png");
+    background-size: cover; 
 }
 .rock-container-dos{
     display: flex;
@@ -143,14 +144,32 @@ hr{
     background-image: url("/images/chantas.png");
     background-size: cover; 
 }
+/*imagenes de las bandas*/
 .rock-img{
-    height: 500px;
-    width: 400px;
-}
-.rock-img-uno{
     height: 500px;
     width: 600px;
     margin-bottom: 24px;
+    border-radius: 5%;
+}
+.rock-img-uno{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.rock-img-dos{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.rock-img-tres{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.rock-img-cuatro{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
 }
 .rock-description{
     color: black;
@@ -161,7 +180,38 @@ hr{
     border-radius: 8px;
     padding: 10px;
 }
+/*descripcion de las bandas*/
 .rock-description-uno{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 200px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.rock-description-dos{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 200px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.rock-description-tres{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 200px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.rock-description-cuatro{
     color: black;
     text-align: center;
     margin: 0px 100px 0px 100px;
@@ -184,6 +234,7 @@ footer p{
     text-align: center;
     padding-top: 35px;
 }
+/* barra de scroll*/
 ::-webkit-scrollbar{
     background-color: #062424;
 }
@@ -191,6 +242,7 @@ footer p{
     background-color: #0e5050;
     border-radius: 8px;
 }
+/*boton home*/
 #home-button{
     border-radius: 10px;
     padding: 10px;
