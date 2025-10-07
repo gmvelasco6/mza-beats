@@ -14,6 +14,22 @@ header{
     height: 100px;
     font-family:kanit;
 }
+/*centrado de los titulos*/
+.rock-container-uno h2{
+    text-align: center;
+}
+.rock-container-dos h2{
+    text-align: center;
+}
+.rock-container-tres h2{
+    text-align: center;
+}
+.rock-container-cuatro h2{
+    text-align: center;
+}
+.rock-container-cinco h2{
+    text-align: center;
+}
 .nav-container{
     width: 100%;
     height: 100px;
@@ -64,14 +80,22 @@ body{
     color: #6e2d13;
 }
 /*seccion rock*/
-.rock-container{
+.rock-container-uno{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: black;
+    color: white;
     padding: 40px;
     background-image: url("/images/rock-bg.png");
     background-size: cover; 
+}
+.rock-uno{
+    transition: background 0.3s, transform 0.2s;
+}
+.rock-dos{
+    transition: background 0.3s, transform 0.2s;
 }
 hr{
     width: 100%;
@@ -81,37 +105,79 @@ hr{
 }
 .rock-container-dos{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    background-color: black;
-    padding: 40px;
+    background-color: white;
+    color: white;
+    padding: 50px;
     background-image: url("/images/karamelo-04.jpeg");
     background-size: cover; 
 }
 .rock-container-tres{
     display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 40px;
+    background-image: url("/images/Santo_Tabu_fondo_arreglado.png");
+    background-size: cover; 
+}
+.rock-container-cuatro{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 40px;
+    background-image: url("/images/chantas.png");
+    background-size: cover; 
+}
+.rock-container-cinco{
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: black;
+    background-color: white;
+    color: white;
     padding: 40px;
-    background-image: url("/images/santo-tabu.png");
+    background-image: url("/images/chantas.png");
     background-size: cover; 
 }
 .rock-img{
-    height: 400px;
-    width: 40%;
+    height: 500px;
+    width: 400px;
+}
+.rock-img-uno{
+    height: 500px;
+    width: 600px;
+    margin-bottom: 24px;
 }
 .rock-description{
-    color: white;
+    color: black;
     text-align: center;
     margin-left: 100px;
+    width: 50%;
+    background-color: #ffffffc6;
+    border-radius: 8px;
+    padding: 10px;
+}
+.rock-description-uno{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 200px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
 }
 /*seccion footer*/
 footer{
     width: 100%;
     background-color: #062424;
-    height: 100px;
+    height: 100%;  
     font-family:kanit;
+    text-align: center;
 }
 footer p{
     color: #faf2e9;
@@ -124,4 +190,16 @@ footer p{
 ::-webkit-scrollbar-thumb{
     background-color: #0e5050;
     border-radius: 8px;
+}
+#home-button{
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 35px;
+    background-color: #031414;
+    font-size: 30px;
+    color: #faf2e9;
+    text-decoration: none;
+}
+#home-button:hover{
+ background-color:#d25525;
 }
