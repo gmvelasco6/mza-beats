@@ -90,10 +90,12 @@ hr{
 .indie-img-intro{
     height: 500px;
     width: 800px;
+    border-radius: 5%;
 }
 .indie-img{
     height: 500px;
     width: 500px;
+    border-radius: 5%;
 }
 .indie-description{
     text-align: center;

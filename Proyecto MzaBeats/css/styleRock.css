@@ -101,7 +101,7 @@ hr{
     background-color: black;
     color: white;
     padding: 40px;
-    background-image: url("/images/rock-bg.png");
+    background-image: url("/images/rock/rock-bg.png");
     background-size: cover; 
 }
 .rock-container-dos{
@@ -111,7 +111,7 @@ hr{
     background-color: white;
     color: white;
     padding: 50px;
-    background-image: url("/images/karamelo-04.jpeg");
+    background-image: url("/images/rock/karamelo-04.jpeg");
     background-size: cover; 
 }
 .rock-container-tres{
@@ -121,7 +121,7 @@ hr{
     background-color: white;
     color: white;
     padding: 40px;
-    background-image: url("/images/Santo_Tabu_fondo_arreglado.png");
+    background-image: url("/images/rock/Santo_Tabu_fondo_arreglado.png");
     background-size: cover; 
 }
 .rock-container-cuatro{
@@ -131,7 +131,7 @@ hr{
     background-color: white;
     color: white;
     padding: 40px;
-    background-image: url("/images/chantas.png");
+    background-image: url("/images/rock/chantas.png");
     background-size: cover; 
 }
 .rock-container-cinco{
@@ -141,7 +141,7 @@ hr{
     background-color: white;
     color: white;
     padding: 40px;
-    background-image: url("/images/chantas.png");
+    background-image: url("/images/rock/chantas.png");
     background-size: cover; 
 }
 /*imagenes de las bandas*/
