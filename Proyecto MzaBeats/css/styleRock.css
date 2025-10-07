@@ -80,12 +80,6 @@ body{
     color: #6e2d13;
 }
 /*seccion rock*/
-.rock-uno{
-    transition: background 0.3s, transform 0.2s;
-}
-.rock-dos{
-    transition: background 0.3s, transform 0.2s;
-}
 hr{
     width: 100%;
     height: 50px;
