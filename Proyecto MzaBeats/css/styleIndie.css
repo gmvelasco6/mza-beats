@@ -13,8 +13,6 @@ header{
     background-color: #062424;
     height: 100px;
     font-family:kanit;
-    position: fixed;
-    top: 0;
 }
 .nav-container{
     width: 100%;
@@ -50,9 +48,7 @@ body{
     flex-direction: column;
     text-align: center;
     background-color: #031414;  
-    position: fixed;
     width: 100%;
-    top: 12%;
 }
 hr{
     width: 100%;
@@ -88,7 +84,7 @@ hr{
     flex-direction: column;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indie-bg.png");
+    background-image: url("/images/indie/indie-bg.png");
     background-size: cover;
 }
 .indie-img-intro{
@@ -123,7 +119,7 @@ hr{
     background-color: black;
     
     padding: 50px;
-    background-image: url("/images/indieUno-bg.png");
+    background-image: url("/images/indie/indieUno-bg.png");
     background-size: cover;
 }
 .indie-description-uno{
@@ -148,7 +144,7 @@ hr{
     flex-direction: row;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indieDos-bg.png");
+    background-image: url("/images/indie/indieDos-bg.png");
     background-size: cover;
 }
 .indie-description-dos{
@@ -173,7 +169,7 @@ hr{
     flex-direction: row;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indieTres-bg.png");
+    background-image: url("/images/indie/indieTres-bg.png");
     background-size: cover;
 }
 .indie-description-tres{
