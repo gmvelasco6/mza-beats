@@ -200,6 +200,15 @@ footer p{
     text-align: center;
     padding: 35px;
 }
+/*Scrollbar*/
+::-webkit-scrollbar{
+    background-color: #062424;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #0e5050;
+    border-radius: 8px;
+}
+/*Home Button*/
 #home-button{
     border-radius: 10px;
     padding: 10px;
@@ -211,11 +220,4 @@ footer p{
 }
 #home-button:hover{
     background-color: #d25525;
-}
-::-webkit-scrollbar{
-    background-color: #062424;
-}
-::-webkit-scrollbar-thumb{
-    background-color: #0e5050;
-    border-radius: 8px;
 }
