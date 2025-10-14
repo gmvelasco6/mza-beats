@@ -3,6 +3,7 @@
     src: url(/fonts/Kanit-Regular.ttf);
 }
 *{
+    font-family: kanit;
     margin: 0;
     padding: 0;
 }
@@ -13,6 +14,22 @@ header{
     height: 100px;
     font-family:kanit;
 }
+/*centrado de los titulos*/
+.pop-container-uno h2{
+    text-align: center;
+}
+.pop-container-dos h2{
+    text-align: center;
+}
+.pop-container-tres h2{
+    text-align: center;
+}
+.pop-container-cuatro h2{
+    text-align: center;
+}
+.pop-container-cinco h2{
+    text-align: center;
+}
 .nav-container{
     width: 100%;
     height: 100px;
@@ -20,7 +37,6 @@ header{
     justify-content: space-between;
     align-items: center;
 }
-
 .nav-list-item a{
     font-size: 50px;
     color: #faf2e9;
@@ -44,44 +60,182 @@ body{
 }
 .intro{
     text-align: center;
-    margin: 50px;
+    background-color: #031414;
+}
+/*seccion nav*/
+.pop-nav{
+    display: flex;
+    list-style: none;
+    width: 100%;
+    height: 50px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.pop-nav li a {
+    text-decoration: none;
+    font-size: x-large;
+    color: #d25525;
+}
+.pop-nav li a:hover{
+    color: #6e2d13;
 }
 /*seccion pop*/
-.pop-container{
+hr{
+    width: 100%;
+    height: 50px;
+    border: 0px;
+    background-color: #031414;
+}
+/*contenedores de las bandas*/
+.pop-container-uno{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     background-color: black;
-    padding: 50px;
-    background-repeat: no-repeat;
-    background-image: url("/images/pop-bg.png");
-    background-size: cover;
+    color: white;
+    padding: 40px;
+    background-image: url("/images/pop/mariana-paraway-bg.pmg.webp");
+    background-size: cover; 
 }
+.pop-container-dos{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 50px;
+    background-image: url("/images/pop/kusjmama_bg.png");
+    background-size: cover; 
+}
+.pop-container-tres{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 50px;
+    background-image: url("/images/pop/verona.png");
+    background-size: cover; 
+}
+.pop-container-cuatro{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    color: white;
+    padding: 40px;
+    background-image: url("/images/pop/candi-bg.png");
+    background-size: cover; 
+}
+/*imagenes de las bandas*/
 .pop-img{
     height: 500px;
-    width: 100%;
+    width: 550px;
+    margin-bottom: 24px;
+    border-radius: 5%;
+}
+.pop-img-uno{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.pop-img-dos{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.pop-img-tres{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
+}
+.pop-img-cuatro{
+    height: 400px;
+    width: 420px;
+    border-radius: 5%;
 }
 .pop-description{
-    color: white;
+    color: black;
     text-align: center;
-    margin-right: 100px;
+    margin-left: 100px;
+    width: 50%;
+    background-color: #ffffffc6;
+    border-radius: 8px;
+    padding: 10px;
+}
+/*descripcion de las bandas*/
+.pop-description-uno{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 200px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.pop-description-dos{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 250px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.pop-description-tres{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 250px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
+}
+.pop-description-cuatro{
+    color: black;
+    text-align: center;
+    margin: 0px 100px 0px 100px;
+    height: 250px;
+    width: 90%;
+    background-color: #ffffffc6;
+    border-radius: 9px;
+    padding: 10px;
 }
 /*seccion footer*/
 footer{
     width: 100%;
     background-color: #062424;
-    height: 100px;
+    height: 100%;
     font-family:kanit;
+    text-align: center;
 }
 footer p{
     color: #faf2e9;
     text-align: center;
-    padding-top: 35px;
+    padding: 35px;
 }
+/*Scrollbar*/
 ::-webkit-scrollbar{
     background-color: #062424;
 }
 ::-webkit-scrollbar-thumb{
     background-color: #0e5050;
     border-radius: 8px;
+}
+/*boton home*/
+#home-button{
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 35px;
+    background-color: #031414;
+    font-size: 30px;
+    color: #faf2e9;
+    text-decoration: none;
+}
+#home-button:hover{
+    background-color: #d25525;
 }
