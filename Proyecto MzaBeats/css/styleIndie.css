@@ -1,11 +1,11 @@
 @font-face {
     font-family: kanit;
-    src: url(/fonts/Kanit-Regular.ttf);
+    src: url(./fonts/Kanit-Regular.ttf);
 }
 *{
+    font-family: kanit;
     margin: 0;
     padding: 0;
-    font-family: kanit;
 }
 /*seccion header*/
 header{
@@ -27,6 +27,9 @@ header{
     text-decoration: none;
     margin-right: 50px;
 }
+.nav-list-item{
+    display: inline;
+}
 .nav-list-item a:hover{
     color: #d25525;
 }
@@ -35,9 +38,7 @@ header{
     height: 100px;
     margin-left: 25px;
 }
-.nav-list-item{
-    display: inline;
-}
+
 /*seccion body*/
 body{
     background-color: #faf2e9;
@@ -84,7 +85,7 @@ hr{
     flex-direction: column;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indie/indie-bg.png");
+    background-image: url("../images/indie/indie-bg.png");
     background-size: cover;
 }
 .indie-img-intro{
@@ -121,7 +122,7 @@ hr{
     background-color: black;
     
     padding: 50px;
-    background-image: url("/images/indie/indieUno-bg.png");
+    background-image: url("../images/indie/indieUno-bg.png");
     background-size: cover;
 }
 .indie-description-uno{
@@ -146,7 +147,7 @@ hr{
     flex-direction: row;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indie/indieDos-bg.png");
+    background-image: url("../images/indie/indieDos-bg.png");
     background-size: cover;
 }
 .indie-description-dos{
@@ -171,7 +172,7 @@ hr{
     flex-direction: row;
     background-color: black;
     padding: 50px;
-    background-image: url("/images/indie/indieTres-bg.png");
+    background-image: url("../images/indie/indieTres-bg.png");
     background-size: cover;
 }
 .indie-description-tres{
