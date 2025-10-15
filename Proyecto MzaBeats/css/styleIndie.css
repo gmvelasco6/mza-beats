@@ -1,6 +1,6 @@
 @font-face {
     font-family: kanit;
-    src: url(./fonts/Kanit-Regular.ttf);
+    src: url(../fonts/Kanit-Regular.ttf);
 }
 *{
     font-family: kanit;
