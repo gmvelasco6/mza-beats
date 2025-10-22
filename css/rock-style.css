@@ -1,63 +1,79 @@
 @font-face {
-    font-family: kanit;
-    src: url(../fonts/Kanit-Regular.ttf);
+    font-family: 'kanit';
+    src: url(../fonts/Kanit-Light.ttf);
 }
 *{
-    font-family: kanit;
-    margin: 0;
-    padding: 0;
+    margin:0;
+    padding:0;
+    color: black;
+    font-weight: 900;
+    font-family: 'kanit';
 }
-/*seccion header*/
-header{
+body{
+    background-color: #fff0de;
+}
+/*NAVEGADOR*/
+nav{
     width: 100%;
+    height: 100px;
     background-color: #062424;
-    height: 100px;
-    font-family:kanit;
+    display: grid;
+    grid-template-columns: 1fr 10fr 2fr ;
+    place-items: center;
 }
-/*centrado de los titulos*/
-.rock-container-uno h2{
-    text-align: center;
-}
-.rock-container-dos h2{
-    text-align: center;
-}
-.rock-container-tres h2{
-    text-align: center;
-}
-.rock-container-cuatro h2{
-    text-align: center;
-}
-.rock-container-cinco h2{
-    text-align: center;
-}
-.nav-container{
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.nav-list-item a{
-    font-size: 50px;
-    color: #faf2e9;
-    text-decoration: none;
-    margin-right: 50px;
-}
-.nav-list-item a:hover{
-    color: #d25525;
-}
-.nav-container .logo{
-    width: 100%;
+.logo-container .logo{
+    width: 200px;
     height: 100px;
     margin-left: 25px;
 }
-.nav-list-item{
+.nav-container a, .nav-container li{
+    font-size: 40px;
+}
+.user-container a, .user-container li{
+    font-size: 20px;
+}
+li{
+    list-style: none;
     display: inline;
+    position: relative;
+    float: left;
+    margin-right: 5px;
 }
-/*seccion body*/
-body{
-    background-color: #faf2e9;
+.nav-list-item-genero .genero-list{
+    position: absolute;
+    display: none;
+    left: 0px;
+    right: 0;
+    top: 50px;
+    background-color: #062424;
+    z-index: 2000;
+    text-align: center;
 }
+.genero-list-item{
+    place-items: center;
+    margin-left: 10px;
+}
+.genero-list-item a{
+    padding: 0px 24px 0px 20px;
+    width: 100%;
+    text-align: center;
+}
+.nav-list-item-genero:focus-within>.genero-list, .nav-list-item-genero:hover>.genero-list{
+    display: initial;
+}
+a, li{
+    text-decoration: none;
+    color: black;
+    font-weight: 900;
+    color: #fff0de;
+    font-size: 30px;
+}
+a:hover{
+    color: #d25525;
+}
+/*NAVEGADOR*/
+
+/*SECCION ROCK*/
 .intro{
     text-align: center;
     background-color: #031414;
@@ -215,20 +231,40 @@ hr{
     border-radius: 9px;
     padding: 10px;
 }
-/*seccion footer*/
+/*FOOTER*/
 footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     background-color: #062424;
-    height: 100%;
+    height: 200px;
     font-family:kanit;
-    text-align: center;
 }
 footer p{
-    color: #faf2e9;
+    color: #fff0de;
     text-align: center;
-    padding: 35px;
+    padding-top: 35px;
+    font-weight: 500;
+    font-size: 25px;
 }
-/*Scrollbar*/
+/*BOTON PARTICIPAR*/
+.btn-participar{
+    width: 15%;
+    background-color: #0e50504e;
+    border:0;
+    border-radius: 10px;
+    padding: 10px;
+    color: #fff0de;
+    font-size: 25px;
+}
+.btn-participar:hover{
+    transform: scale(110%);
+    color: #d25525;
+    cursor:pointer;
+}
+/*SCROLLBAR*/
 ::-webkit-scrollbar{
     background-color: #062424;
 }
@@ -237,15 +273,15 @@ footer p{
     border-radius: 8px;
 }
 /*Home Button*/
-#home-button{
-    border-radius: 10px;
-    padding: 10px;
-    margin-top: 35px;
+.flecha{
+    border-radius: 100%;
+    font-weight: 900;
+    color: #fff0de;
+    padding: 0 15px 0 15px;
     background-color: #031414;
-    font-size: 30px;
-    color: #faf2e9;
-    text-decoration: none;
+    margin-bottom: 15px;
 }
-#home-button:hover{
-    background-color: #d25525;
+.flecha:hover{
+    transform: scale(110%);
+    color: #d25525;
 }

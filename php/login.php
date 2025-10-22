@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/php-style.css">
-    <link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
 	<title>Inicio de Sesion</title>
 </head>
 <body>
@@ -14,19 +14,18 @@
             <li class="nav-list-item"><a class="link" href="javascript:history.back()">Volver</a></li>
 		</ul>
 	</nav>
-	<h1 align="center">¡Se parte de la MzaBeats!</h1>
-	<h4 align="center">Completá este formulario para poder ser parte de la página web.</h4>
+	<h1 align="center">Iniciar Sesion</h1>
 	<?php
 		include("../bd/conexion_bd.php");
-		include("../controladores/control_formulario.php");
+		include("../controladores/control_sesion.php");
 	?>
-	<form align="center" method="post" action="">
+	<form class="formulario" align="center" method="post" action="">
 		<h2>Usuario</h2>
 		<input type="text" id="user" class="input" name="user">
 		<h2>Contraseña</h2>
 		<input type="password" id="password" class="input" name="password">
-        <br>
-		<input type="submit" name="btn-iniciar" class="btn" value="Enviar">
+		<p>No has creado un usuario? <a href="register.php">Registrate</a></p>
+		<input type="submit" name="btn-iniciar" class="btn" value="Iniciar Sesion">
 	</form>
 </body>
 </html>

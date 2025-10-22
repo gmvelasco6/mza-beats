@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/rock-style.css">
+    <link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
+    <title>Rock</title>
+</head>
+<body>
+    <?php
+        session_start();
+    ?>
+    <header id="inicio">
+        <nav>
+            <div class="logo-container">
+                <img class="logo" src="../images\logo\logoMzaBeats.png" alt="">
+            </div>
+            <div class="nav-container">
+                <ul class="nav-list">
+                    <li class="nav-list-item"><a class="link" href="../index.php">Inicio</a></li>
+                    <li>|</li>
+                    <li class="nav-list-item-genero"><a href="">Generos</a>
+                        <ul class="genero-list">
+                            <li class="genero-list-item"><a href="indie.php">Indie</a></li>
+                            <li class="genero-list-item"><a href="pop.php">Pop</a></li>
+                            <li class="genero-list-item"><a href="rock.php">Rock</a></li>
+                           <li class="genero-list-item"><a href="otros.php">Otros</a></li>
+                        </ul>    
+                    </li>
+                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="1"){ ?>
+                        <li>|</li>
+                        <li><a href="../php/usuarios.php">Admin. Usuarios</a></li>
+                        <div id="contenedor"></div>
+                    <?php } ?>
+                </ul>
+            </div>
+            <div class="user-container">
+                <ul>
+                    <?php
+                    if(!empty($_SESSION["id"])){
+                        echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
+                        echo "<li><a class='salir' href='../controladores/control_close_sesion.php'>SALIR</a></li>";
+                    }else{
+                        echo "<li><a class='ini-sesion' href='../php/login.php'>LOG IN</a> |</li> ";
+                        echo "<li><a class='registrarse' href='../php/register.php'> SIGN IN</a></li> ";
+                    }
+                        
+                    ?>
+                    
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="intro">
+            <ul class="rock-nav">
+                <li><a href="#rock-uno">Karamelo Santo</a></li>
+                <li><a href="#rock-dos">Santo Tabú</a></li>
+                <li><a href="#rock-tres">Chantas</a></li>
+                <li><a href="#rock-cuatro">Brut4l</a></li>
+            </ul>
+        </div>
+        <section class="rock-container-uno">
+            <img src="../images/rock/Chancho-va.png" alt="imagen_Rock" class="rock-img">
+            <div class="rock-description-uno">
+                <h2>Seccion Rock</h2>
+                <p>
+                    El rock mendocino tiene una historia sólida y vibrante, 
+                    con bandas que han sabido combinar la potencia del género con un 
+                    fuerte arraigo local. Desde los años 90, 
+                    grupos como Chancho Va comenzaron a marcar el rumbo con un estilo directo y 
+                    letras comprometidas, mientras que bandas como Monos en Bolas 
+                    y La Skandalosa Tripulación sumaron nuevas capas al sonido rockero, 
+                    mezclando funk, ska y reggae.
+                    La escena actual mantiene viva la energía del rock con propuestas 
+                    que van desde lo alternativo hasta el hard rock, 
+                    consolidándose en escenarios locales, festivales provinciales y
+                    encuentros de música independiente. 
+                    El espíritu del rock en Mendoza está marcado por la autogestión, 
+                    la pasión por el vivo y la conexión genuina con el público, 
+                    convirtiéndolo en uno de los géneros más influyentes de la provincia.
+                </p>
+            </div>
+        </section>
+        <hr>
+        <section class="rock-container-dos" id="rock-uno">
+            <div class="rock-description">
+                <h2>Karamelo santo</h2>
+                <p>
+                    Karamelo Santo es una banda argentina de rock al estilo fusión de música global o Alterlatino, 
+                    liderada y fundada por Goy, pionera en la mezcla de otros estilos como punk, folclore, cumbia,
+                    ska y reggae en Latinoamérica, formada oficialmente en 1993 en la ciudad de Mendoza,
+                    a pesar de que los primeros trabajos de ideas y ensayos se plasmaron con una agrupación previa llamada con el nombre de Perfectos Idiotas desde 1987,
+                    con influencias y ensayos en México, Argentina y Chile. Es precursora e inspiradora del género llamado hoy rock mestizo o alterlatino.Su arte está comprometida con los fenómenos sociales, declarada abiertamente antifacista,
+                    antiespecista y es una de las bandas del cono sur latinoamericano con mayor proyección global en los últimos años. Sus interminables giras han llegado a lo más recóndito del mundo, como Croacia, Hungría, Corea del Sur, Estados Unidos, Alemania, Polonia, Suecia, China, Kazajistán, Japón, Malta y más.
+                </p>
+            </div>
+            <img src="../images/rock/karamleo.png" alt="imagen_Rock" class="rock-img-uno">
+        </section>
+        <hr>
+        <section class="rock-container-tres" id="rock-dos">
+            <img src="../images/rock/baterista.png" alt="imagen_Rock" class="rock-img-dos">
+            <div class="rock-description-dos">
+                <h2>Santo Tabu</h2>
+                <p>
+                    Santo Tabú es una banda argentina de rock argentino, originaria de la provincia de Mendoza, Argentina.
+                    Conformada originalmente por el guitarrista y vocalista Ivo Procheret, el bajista Leo Cortés y el baterista Pablo Peinado.
+                    La misma dio inicio a su carrera oficial el 5 de septiembre de 2008. Su estilo es una mezcla de hard rock, rock, pop, brit, funk y dark.
+                    En canciones como "Los Árboles" y "Ciudad de Ratas" (Santo Tabú, 2009) y "Sombras", "Sicario" y "Cielo y Suelo" (Cristal Ámbar, 2011), incluyen pasajes de fusión con géneros y ritmos que sugieren tango, folclore y flamenco, entre otros.
+                </p>
+            </div>
+        </section>
+        <hr>
+        <section class="rock-container-cuatro" id="rock-tres">
+            <div class="rock-description-tres">
+                <h2>Chantas</h2>
+                <p>
+                    Chantas es una banda de rock alternativo originaria de Mendoza, Argentina, formada en 2012. 
+                    La banda está compuesta por cuatro miembros: Lautaro "Laucha" Martínez (voz y guitarra), 
+                    Federico "Fede" Ramírez (guitarra y coros), Agustín "Agus" Fernández (bajo) y 
+                    Tomás "Tomi" Gómez (batería). Su estilo musical combina elementos del rock, pop y punk, 
+                    creando un sonido fresco y enérgico que ha capturado la atención de la escena musical local.
+                    Desde sus inicios, Chantas ha lanzado varios álbumes y sencillos que han sido bien recibidos por la crítica y el público. 
+                    Su música se caracteriza por letras introspectivas y emotivas, acompañadas de melodías pegajosas y ritmos dinámicos. 
+                    La banda ha participado en numerosos festivales y eventos en Argentina,
+                    consolidándose como una de las propuestas más interesantes del rock alternativo en la región.
+                </p>
+            </div>
+            <img src="../images/rock/Chantas-integrantes.png" alt="imagen_Rock" class="rock-img-tres">
+        </section>
+        <hr>
+        <section class="rock-container-cinco" id="rock-cuatro">
+            <img src="../images/rock/BRUT4l.png" alt="imagen_Rock" class="rock-img-cuatro">
+            <div class="rock-description-cuatro">
+                <h2>Brut4l</h2>
+                <p>
+                    Brut4l es una banda de rock alternativo originaria de Mendoza, Argentina, formada en 2015. 
+                    La banda está compuesta por cuatro miembros: Juan Pérez (voz y guitarra), 
+                    María López (guitarra y coros), Carlos Sánchez (bajo) y 
+                    Diego Fernández (batería). Su estilo musical combina elementos del rock, metal y punk, 
+                    creando un sonido potente y enérgico que ha capturado la atención de la escena musical local.
+                    Desde sus inicios, Brut4l ha lanzado varios álbumes y sencillos que han sido bien recibidos por la crítica y el público. 
+                    Su música se caracteriza por letras introspectivas y emotivas, acompañadas de melodías agresivas y ritmos dinámicos. 
+                    La banda ha participado en numerosos festivales y eventos en Argentina, consolidándose como una de las propuestas más interesantes del rock alternativo en la región.
+                </p>
+            </div>
+    </main>
+    <footer>
+        <a href="#inicio" class="flecha">&uparrow;</a>
+        <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">
+        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+@font-face {
+    font-family: 'kanit';
+    src: url(../fonts/Kanit-Light.ttf);
+}
+*{
+    margin:0;
+    padding:0;
+    color: black;
+    font-weight: 900;
+    font-family: 'kanit';
+}
+body{
+    background-color: #fff0de;
+}
+nav{
+    width: 100%;
+    height: 100px;
+    background-color: #062424;
+    display: grid;
+    grid-template-columns: 1fr 10fr 2fr ;
+    place-items: center;
+}
+.logo{
+    width: 200px;
+    height: 100px;
+    margin-left: 25px;
+}
+li{
+    list-style: none;
+    display: inline;
+    position: relative;
+    float: left;
+    margin-right: 5px;
+}
+.link, li{
+    text-decoration: none;
+    color: black;
+    font-weight: 900;
+    color: #fff0de;
+    font-size: 40px;
+}
+a:hover{
+    color: #d25525;
+}
+.logo-container .logo{
+    width: 200px;
+    height: 100px;
+    margin-left: 25px;
+}
+.advertencia{
+    display: flex;
+    justify-content: center;
+    color: red;
+    padding: 10px;
+    font-weight: 900;
+    margin: 10px;
+}
+.verificado{
+    display: flex;
+    justify-content: center;
+    color: green;
+    padding: 10px;
+    font-weight: 900;
+    margin: 10px;
+}
+.tabla{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-collapse:collapse;
+}
+.tabla th, td, tr{
+    border: 2px solid black;
+    padding: 10px;
+}
+th{
+    background-color: grey;
+    color: white;
+}
+.btn{
+    margin-top: 5px;
+    width: 10%;
+    background-color: #062424;
+    color: #fff0de;
+    font-size: 20px;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+}
+.btn:hover{
+    transform: scale(110%);
+    color: #d25525;
+    cursor:pointer;
+}
+input{
+    font-size: 20px;
+}
+.formulario{
+    border: 1px solid black;
+}
