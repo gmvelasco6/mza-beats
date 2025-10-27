@@ -24,10 +24,16 @@ nav{
     margin-left: 25px;
 }
 .nav-container a, .nav-container li{
-    font-size: 40px;
+    font-size: 30px;
 }
 .user-container a, .user-container li{
     font-size: 20px;
+}
+.genero-button{
+    background-color: transparent;
+    border: 0px;
+    color: #fff0de;
+    font-size: 30px;
 }
 li{
     list-style: none;
@@ -41,17 +47,16 @@ li{
     display: none;
     left: 0px;
     right: 0;
-    top: 50px;
+    top: 40px;
     background-color: #062424;
     z-index: 0;
     text-align: center;
 }
 .genero-list-item{
     place-items: center;
-    margin-left: 10px;
 }
 .genero-list-item a{
-    padding: 0px 24px 0px 20px;
+    padding-left: 15px;
     width: 100%;
     text-align: center;
 }
@@ -65,7 +70,10 @@ a, li{
     color: #fff0de;
     font-size: 30px;
 }
-a:hover{
+.genero-label{
+    font-size: 30px;
+}
+a:hover, .genero-label:hover{
     color: #d25525;
 }
 form{
@@ -217,4 +225,85 @@ footer p{
 ::-webkit-scrollbar-thumb{
     background-color: #0e5050;
     border-radius: 8px;
+}
+.nav-toggle{
+    display: none;
+}
+.genero-toggle{
+    display: none;
+}
+.nav-label{
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    *{
+        overflow-x: hidden;
+    }
+    .nav-label{
+        color: #fff0de;
+        font-size: 50px;
+    }
+    .nav-list{
+        display: none;
+        position: fixed;
+        inset: 0;
+        gap: 10px;
+        place-content: center;
+        text-align: center;
+        background-color: #062424;
+        z-index: 1000px;    
+    }
+    .genero-list{
+        display: none;
+        position: absolute;
+        flex-direction: column;
+        inset: 0;
+        gap: 0px;
+        place-content: center;
+        text-align: center;
+        background-color: #062424;  
+        overflow-x: visible; 
+    }
+    
+    /*ACTIVACION DEL MENU HAMBURGUESA*/
+    .nav-toggle:checked + .nav-list{
+        display: grid;
+    }
+    .genero-toggle:checked ~ .genero-list{
+        display: flex;
+    }
+    
+    /*RETOQUES DEL NAVEGADOR*/
+    nav{
+        height: 80px;
+        background-color: #062424;
+        grid-template-columns: 2fr 2fr 2fr ;
+    }
+    .logo-container .logo{
+        width: 80%;
+        height: 90%;
+    }
+    .linea{
+        display: none;
+    }
+    .nav-container a, .nav-container li, .genero-label{
+        font-size: 25px;
+        margin-top: 10px;
+    }
+    .user-container a, .user-container li{
+        font-size: 15px;
+    }
+    .user-list{
+        margin-right: 100px;
+        width: 100%;
+    }
+
+    /*OCULTAR LA SCROLLBAR*/
+    ::-webkit-scrollbar{
+       display: none;
+    }
+    ::-webkit-scrollbar-thumb{
+        display: none;
+    }
 }

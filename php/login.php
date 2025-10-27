@@ -14,18 +14,21 @@
             <li class="nav-list-item"><a class="link" href="javascript:history.back()">Volver</a></li>
 		</ul>
 	</nav>
-	<h1 align="center">Iniciar Sesion</h1>
+	
 	<?php
 		include("../bd/conexion_bd.php");
 		include("../controladores/control_sesion.php");
 	?>
-	<form class="formulario" align="center" method="post" action="">
-		<h2>Usuario</h2>
-		<input type="text" id="user" class="input" name="user">
-		<h2>Contraseña</h2>
-		<input type="password" id="password" class="input" name="password">
-		<p>No has creado un usuario? <a href="register.php">Registrate</a></p>
-		<input type="submit" name="btn-iniciar" class="btn" value="Iniciar Sesion">
-	</form>
+	<div class="form-container">
+		
+		<form class="formulario" align="center" method="post" action="">
+			<h1 align="center">Iniciar Sesion</h1>
+			<input type="text" id="user" class="input" name="user" placeholder=" Usuario">
+			<input type="password" id="password" class="input" name="password" placeholder=" Contraseña">
+			<p>No has creado un usuario? <a href="register.php">Registrate</a></p>
+			<input type="submit" name="btn-iniciar" class="btn" value="Iniciar Sesion">
+		</form>
+	</div>
+	
 </body>
 </html>

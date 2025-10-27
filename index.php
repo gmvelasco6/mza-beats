@@ -18,10 +18,14 @@
                 <img class="logo" src="images\logo\logoMzaBeats.png" alt="">
             </div>
             <div class="nav-container">
+                <label for="nav-toggle" class="nav-label">&equiv;</label>
+                <input type="checkbox" class="nav-toggle" id="nav-toggle">
                 <ul class="nav-list">
                     <li class="nav-list-item"><a href="index.php">Inicio</a></li>
-                    <li>|</li>
-                    <li class="nav-list-item-genero"><a href="">Generos</a>
+                    <li class="linea">|</li>
+                    <li class="nav-list-item-genero">
+                        <label class="genero-label" for="genero-toggle"><a>Genero</a></label>
+                        <input type="checkbox" name="genero-toggle" id="genero-toggle" class="genero-toggle">
                         <ul class="genero-list">
                             <li class="genero-list-item"><a href="generos\indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="generos\pop.php">Pop</a></li>
@@ -29,17 +33,17 @@
                            <li class="genero-list-item"><a href="generos\otros.php">Otros</a></li>
                         </ul>    
                     </li>
-                    <li>|</li>
-                    <li><a href="#about-us">Sobre Nosotros</a></li>
+                    <li class="linea">|</li>
+                    <li class="nav-list-item"><a href="#about-us">Sobre Nosotros</a></li>
                     <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="1"){ ?>
-                        <li>|</li>
-                        <li><a href="php/usuarios.php">Admin. Usuarios</a></li>
+                        <li class="linea">|</li>
+                        <li class="nav-list-item"><a href="php/usuarios.php">Admin. Usuarios</a></li>
                         <div id="contenedor"></div>
                     <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
-                <ul>
+                <ul class="user-list">
                     <?php
                     if(!empty($_SESSION["id"])){
                         echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
@@ -135,19 +139,13 @@
             <p>MzaBeats es una página web que almacena todas las bandas originas de la provincia de Mendoza, Argentina.
                 Nuestra idea es que la cultura musical Mendocina sea más reconocida, por todo el mundo.
             </p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
+
         </section>
     </main>
     <footer>
         <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
+
 </body>
 </html>
