@@ -166,9 +166,75 @@
             <img src="../images/indie/indieTres.png" alt="imagen_Indie_Tres" class="indie-img">
         </section>
     </main>
+    <?php
+        // Listado dinámico de bandas agregadas (soporta tablas sin columna 'genero')
+        try {
+            include_once __DIR__ . '/../bd/conexion_bd.php';
+            if (isset($conexion) && $conexion instanceof mysqli) {
+                // Detectar columnas existentes
+                $cols = [];
+                if ($resCols = $conexion->query("SHOW COLUMNS FROM bandas")) {
+                    while ($c = $resCols->fetch_assoc()) { $cols[$c['Field']] = true; }
+                }
+
+                $hasGenero = isset($cols['genero']);
+                // Elegir columna de orden válida
+                if (isset($cols['fecha_creacion'])) $orderCol = 'fecha_creacion';
+                elseif (isset($cols['creado_en'])) $orderCol = 'creado_en';
+                else $orderCol = 'id';
+
+                // Construir consulta según exista o no 'genero'
+                if ($hasGenero) {
+                    $sql = "SELECT id, nombre, descripcion, imagen_principal, imagen_fondo FROM bandas WHERE genero = ? ORDER BY $orderCol DESC";
+                    $stmt = $conexion->prepare($sql);
+                    if ($stmt) {
+                        $gen = 'indie';
+                        $stmt->bind_param('s', $gen);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                    }
+                } else {
+                    $sql = "SELECT id, nombre, descripcion, imagen_principal, imagen_fondo FROM bandas ORDER BY $orderCol DESC";
+                    $result = $conexion->query($sql);
+                }
+
+                if (isset($result) && $result && $result->num_rows > 0) {
+                    echo '<section class="bandas-agregadas">';
+                    echo '<h2 style="color:#fff0de; text-align:center; margin-bottom:12px;">Bandas agregadas por la comunidad</h2>';
+                    while ($row = $result->fetch_assoc()) {
+                        $nombre = htmlspecialchars($row['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
+                        $descripcion = nl2br(htmlspecialchars($row['descripcion'] ?? '', ENT_QUOTES, 'UTF-8'));
+                        $imgPrincipal = isset($row['imagen_principal']) ? '../' . ltrim($row['imagen_principal'], '/\\') : '';
+                        $imgFondo = isset($row['imagen_fondo']) ? '../' . ltrim($row['imagen_fondo'], '/\\') : '';
+
+                        $bgStyle = $imgFondo !== '' ? "--item-bg: url('" . htmlspecialchars($imgFondo, ENT_QUOTES, 'UTF-8') . "');" : '';
+
+                        echo '<article class="indie-item" style="' . $bgStyle . '">';
+                        if ($imgPrincipal !== '') {
+                            echo '<div class="indie-thumb"><img src="' . htmlspecialchars($imgPrincipal, ENT_QUOTES, 'UTF-8') . '" alt="' . $nombre . '"></div>';
+                        } else {
+                            echo '<div class="indie-placeholder">Sin imagen</div>';
+                        }
+                        echo '<div class="indie-description">';
+                        echo '<h2>' . $nombre . '</h2>';
+                        echo '<p>' . $descripcion . '</p>';
+                        echo '</div>';
+                        echo '</article>';
+                    }
+                    echo '</section>';
+                }
+            }
+        } catch (Throwable $e) {
+            // Silencioso en producción; para debug, se podría loguear
+        }
+    ?>
+
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">
+        <?php if(!empty($_SESSION["id"]) && $_SESSION["state"]=="1"): ?>
+            <input class="btn-participar" type="button" style="align-self:flex-start; margin-left:20px;" onclick="window.location.href='../php/agregar_banda.php';" value="Agregar banda">
+        <?php endif; ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>

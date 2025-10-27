@@ -1,0 +1,125 @@
+.form-banda-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(12, 35, 37, 0.9);
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.form-banda {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-banda h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-banda label {
+    color: #fff;
+    font-size: 1.1rem;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.form-banda input[type="text"],
+.form-banda textarea {
+    padding: 0.8rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    background: rgba(12, 35, 37, 0.8);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-banda textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+.images-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.image-upload {
+    flex: 1;
+}
+
+.preview-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.preview-container img {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    border: 2px solid #000;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-submit,
+.btn-cancel {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit {
+    background: #4CAF50;
+    color: rgb(255, 0, 0);
+}
+
+.btn-cancel {
+    background: #f44336;
+    color: white;
+}
+
+.btn-submit:hover {
+    background: #45a049;
+}
+
+.btn-cancel:hover {
+    background: #da190b;
+}
+
+.response-message {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    color: #000;
+}
+
+.success {
+    background: rgba(76, 175, 80, 0.3);
+}
+
+.error {
+    background: rgba(244, 67, 54, 0.3);
+}
