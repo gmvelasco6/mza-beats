@@ -28,11 +28,6 @@
                            <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="1"){ ?>
-                        <li>|</li>
-                        <li><a href="../php/usuarios.php">Admin. Usuarios</a></li>
-                        <div id="contenedor"></div>
-                    <?php } ?>
                 </ul>
             </div>
             <div class="user-container">

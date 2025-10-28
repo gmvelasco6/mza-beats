@@ -10,7 +10,7 @@
     font-family: 'kanit';
 }
 body{
-    background-color: #041919;
+    background-color: #041616;
 }
 nav{
     width: 100%;
@@ -37,7 +37,7 @@ li{
     color: black;
     font-weight: 900;
     color: #fff0de;
-    font-size: 40px;
+    font-size: 30px;
 }
 a:hover{
     color: #d25525;
@@ -63,12 +63,62 @@ a:hover{
     font-weight: 900;
     margin: 10px;
 }
+
+/*FORMULARIOS*/
+.formulario-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.formulario-container h1{
+    color: #d25525;
+   
+}
+.formulario-container p{
+    color: #fff0de;
+    font-size: large;
+    margin-bottom: 20px;
+}
+.formulario{
+    padding: 20px;
+    width: 30%;
+    border: 0px;
+    border-radius: 8px;
+    background-color: #062424;
+}
+.formulario h1{
+    font-size: xxx-large;
+    margin: 20px;
+    color: #d25525;
+}
+.formulario h2{
+    color: #fff0de;
+    font-size: xx-large;
+    margin-bottom: 10px;
+}
+.formulario p, a{
+    margin-top: 10px;
+    color: #fff0de;
+}
+
+input{
+    font-size: 20px;
+    padding: 10px;
+}
+textarea{
+    padding: 10px;
+}
+/*ADMIN BANDAS*/
 .tabla{
     width: 100%;
-    text-align: center;
+    border-collapse:collapse;
     display: flex;
     justify-content: center;
-    border-collapse:collapse;
 }
 .tabla th, td, tr{
     border: 2px solid black;
@@ -76,17 +126,109 @@ a:hover{
     background-color: #093535;
     color: white;
 }
-th{
-    background-color: grey;
-    color: white;
+
+/*BANDAS*/
+.table-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
 }
-.btn{
-    margin-top: 5px;
+.table-bandas{
+    width: 100%;
+    border-collapse:collapse;
+    display: flex;
+    justify-content: center;
+}
+.table-bandas th, td, tr{
+    border: 2px solid black;
+    padding: 10px;
+}
+.table-bandas input{
+    font-size: medium;
+    margin: 15px;
+}
+.table-bandas input, .descripcion{
+    border: 0px;
+    border-radius: 10px;
+    background-color: #0e5050;
+    color: white;
+    font-weight: 600;
+}
+.table-bandas td{
+    background-color: #062424;
+}
+.table-bandas th{
+    color: black;
+    background-color: #0e5050;
+}
+.table-container h1{
+    margin-top: 20px;
+    color: #d25525;
+    font-size: xxx-large;
+}
+
+
+/*BOTONES*/
+.btn-submit{
+    margin: 15px;
     width: 50%;
-    background-color: #041919;
+    background-color: #0e500f;
+    color: black;
+    font-size: 25px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+.btn-submit:hover{
     color: #fff0de;
+    background-color: #136914;
+    transform: scale(110%);
+    cursor: pointer;
+}
+
+.btn-cancel{
+    margin: 15px;
+    width: 50%;
+    background-color: #500e0e;
+    color: black;
+    font-size: 25px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+.btn-cancel:hover{
+    color: #fff0de;
+    background-color: #6a1313;
+    transform: scale(110%);
+    cursor: pointer;
+}
+
+.btn-update{
+    margin: 15px;
+    width: 80%;
+    background-color: #0e5050;
+    color: white;
     font-size: 20px;
-    padding: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+}
+.btn-update:hover{
+    transform: scale(110%);
+    color: #d25525;
+    cursor: pointer;
+}
+
+.btn{
+    margin: 15px;
+    width: 50%;
+    background-color: #0e5050;
+    color: black;
+    font-size: 25px;
+    padding: 10px;
     border: none;
     border-radius: 10px;
     margin: 15px;
@@ -94,38 +236,32 @@ th{
 .btn:hover{
     transform: scale(110%);
     color: #d25525;
-    cursor:pointer;
+    cursor: pointer;
+    font-weight: 900;
 }
-input{
-    font-size: 20px;
-}
-.form-container{
+/*seccion footer*/
+footer{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #062424;
+    height: 200px;
+    font-family:kanit;
 }
-.formulario{
-    border: 0px;
-    border-radius: 8px;
-    background-color: #0e50504e;
-    width: 30%;
-    padding: 20px;
+footer p{
     color: #fff0de;
-    margin: 50px;   
+    text-align: center;
+    padding-top: 35px;
+    font-weight: 500;
+    font-size: 25px;
 }
-h1, h2, p, a{
-    color: #fff0de;
-    margin-top: 15px;
+/*SCROLLBAR*/
+::-webkit-scrollbar{
+    background-color: #062424;
 }
-input{
-    width: 80%;
-    border: 0px;
+::-webkit-scrollbar-thumb{
+    background-color: #0e5050;
     border-radius: 8px;
-    margin: 15px;
-    color: #062424;
-}
-.descripcion{
-    font-size: 20px;
-    border-radius: 8px;
-    resize: none;
-
 }
