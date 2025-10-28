@@ -33,8 +33,7 @@
                     <li><a href="#about-us">Sobre Nosotros</a></li>
                     <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="1"){ ?>
                         <li>|</li>
-                        <li><a href="php/usuarios.php">Admin. Usuarios</a></li>
-                        <div id="contenedor"></div>
+                        <li><a href="php/admin-bandas.php">Admin. Bandas</a></li>
                     <?php } ?>
                 </ul>
             </div>
@@ -47,8 +46,7 @@
                     }else{
                         echo "<li><a class='ini-sesion' href='php/login.php'>LOG IN</a> |</li> ";
                         echo "<li><a class='registrarse' href='php/register.php'> SIGN IN</a></li> ";
-                    }
-                        
+                    }  
                     ?>
                     
                 </ul>
@@ -135,14 +133,6 @@
             <p>MzaBeats es una página web que almacena todas las bandas originas de la provincia de Mendoza, Argentina.
                 Nuestra idea es que la cultura musical Mendocina sea más reconocida, por todo el mundo.
             </p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
-            <h2>¿Pregunta?</h2>
-            <p>Respuesta larga</p>
         </section>
     </main>
     <footer>

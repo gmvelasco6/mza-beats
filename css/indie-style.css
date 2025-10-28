@@ -10,7 +10,7 @@
     font-family: 'kanit';
 }
 body{
-    background-color: #fff0de;
+    background-color: #031414;
 }
 /*NAVEGADOR*/
 nav{
@@ -27,7 +27,7 @@ nav{
     margin-left: 25px;
 }
 .nav-container a, .nav-container li{
-    font-size: 40px;
+    font-size: 30px;
 }
 .user-container a, .user-container li{
     font-size: 20px;
@@ -44,7 +44,7 @@ li{
     display: none;
     left: 0px;
     right: 0;
-    top: 50px;
+    top: 40px;
     background-color: #062424;
     z-index: 2000;
     text-align: center;
@@ -54,7 +54,7 @@ li{
     margin-left: 10px;
 }
 .genero-list-item a{
-    padding: 0px 24px 0px 20px;
+    padding-left: 10px;
     width: 100%;
     text-align: center;
 }
@@ -115,19 +115,43 @@ hr{
     flex-direction: column;
     background-color: black;
     padding-bottom: 50px;
-    padding-top: 50px;
-    background-image: url("../images/indie/indie-bg.png");
+    background-image: url("../images/indie/00-bg.png");
     background-size: cover;
 }
 .indie-img-intro{
     height: 500px;
     width: 800px;
-    border-radius: 5%;
+    border-radius: 10px;
+    margin: 20px;
 }
 .indie-img{
-    height: 500px;
-    width: 500px;
+    height: 100%;
+    width: 450px;
     border-radius: 5%;
+}
+.indie-section{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-image: var(--item-bg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+.indie-section-reverse{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background-image: var(--item-bg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
 }
 .indie-description{
     text-align: center;
@@ -136,89 +160,13 @@ hr{
     font-weight: 800;
     background-color: #faf2e9c6;
     border-radius: 10px;
-    padding: 10px;
-    margin-top: 30px;
+    padding: 20px;
 }
 .indie-description h2{
     font-size: xx-large;
     font-weight: 900;
 }
-/*seccion 1*/
-.indie-container-uno{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    flex-direction: row;
-    background-color: black;
-    
-    padding: 50px;
-    background-image: url("../images/indie/indieUno-bg.png");
-    background-size: cover;
-}
-.indie-description-uno{
-    text-align: center;
-    width: 50%;
-    color: rgb(0, 0, 0);
-    font-weight: 800;
-    background-color: #ffffffc6;
-    border-radius: 10px;
-    padding: 10px;
-}
-.indie-description-uno h2{
-    font-size: xx-large;
-    font-weight: 900;
-}
-/*seccion 2*/
-.indie-container-dos{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    flex-direction: row;
-    background-color: black;
-    padding: 50px;
-    background-image: url("../images/indie/indieDos-bg.png");
-    background-size: cover;
-}
-.indie-description-dos{
-    text-align: center;
-    width: 50%;
-    color: rgb(0, 0, 0);
-    font-weight: 800;
-    background-color: #ffffffc6;
-    border-radius: 10px;
-    padding: 10px;
-}
-.indie-description-dos h2{
-    font-size: xx-large;
-    font-weight: 900;
-}
-/*seccion 3*/
-.indie-container-tres{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    flex-direction: row;
-    background-color: black;
-    padding: 50px;
-    background-image: url("../images/indie/indieTres-bg.png");
-    background-size: cover;
-}
-.indie-description-tres{
-    text-align: center;
-    width: 50%;
-    color: rgb(0, 0, 0);
-    font-weight: 800;
-    background-color: #ffffffc6;
-    border-radius: 10px;
-    padding: 10px;
-}
-.indie-description-tres h2{
-    font-size: xx-large;
-    font-weight: 900;
-}
+
 /*FOOTER*/
 footer{
     display: flex;
@@ -227,15 +175,15 @@ footer{
     align-items: center;
     width: 100%;
     background-color: #062424;
-    height: 200px;
+    height: 100%;
     font-family:kanit;
 }
 footer p{
     color: #fff0de;
     text-align: center;
-    padding-top: 35px;
     font-weight: 500;
     font-size: 25px;
+    padding-bottom: 20px;
 }
 /*BOTON PARTICIPAR*/
 .btn-participar{
@@ -268,53 +216,13 @@ footer p{
     padding: 0 15px 0 15px;
     background-color: #031414;
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 .flecha:hover{
     transform: scale(110%);
     color: #d25525;
 }
-.bandas-agregadas{
-    width: 90%;
-    margin: 20px auto;
-    padding: 16px;
-    background-color: #031414;
-    border-radius: 10px;
-}
-.indie-item{
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow: hidden;
-    width: calc(100% - 40px);
-    max-width: 1200px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), var(--item-bg, transparent);
-    background-size: cover;
-    background-position: center;
-    padding: 20px;
-}
-.indie-thumb{
-    flex: 0 0 40%;
-    max-width: 40%;
-}
-.indie-thumb img{
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-.indie-placeholder{
-    flex: 0 0 40%;
-    max-width: 40%;
-    height: 260px;
-    background: #1a1a1a;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    border-radius:10px;
-}
+
 
 @media (max-width: 900px) {
     .indie-item { flex-direction: column; }

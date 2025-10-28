@@ -123,3 +123,27 @@
 .error {
     background: rgba(244, 67, 54, 0.3);
 }
+
+.instrucciones-fotos {
+    margin-bottom: 1.5rem;
+}
+
+.instrucciones-fotos p {
+    color: #fff;
+    margin: 0;
+    line-height: 1.6;
+    font-size: x-large;
+    text-transform: uppercase;
+}
+
+.instrucciones-fotos a {
+    color: #4fc3dc;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.instrucciones-fotos a:hover {
+    color: #6dd5ed;
+    text-decoration: underline;
+}

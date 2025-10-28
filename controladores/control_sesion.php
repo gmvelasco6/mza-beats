@@ -7,6 +7,9 @@ if(!empty($_POST["btn-iniciar"])){
         $user=$_POST["user"];
         $pass=md5($_POST["password"]);
         $sql=$conexion->query("SELECT * FROM usuarios WHERE usuario='$user' AND clave='$pass' ");
+        if (!$sql) {
+            die("Error en la consulta: " . $conexion->error);
+        }
         if ($datos=$sql->fetch_object()) {
             $_SESSION["id"]=$datos->id;
             $_SESSION["user"]=$datos->usuario;
