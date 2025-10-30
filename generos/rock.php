@@ -28,6 +28,10 @@
                            <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
+                    <?php if(!empty($_SESSION["id"])){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
@@ -56,9 +60,9 @@
                 <li><a href="#rock-cuatro">Brut4l</a></li>
             </ul>
         </div>
-        <section class="rock-container-uno">
-            <img src="../images/rock/Chancho-va.png" alt="imagen_Rock" class="rock-img">
-            <div class="rock-description-uno">
+        <section class="rock-container">
+            <img src="../images/rock/00.png" alt="imagen_Rock" class="rock-img">
+            <div class="rock-description">
                 <h2>Seccion Rock</h2>
                 <p>
                     El rock mendocino tiene una historia sólida y vibrante, 
@@ -78,69 +82,69 @@
                 </p>
             </div>
         </section>
-        <hr>
-        <section class="rock-container-dos" id="rock-uno">
-            <div class="rock-description">
-                <h2>Karamelo santo</h2>
-                <p>
-                    Karamelo Santo es una banda argentina de rock al estilo fusión de música global o Alterlatino, 
-                    liderada y fundada por Goy, pionera en la mezcla de otros estilos como punk, folclore, cumbia,
-                    ska y reggae en Latinoamérica, formada oficialmente en 1993 en la ciudad de Mendoza,
-                    a pesar de que los primeros trabajos de ideas y ensayos se plasmaron con una agrupación previa llamada con el nombre de Perfectos Idiotas desde 1987,
-                    con influencias y ensayos en México, Argentina y Chile. Es precursora e inspiradora del género llamado hoy rock mestizo o alterlatino.Su arte está comprometida con los fenómenos sociales, declarada abiertamente antifacista,
-                    antiespecista y es una de las bandas del cono sur latinoamericano con mayor proyección global en los últimos años. Sus interminables giras han llegado a lo más recóndito del mundo, como Croacia, Hungría, Corea del Sur, Estados Unidos, Alemania, Polonia, Suecia, China, Kazajistán, Japón, Malta y más.
-                </p>
-            </div>
-            <img src="../images/rock/karamleo.png" alt="imagen_Rock" class="rock-img-uno">
-        </section>
-        <hr>
-        <section class="rock-container-tres" id="rock-dos">
-            <img src="../images/rock/baterista.png" alt="imagen_Rock" class="rock-img-dos">
-            <div class="rock-description-dos">
-                <h2>Santo Tabu</h2>
-                <p>
-                    Santo Tabú es una banda argentina de rock argentino, originaria de la provincia de Mendoza, Argentina.
-                    Conformada originalmente por el guitarrista y vocalista Ivo Procheret, el bajista Leo Cortés y el baterista Pablo Peinado.
-                    La misma dio inicio a su carrera oficial el 5 de septiembre de 2008. Su estilo es una mezcla de hard rock, rock, pop, brit, funk y dark.
-                    En canciones como "Los Árboles" y "Ciudad de Ratas" (Santo Tabú, 2009) y "Sombras", "Sicario" y "Cielo y Suelo" (Cristal Ámbar, 2011), incluyen pasajes de fusión con géneros y ritmos que sugieren tango, folclore y flamenco, entre otros.
-                </p>
-            </div>
-        </section>
-        <hr>
-        <section class="rock-container-cuatro" id="rock-tres">
-            <div class="rock-description-tres">
-                <h2>Chantas</h2>
-                <p>
-                    Chantas es una banda de rock alternativo originaria de Mendoza, Argentina, formada en 2012. 
-                    La banda está compuesta por cuatro miembros: Lautaro "Laucha" Martínez (voz y guitarra), 
-                    Federico "Fede" Ramírez (guitarra y coros), Agustín "Agus" Fernández (bajo) y 
-                    Tomás "Tomi" Gómez (batería). Su estilo musical combina elementos del rock, pop y punk, 
-                    creando un sonido fresco y enérgico que ha capturado la atención de la escena musical local.
-                    Desde sus inicios, Chantas ha lanzado varios álbumes y sencillos que han sido bien recibidos por la crítica y el público. 
-                    Su música se caracteriza por letras introspectivas y emotivas, acompañadas de melodías pegajosas y ritmos dinámicos. 
-                    La banda ha participado en numerosos festivales y eventos en Argentina,
-                    consolidándose como una de las propuestas más interesantes del rock alternativo en la región.
-                </p>
-            </div>
-            <img src="../images/rock/Chantas-integrantes.png" alt="imagen_Rock" class="rock-img-tres">
-        </section>
-        <hr>
-        <section class="rock-container-cinco" id="rock-cuatro">
-            <img src="../images/rock/BRUT4l.png" alt="imagen_Rock" class="rock-img-cuatro">
-            <div class="rock-description-cuatro">
-                <h2>Brut4l</h2>
-                <p>
-                    Brut4l es una banda de rock alternativo originaria de Mendoza, Argentina, formada en 2015. 
-                    La banda está compuesta por cuatro miembros: Juan Pérez (voz y guitarra), 
-                    María López (guitarra y coros), Carlos Sánchez (bajo) y 
-                    Diego Fernández (batería). Su estilo musical combina elementos del rock, metal y punk, 
-                    creando un sonido potente y enérgico que ha capturado la atención de la escena musical local.
-                    Desde sus inicios, Brut4l ha lanzado varios álbumes y sencillos que han sido bien recibidos por la crítica y el público. 
-                    Su música se caracteriza por letras introspectivas y emotivas, acompañadas de melodías agresivas y ritmos dinámicos. 
-                    La banda ha participado en numerosos festivales y eventos en Argentina, consolidándose como una de las propuestas más interesantes del rock alternativo en la región.
-                </p>
-            </div>
+
     </main>
+    <?php
+        include("../bd/conexion_bd.php");
+        
+        // Verificar si existe la columna genero y adaptar la consulta
+        $hasGenero = false;
+        $checkCol = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
+        if ($checkCol && $checkCol->num_rows > 0) {
+            $hasGenero = true;
+        }
+        
+        if ($hasGenero) {
+            // Si existe la columna genero, mostrar solo bandas rock
+            $result = $conexion->query("SELECT * FROM bandas WHERE genero = 'rock' ORDER BY id ASC");
+        } else {
+            // Si no existe la columna genero, no mostrar bandas (rock solo para nuevas)
+            $result = false;
+        }
+        // Inicializar contador para alternar el diseño de las bandas
+        $c = 0;
+        
+        // Verificar si la consulta fue exitosa y devolvió resultados
+        if ($result) {
+            // Recorrer cada fila (banda) del resultado de la consulta
+            while ($row = $result->fetch_assoc()) {
+                // Extraer los datos de cada banda del array asociativo
+                $nombre = $row['nombre'];
+                $descripcion = $row['descripcion'];
+                // Construir rutas de las imágenes agregando '../' para subir un directorio
+                $imgPrincipal = '../' . $row['imagen_principal'];
+                $imgFondo = '../' . $row['imagen_fondo'];
+                
+                // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
+                $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+                // Incrementar contador para alternar diseños
+                $c++;
+                
+                // Alternar entre dos diseños diferentes según si el contador es par o impar
+                if($c % 2 != 0){
+                    // Diseño normal (contador impar): usar clase 'rock-section'
+                    echo '<hr>';
+                    echo '<div class="rock-section" style="' . $bgStyle . '">';
+                    echo '<div><img class="rock-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                    echo '<div class="rock-description">';
+                    echo '<h2>' . $nombre . '</h2>';
+                    echo '<p>' . $descripcion . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }else{
+                    // Diseño inverso (contador par): usar clase 'rock-section-reverse'
+                    echo '<hr>';
+                    echo '<div class="rock-section-reverse" style="' . $bgStyle . '">';
+                    echo '<div><img class="rock-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                    echo '<div class="rock-description">';
+                    echo '<h2>' . $nombre . '</h2>';
+                    echo '<p>' . $descripcion . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            }
+        }
+    ?>
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">

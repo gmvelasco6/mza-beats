@@ -37,9 +37,15 @@
                 <!-- Imágenes -->
                 <p>Por favor, mandá fotos de tu banda al siguiente correo:
                      <a href="mailto:mzabeatsbandas@gmail.com">mzabeatsbandas@gmail.com</a></p>
-
-                <!-- Campo oculto para el género -->
-                <input type="hidden" name="genero" value="indie">
+                
+                     
+                <h2>Género musical:</h2>
+                <select id="genero" name="genero" required>
+                    <option value="">Selecciona un género</option>
+                    <option value="indie">Indie</option>
+                    <option value="pop">Pop</option>
+                    <option value="rock">Rock</option>
+                </select>
                 
                 <!-- Botones -->
                 <button type="submit" class="btn-submit">Guardar Banda</button>

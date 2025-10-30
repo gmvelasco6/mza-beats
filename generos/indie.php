@@ -28,6 +28,10 @@
                            <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
+                    <?php if(!empty($_SESSION["id"])){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
@@ -81,93 +85,70 @@
         <hr>
     </main>
     <?php
-        // Listado dinámico de bandas agregadas (soporta tablas sin columna 'genero')
-        try {
-            include_once __DIR__ . '/../bd/conexion_bd.php';
-            if (isset($conexion) && $conexion instanceof mysqli) {
-                // Detectar columnas existentes
-                $cols = [];
-                if ($resCols = $conexion->query("SHOW COLUMNS FROM bandas")) {
-                    while ($c = $resCols->fetch_assoc()) { $cols[$c['Field']] = true; }
-                }
-
-                $hasGenero = isset($cols['genero']);
-                // Construir lista de campos según existan en la tabla
-                $selectFields = ['id', 'nombre', 'descripcion'];
-                if (isset($cols['imagen_principal'])) { $selectFields[] = 'imagen_principal'; }
-                if (isset($cols['imagen_fondo'])) { $selectFields[] = 'imagen_fondo'; }
-                $fieldsSql = implode(', ', $selectFields);
-                // Elegir columna de orden válida
-                if (isset($cols['fecha_creacion'])) $orderCol = 'fecha_creacion';
-                elseif (isset($cols['creado_en'])) $orderCol = 'creado_en';
-                else $orderCol = 'id';
-
-                // Construir consulta según exista o no 'genero'
-                if ($hasGenero) {
-                    $sql = "SELECT $fieldsSql FROM bandas WHERE genero = ? ORDER BY $orderCol DESC";
-                    $stmt = $conexion->prepare($sql);
-                    if ($stmt) {
-                        $gen = 'indie';
-                        $stmt->bind_param('s', $gen);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                    }
-                } else {
-                    $sql = "SELECT $fieldsSql FROM bandas ORDER BY $orderCol DESC";
-                    $result = $conexion->query($sql);
-                }
+        include("../bd/conexion_bd.php");
+        
+        // Verificar si existe la columna genero y adaptar la consulta
+        $hasGenero = false;
+        $checkCol = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
+        if ($checkCol && $checkCol->num_rows > 0) {
+            $hasGenero = true;
+        }
+        
+        if ($hasGenero) {
+            // Si existe la columna genero, mostrar indie y bandas sin genero
+            $result = $conexion->query("SELECT * FROM bandas WHERE genero = 'indie' OR genero IS NULL ORDER BY id ASC");
+        } else {
+            // Si no existe la columna genero, mostrar todas las bandas
+            $result = $conexion->query("SELECT * FROM bandas ORDER BY id ASC");
+        }
+        // Inicializar contador para alternar el diseño de las bandas
+        $c = 0;
+        
+        // Verificar si la consulta fue exitosa y devolvió resultados
+        if ($result) {
+            // Recorrer cada fila (banda) del resultado de la consulta
+            while ($row = $result->fetch_assoc()) {
+                // Extraer los datos de cada banda del array asociativo
+                $nombre = $row['nombre'];
+                $descripcion = $row['descripcion'];
+                // Construir rutas de las imágenes agregando '../' para subir un directorio
+                $imgPrincipal = '../' . $row['imagen_principal'];
+                $imgFondo = '../' . $row['imagen_fondo'];
                 
-                if (isset($result) && $result && $result->num_rows > 0) {
-                     while ($row = $result->fetch_assoc()) {
-
-                        $nombre = htmlspecialchars($row['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
-                        $descripcion = nl2br(htmlspecialchars($row['descripcion'] ?? '', ENT_QUOTES, 'UTF-8'));
-                        $rawPrincipal = $row['imagen_principal'] ?? '';
-                        $rawFondo = $row['imagen_fondo'] ?? '';
-                        $isAbs = function($p){ return (bool)preg_match('~^(https?:)?//|^data:~i', $p); };
-                        $imgPrincipal = $rawPrincipal ? ($isAbs($rawPrincipal) ? $rawPrincipal : ('../' . ltrim($rawPrincipal, '/\\'))) : '';
-                        $imgFondo = $rawFondo ? ($isAbs($rawFondo) ? $rawFondo : ('../' . ltrim($rawFondo, '/\\'))) : '';
-
-                        $bgStyle = $imgFondo !== '' ? "--item-bg: url('" . htmlspecialchars($imgFondo, ENT_QUOTES, 'UTF-8') . "');" : '';
-                        $c=$c+1;
-                        if($c % 2 != 0){
-                            echo '<hr>';
-                            echo '<div class="indie-section" style="' . $bgStyle . '">';
-                            if ($imgPrincipal !== '') {
-                                echo '<div><img class="indie-img" src="' . htmlspecialchars($imgPrincipal, ENT_QUOTES, 'UTF-8') . '" alt="' . $nombre . '"></div>';
-                            }
-                            echo '<div class="indie-description">';
-                            echo '<h2>' . $nombre . '</h2>';
-                            echo '<p>' . $descripcion . '</p>';
-                            echo '</div>';
-                            echo '</div>';
-                        }else{
-                            echo '<hr>';
-                            echo '<div class="indie-section-reverse" style="' . $bgStyle . '">';
-                            if ($imgPrincipal !== '') {
-                                echo '<div><img class="indie-img" src="' . htmlspecialchars($imgPrincipal, ENT_QUOTES, 'UTF-8') . '" alt="' . $nombre . '"></div>';
-                            }
-                            echo '<div class="indie-description">';
-                            echo '<h2>' . $nombre . '</h2>';
-                            echo '<p>' . $descripcion . '</p>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
-                        echo '</section>';
-                    }  
+                // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
+                $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+                // Incrementar contador para alternar diseños
+                $c++;
+                
+                // Alternar entre dos diseños diferentes según si el contador es par o impar
+                if($c % 2 != 0){
+                    // Diseño normal (contador impar): usar clase 'indie-section'
+                    echo '<hr>';
+                    echo '<div class="indie-section" style="' . $bgStyle . '">';
+                    echo '<div><img class="indie-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                    echo '<div class="indie-description">';
+                    echo '<h2>' . $nombre . '</h2>';
+                    echo '<p>' . $descripcion . '</p>';
+                    echo '</div>';
+                    echo '</div>';
+                }else{
+                    // Diseño inverso (contador par): usar clase 'indie-section-reverse'
+                    echo '<hr>';
+                    echo '<div class="indie-section-reverse" style="' . $bgStyle . '">';
+                    echo '<div><img class="indie-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                    echo '<div class="indie-description">';
+                    echo '<h2>' . $nombre . '</h2>'; 
+                    echo '<p>' . $descripcion . '</p>';
+                    echo '</div>';
+                    echo '</div>';
                 }
             }
-        } catch (Throwable $e) {
-            // Silencioso en producción; para debug, se podría loguear
         }
     ?>
 
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">
-        <?php if(!empty($_SESSION["id"]) && $_SESSION["state"]=="1"): ?>
-            <input class="btn-participar" type="button" style="align-self:flex-start; margin-left:20px;" onclick="window.location.href='../php/agregar_banda.php';" value="Agregar banda">
-        <?php endif; ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>

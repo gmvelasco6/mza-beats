@@ -54,7 +54,7 @@ li{
     margin-left: 10px;
 }
 .genero-list-item a{
-    padding-left: 10px;
+    padding-left: 5px;
     width: 100%;
     text-align: center;
 }
@@ -99,6 +99,7 @@ body{
 .pop-nav li a:hover{
     color: #6e2d13;
 }
+
 /*seccion pop*/
 hr{
     width: 100%;
@@ -107,124 +108,69 @@ hr{
     background-color: #031414;
 }
 /*contenedores de las bandas*/
-.pop-container-uno{
+.pop-container{
+    width: 100%;
     display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
     flex-direction: column;
+    background-color: black;
+    padding-bottom: 50px;
+    background-image: url("../images/indie/00-bg.png");
+    background-size: cover;
+}
+.pop-img-intro{
+    height: 500px;
+    width: 800px;
+    border-radius: 10px;
+    margin: 20px;
+}
+.pop-img{
+    height: 100%;
+    width: 450px;
+    border-radius: 5%;
+    margin: 10px;
+}
+.pop-section{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: black;
-    color: white;
-    padding: 40px;
-    background-image: url("../images/pop/mariana-paraway-bg.pmg.webp");
-    background-size: cover; 
+    gap: 20px;
+    background-image: var(--item-bg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
 }
-.pop-container-dos{
+.pop-section-reverse{
+    overflow: hidden;
     display: flex;
-    justify-content: space-around;
+    flex-direction: row-reverse;
+    justify-content: center;
     align-items: center;
-    background-color: white;
-    color: white;
-    padding: 50px;
-    background-image: url("../images/pop/kusjmama_bg.png");
-    background-size: cover; 
-}
-.pop-container-tres{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: white;
-    color: white;
-    padding: 50px;
-    background-image: url("../images/pop/verona.png");
-    background-size: cover; 
-}
-.pop-container-cuatro{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: white;
-    color: white;
-    padding: 40px;
-    background-image: url("../images/pop/candi-bg.png");
-    background-size: cover; 
-}
-/*imagenes de las bandas*/
-.pop-img{
-    height: 500px;
-    width: 550px;
-    margin-bottom: 24px;
-    border-radius: 5%;
-}
-.pop-img-uno{
-    height: 400px;
-    width: 420px;
-    border-radius: 5%;
-}
-.pop-img-dos{
-    height: 400px;
-    width: 420px;
-    border-radius: 5%;
-}
-.pop-img-tres{
-    height: 400px;
-    width: 420px;
-    border-radius: 5%;
-}
-.pop-img-cuatro{
-    height: 400px;
-    width: 420px;
-    border-radius: 5%;
+    gap: 20px;
+    background-image: var(--item-bg);
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
 }
 .pop-description{
-    color: black;
     text-align: center;
-    margin-left: 100px;
-    width: 50%;
-    background-color: #ffffffc6;
-    border-radius: 8px;
-    padding: 10px;
+    width: 80%;
+    color: rgb(0, 0, 0);
+    font-weight: 800;
+    background-color: #faf2e9c6;
+    border-radius: 10px;
+    padding: 20px;
 }
-/*descripcion de las bandas*/
-.pop-description-uno{
-    color: black;
-    text-align: center;
-    margin: 0px 100px 0px 100px;
-    height: 200px;
-    width: 90%;
-    background-color: #ffffffc6;
-    border-radius: 9px;
-    padding: 10px;
+.pop-description h2{
+    font-size: xx-large;
+    font-weight: 900;
 }
-.pop-description-dos{
-    color: black;
-    text-align: center;
-    margin: 0px 100px 0px 100px;
-    height: 250px;
-    width: 90%;
-    background-color: #ffffffc6;
-    border-radius: 9px;
-    padding: 10px;
-}
-.pop-description-tres{
-    color: black;
-    text-align: center;
-    margin: 0px 100px 0px 100px;
-    height: 250px;
-    width: 90%;
-    background-color: #ffffffc6;
-    border-radius: 9px;
-    padding: 10px;
-}
-.pop-description-cuatro{
-    color: black;
-    text-align: center;
-    margin: 0px 100px 0px 100px;
-    height: 250px;
-    width: 90%;
-    background-color: #ffffffc6;
-    border-radius: 9px;
-    padding: 10px;
-}
+
+
 /*FOOTER*/
 footer{
     display: flex;

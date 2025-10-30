@@ -28,21 +28,23 @@
                            <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
+                    <?php if(!empty($_SESSION["id"])){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
                 <ul>
                     <?php
-                    if(!empty($_SESSION["id"])){
-                        echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                        echo "<li><a class='salir' href='../controladores/control_close_sesion.php'>SALIR</a></li>";
-                    }else{
-                        echo "<li><a class='ini-sesion' href='../php/login.php'>LOG IN</a> |</li> ";
-                        echo "<li><a class='registrarse' href='../php/register.php'> SIGN IN</a></li> ";
-                    }
-                        
+                        if(!empty($_SESSION["id"])){
+                            echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
+                            echo "<li><a class='salir' href='../controladores/control_close_sesion.php'>SALIR</a></li>";
+                        }else{
+                            echo "<li><a class='ini-sesion' href='../php/login.php'>LOG IN</a> |</li> ";
+                            echo "<li><a class='registrarse' href='../php/register.php'> SIGN IN</a></li> ";
+                        } 
                     ?>
-                    
                 </ul>
             </div>
         </nav>
@@ -55,9 +57,9 @@
                 <li><a href="#pop-tres">Candi Viosch</a></li>
             </ul>
         </div>
-        <section class="pop-container-uno">
-            <img src="../images/pop/Mariana-Paraway4.png" alt="imagen_Rock" class="pop-img">
-            <div class="pop-description-uno">
+        <section class="pop-container">
+            <img src="../images/pop/00.png" alt="imagen_Rock" class="pop-img">
+            <div class="pop-description">
                 <h2>Seccion Pop</h2>
                 <p>
                     La escena pop de Mendoza ha crecido con fuerza en los últimos años, 
@@ -76,51 +78,68 @@
                     creativa en constante evolución.
             </div>
         </section>
-        <hr>
-        <section class="pop-container-dos" id="pop-uno">
-            <div class="pop-description-dos">
-                <h2>Kush Mama</h2>
-                <p>
-                    Kush Mama es una banda mendocina formada en 2018 que fusiona estilos como funk, pop, electrónica y electro-wave.
-                        Su sonido combina guitarras rítmicas, bajos marcados, sintetizadores y percusión, logrando una mezcla moderna, bailable y muy energética.
-                        Está integrada por Santiago Mendoza (voz y guitarra), Germán Sava (guitarra), Emiliano “Emi” Ramírez (bajo), “Chicho” Rodríguez (percusión), Charly Ruiz (teclados y sintetizadores) y Martín Fernández (batería).
-                        En 2019 lanzaron su primer álbum High Espacial, y en 2021 presentaron Amor & Funk, un disco que consolidó su identidad sonora con canciones como “Borrando la Línea” y “Una Luz”.
-                        La banda ha participado en diversos festivales y escenarios de Mendoza y otras provincias, destacándose por su energía en vivo y su propuesta fresca dentro de la escena musical independiente argentina.
-                </p>
-            </div>
-            <img src="../images/pop/KushMama_Integrantes.jpg" alt="imagen_Rock" class="pop-img-uno">
-        </section>
-        <hr>
-        <section class="pop-container-tres" id="pop-dos">
-            <img src="../images/pop/verona-bg.png" alt="imagen_Rock" class="pop-img-dos">
-            <div class="pop-description-tres">
-                <h2>Verona</h2>
-                <p>
-                    Verona es una banda mendocina formada en 2017 que mezcla sonidos de synth-pop, new wave y post-punk con una estética moderna y emocional.
-                    Está integrada por Leandro Villanueva (voz y guitarra), Federico Calderón (sintetizadores y coros), Martín Villanueva (batería) y Guillermo Martelossi (bajo).
-                    Su estilo combina lo bailable y lo melancólico, con letras introspectivas y una fuerte presencia electrónica que remite a influencias del rock alternativo británico y la escena synth de los años 80. 
-                    En 2021 lanzaron su primer disco homónimo Verona, grabado en Estudios Juno y coproducido por Gustavo Iglesias, con canciones como Vapor, Mantua y Alquimia.
-                    Con una propuesta visual cuidada y un sonido potente en vivo, Verona se ha consolidado como una de las bandas más interesantes de la nueva escena indie de Mendoza.
-                </p>
-            </div>
-        </section>
-        <hr>
-        <section class="pop-container-cuatro" id="pop-tres">
-            <div class="pop-description-cuatro">
-                <h2>Candi Viosch</h2>
-                <p>
-                    Verona es una banda mendocina formada en 2017 e integrada por Leandro Villanueva en guitarra y voz, Martín Villanueva en batería, Federico Calderón en sintetizadores y coros, y Guillermo Martelossi en bajo.
-                    Su estilo combina synth pop con espíritu punk, mezclando influencias del new wave, el post-punk y la electrónica, logrando un sonido bailable y poético a la vez.
-                    La propuesta de Verona busca unir lo estético con lo pasional, creando canciones con identidad propia dentro de la escena alternativa mendocina.
-                    En diciembre de 2021 lanzaron su primer disco homónimo, “Verona”, que incluye temas como “Vapor”, “Mantua” y “Alquimia”.
-                    Este último cuenta con un videoclip filmado en Mendoza y producido por Aztec Latin junto a OHCHO Comunicación.
-                    La banda continúa consolidándose en la escena local con una estética moderna y letras que exploran emociones y paisajes urbanos.
-                </p>
-            </div>
-            <img src="../images/pop/candi.png" alt="imagen_Rock" class="pop-img-tres">
-        </section>
-        <hr>
     </main>
+    <?php
+    include("../bd/conexion_bd.php");    
+    
+    // Verificar si existe la columna genero y adaptar la consulta
+    $hasGenero = false;
+    $checkCol = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
+    if ($checkCol && $checkCol->num_rows > 0) {
+        $hasGenero = true;
+    }
+    
+    if ($hasGenero) {
+        // Si existe la columna genero, mostrar solo bandas pop
+        $result = $conexion->query("SELECT * FROM bandas WHERE genero = 'pop' ORDER BY id ASC");
+    } else {
+        // Si no existe la columna genero, no mostrar bandas (pop solo para nuevas)
+        $result = false;
+    }
+    // Inicializar contador para alternar el diseño de las bandas
+    $c = 0;
+    
+    // Verificar si la consulta fue exitosa y devolvió resultados
+    if ($result) {
+        // Recorrer cada fila (banda) del resultado de la consulta
+        while ($row = $result->fetch_assoc()) {
+            // Extraer los datos de cada banda del array asociativo
+            $nombre = $row['nombre'];
+            $descripcion = $row['descripcion'];
+            // Construir rutas de las imágenes agregando '../' para subir un directorio
+            $imgPrincipal = '../' . $row['imagen_principal'];
+            $imgFondo = '../' . $row['imagen_fondo'];
+            
+            // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
+            $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+            // Incrementar contador para alternar diseños
+            $c++;
+            
+            // Alternar entre dos diseños diferentes según si el contador es par o impar
+            if($c % 2 != 0){
+                // Diseño normal (contador impar): usar clase 'pop-section'
+                echo '<hr>';
+                echo '<div class="pop-section" style="' . $bgStyle . '">';
+                echo '<div><img class="pop-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                echo '<div class="pop-description">';
+                echo '<h2>' . $nombre . '</h2>';
+                echo '<p>' . $descripcion . '</p>';
+                echo '</div>';
+                echo '</div>';
+            }else{
+                // Diseño inverso (contador par): usar clase 'pop-section-reverse'
+                echo '<hr>';
+                echo '<div class="pop-section-reverse" style="' . $bgStyle . '">';
+                echo '<div><img class="pop-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
+                echo '<div class="pop-description">';
+                echo '<h2>' . $nombre . '</h2>';
+                echo '<p>' . $descripcion . '</p>';
+                echo '</div>';
+                echo '</div>';
+            }
+        }
+    }
+    ?>
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">

@@ -51,7 +51,7 @@ li{
     margin-left: 10px;
 }
 .genero-list-item a{
-    padding-left: 10px;
+    padding-left: 5px;
     width: 100%;
     text-align: center;
 }
@@ -96,7 +96,7 @@ hr{
     align-items: center;
     background-color: black;
     padding: 50px;
-    background-image: url("../images/indie/indie-bg.png");
+    background-image: url("../images/indie/indie00-bg.png");
     background-size: cover;
 }
 .indie-img{
@@ -117,6 +117,7 @@ hr{
 .pop-container{
     display: flex;
     justify-content: space-between;
+    flex-direction: row-reverse;
     align-items: center;
     background-color: black;
     padding: 50px;
@@ -217,4 +218,123 @@ footer p{
 ::-webkit-scrollbar-thumb{
     background-color: #0e5050;
     border-radius: 8px;
+}
+
+/*RESPONSIVE*/
+.btn-nav, .menu-icon, .btn-genero{
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .linea{
+        display: none;
+    }
+    nav{
+        width: 100%;
+        height: 120px;
+        background-color: #062424;
+        display: grid;
+        grid-template-columns:1fr 1fr 1fr ;
+        place-items: center;
+        position: fixed;
+    }
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        top: 120px;
+        left: 0;
+        width: 100%;
+        background-color: #062424;
+        text-align: center;
+        padding: 20px 0;
+        z-index: 1000;
+    }
+
+    .genero-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 120px;
+        left: 0;
+        width: 100%;
+        background-color: #062424;
+        text-align: center;
+        padding: 20px 0;
+        z-index: 2000;
+    }
+    .btn-genero:checked ~ .genero-list {
+        display: flex;
+    }
+
+    .menu-icon {
+        display: flex;
+        color: white;
+        font-size: 45px;
+        cursor: pointer;
+    }
+    .btn-nav:checked ~ .nav-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+
+    /*SECCIONES*/
+    .indie-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        padding: 50px;
+        background-image: url("../images/indie/indie-bg.png");
+        background-size: cover;
+    }
+    .indie-description{
+        margin: 15px;
+    }
+    .indie-img{
+        height: 100%;
+        width: 100%;
+    }
+    .pop-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        padding: 50px;
+        background-image: url("../images/indie/indie-bg.png");
+        background-size: cover;
+    }
+    .pop-description{
+        margin: 15px;
+    }
+    .pop-img{
+        height: 100%;
+        width: 100%;
+    }
+    .rock-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        padding: 50px;
+        background-image: url("../images/indie/indie-bg.png");
+        background-size: cover;
+    }
+    .rock-description{
+        margin: 15px;
+    }
+    .rock-img{
+        height: 100%;
+        width: 100%;
+    }
+    * {
+        overflow-x: hidden;
+    }
 }

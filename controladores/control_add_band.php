@@ -20,19 +20,38 @@ include __DIR__ . '/../bd/conexion_bd.php';
 
 $nombre = trim($_POST['nombre'] ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
-$genero = trim($_POST['genero'] ?? 'indie');
+$genero = trim($_POST['genero'] ?? '');
 
 if ($nombre === '' || $descripcion === '') {
     echo 'ERROR: Completa nombre y descripción';
     exit;
 }
 
-// Detectar si existe columna genero (simple y rápido)
+// Verificar si existe la columna genero
 $hasGenero = false;
 $chk = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
-if ($chk && $chk->num_rows > 0) { $hasGenero = true; }
+if ($chk && $chk->num_rows > 0) { 
+    $hasGenero = true; 
+}
 
-if ($hasGenero) {
+// Validar género permitido (independientemente de si la columna existe); si no viene, se permite vacío
+$generosPermitidos = ['indie', 'pop', 'rock'];
+if ($genero !== '' && !in_array($genero, $generosPermitidos)) {
+    echo 'ERROR: Género no válido';
+    exit;
+}
+
+// Si no existe la columna y el usuario eligió un género válido, intentar crear la columna automáticamente
+if (!$hasGenero && $genero !== '') {
+    $conexion->query("ALTER TABLE bandas ADD COLUMN genero VARCHAR(50) NULL");
+    // Si se pudo crear, marcar como disponible
+    $chk2 = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
+    if ($chk2 && $chk2->num_rows > 0) {
+        $hasGenero = true;
+    }
+}
+
+if ($hasGenero && $genero !== '') {
     $sql = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
     $stmt = $conexion->prepare($sql);
     if (!$stmt) { echo 'ERROR: ' . $conexion->error; exit; }
@@ -45,8 +64,9 @@ if ($hasGenero) {
 }
 
 if ($stmt->execute()) {
-    // Redirigir directamente a la página de Indie
-    header('Location: ../generos/indie.php');
+    // Redirigir a la página del género seleccionado si existe, sino a indie por defecto
+    $redireccion = ($hasGenero && $genero !== '') ? $genero : 'indie';
+    header('Location: ../generos/' . $redireccion . '.php');
     exit;
 }
 
