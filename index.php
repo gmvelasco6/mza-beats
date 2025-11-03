@@ -31,12 +31,11 @@
                             <li class="genero-list-item"><a href="generos\indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="generos\pop.php">Pop</a></li>
                             <li class="genero-list-item"><a href="generos\rock.php">Rock</a></li>
-                           <li class="genero-list-item"><a href="generos\otros.php">Otros</a></li>
                         </ul>    
                     </li>
                     <li class="linea">|</li>
                     <li><a href="#about-us">Sobre Nosotros</a></li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["id"]=="6967"){ ?>
+                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
                         <li class="linea">|</li>
                         <li><a href="php/administrar.php">Administrar</a></li>
                     <?php } ?>
@@ -145,10 +144,12 @@
         </section>
     </main>
     <footer>
-        <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
-        <?php if(!empty($_SESSION["id"]) && $_SESSION["state"]=="1"): ?>
-            <input class="btn-participar" type="button" style="align-self:flex-start; margin-left:20px;" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
-        <?php endif; ?>
+        <?php if(empty($_SESSION["state"])){ ?>
+            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+        <?php } ?>
+        <?php if(!empty($_SESSION["id"]) && $_SESSION["creation_count"]>="1"){ ?>
+            <input class="btn-participar" type="button" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
+        <?php } ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>

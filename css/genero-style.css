@@ -10,7 +10,7 @@
     font-family: 'kanit';
 }
 body{
-    background-color: #fff0de;
+    background-color: #031414;
 }
 /*NAVEGADOR*/
 nav{
@@ -61,49 +61,53 @@ li{
 .nav-list-item-genero:focus-within>.genero-list, .nav-list-item-genero:hover>.genero-list{
     display: initial;
 }
-a, li{
+a, li, .genero-label{
     text-decoration: none;
     color: black;
     font-weight: 900;
     color: #fff0de;
     font-size: 30px;
+    cursor: pointer;
 }
 a:hover{
     color: #d25525;
 }
-/*NAVEGADOR*/
 
-/*SECCION ROCK*/
+
+/*intro*/
 .intro{
-    text-align: center;
-    background-color: #031414;
-}
-/*seccion nav*/
-.rock-nav{
     display: flex;
-    list-style: none;
+    justify-content: space-between;
+    background-color: #031414;  
     width: 100%;
-    height: 50px;
-    justify-content: space-evenly;
-    align-items: center;
 }
-.rock-nav li a {
-    text-decoration: none;
-    font-size: x-large;
-    color: #d25525;
-}
-.rock-nav li a:hover{
-    color: #6e2d13;
-}
-/*seccion rock*/
 hr{
     width: 100%;
     height: 50px;
     border: 0px;
     background-color: #031414;
 }
-/*contenedores de las bandas*/
-.rock-container{
+/*mini nav*/
+.mini-nav{
+    display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
+.mini-nav li a{
+    text-decoration: none;
+    font-size: x-large;
+    font-weight: 800;
+    color: #d25525;
+    margin: auto;
+}
+.mini-nav li a:hover{
+    color: #6e2d13;
+}
+/*seccion*/
+.container{
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -112,22 +116,22 @@ hr{
     flex-direction: column;
     background-color: black;
     padding-bottom: 50px;
-    background-image: url("../images/rock/00-bg.png");
+    background-image: url("../images/indie/00-bg.png");
     background-size: cover;
 }
-.rock-img-intro{
-    height: 500px;
-    width: 800px;
+.img-intro{
+    height: 100%;
+    width: 550px;
     border-radius: 10px;
     margin: 20px;
 }
-.rock-img{
+
+.img{
     height: 100%;
     width: 450px;
     border-radius: 5%;
-    margin: 10px;
 }
-.rock-section{
+.section{
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -139,7 +143,7 @@ hr{
     background-position: center;
     padding: 20px;
 }
-.rock-section-reverse{
+.section-reverse{
     overflow: hidden;
     display: flex;
     flex-direction: row-reverse;
@@ -151,7 +155,7 @@ hr{
     background-position: center;
     padding: 20px;
 }
-.rock-description{
+.description{
     text-align: center;
     width: 80%;
     color: rgb(0, 0, 0);
@@ -160,10 +164,11 @@ hr{
     border-radius: 10px;
     padding: 20px;
 }
-.pop-description h2{
+.description h2{
     font-size: xx-large;
     font-weight: 900;
 }
+
 /*FOOTER*/
 footer{
     display: flex;
@@ -172,15 +177,15 @@ footer{
     align-items: center;
     width: 100%;
     background-color: #062424;
-    height: 200px;
+    height: 100%;
     font-family:kanit;
 }
 footer p{
     color: #fff0de;
     text-align: center;
-    padding-top: 35px;
     font-weight: 500;
     font-size: 25px;
+    padding-bottom: 20px;
 }
 /*BOTON PARTICIPAR*/
 .btn-participar{
@@ -213,8 +218,20 @@ footer p{
     padding: 0 15px 0 15px;
     background-color: #031414;
     margin-bottom: 15px;
+    margin-top: 15px;
 }
 .flecha:hover{
     transform: scale(110%);
     color: #d25525;
 }
+/*RESPONSIVE*/
+.btn-nav, .menu-icon, .btn-genero{
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .indie-item { flex-direction: column; }
+    .indie-thumb, .indie-placeholder { width: 100%; max-width: 100%; height: auto; }
+    .indie-thumb img { height: auto; }
+}
+

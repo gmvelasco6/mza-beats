@@ -10,7 +10,7 @@
 <body>
 <?php
     session_start();
-    if(empty($_SESSION["id"]) || $_SESSION["state"] != "1"){
+    if(empty($_SESSION["id"]) || $_SESSION["state"] < "1"){
         header("Location: ../index.php");
         exit;
     }

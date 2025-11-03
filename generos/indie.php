@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/indie-style.css">
+    <link rel="stylesheet" href="../css/genero-style.css">
     <link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
     <title>Indie</title>
 </head>
@@ -20,12 +20,13 @@
                 <ul class="nav-list">
                     <li class="nav-list-item"><a class="link" href="../index.php">Inicio</a></li>
                     <li>|</li>
-                    <li class="nav-list-item-genero"><a href="">Generos</a>
+                    <li class="nav-list-item-genero">
+                    <input type="checkbox" id="btn-genero" class="btn-genero">
+                    <label for="btn-genero" class="genero-label">Genero</label>
                         <ul class="genero-list">
                             <li class="genero-list-item"><a href="indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="pop.php">Pop</a></li>
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
-                           <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
                     <?php if(!empty($_SESSION["id"])){ ?>
@@ -53,15 +54,15 @@
     </header>
     <main>
         <div class="intro">
-            <ul class="indie-nav">
+            <ul class="mini-nav">
                 <li><a href="#indie-uno">Usted Señalemelo</a></li>
                 <li><a href="#indie-dos">Mi Amigo Invencible</a></li>
                 <li><a href="#indie-tres">Pasado Verde</a></li>
             </ul>
         </div>
-        <section  id="indie" class="indie-container">
-            <img src="../images/indie/00.png" alt="imagen_Indie" class="indie-img-intro">
-            <div class="indie-description">
+        <section id="indie" class="container">
+            <img src="../images/indie/00.png" alt="imagen_Indie" class="img-intro">
+            <div class="description">
                 <h2>Seccion Indie</h2>
                 <p>
                     Mendoza ha sido un semillero de música alternativa y emergente, 
@@ -82,74 +83,17 @@
                 </p>
             </div>
         </section>
-        <hr>
+        <?php
+            include("../bd/conexion_bd.php");
+            include("../controladores/generos/control_indie.php");
+        ?>
     </main>
-    <?php
-        include("../bd/conexion_bd.php");
-        
-        // Verificar si existe la columna genero y adaptar la consulta
-        $hasGenero = false;
-        $checkCol = $conexion->query("SHOW COLUMNS FROM bandas LIKE 'genero'");
-        if ($checkCol && $checkCol->num_rows > 0) {
-            $hasGenero = true;
-        }
-        
-        if ($hasGenero) {
-            // Si existe la columna genero, mostrar indie y bandas sin genero
-            $result = $conexion->query("SELECT * FROM bandas WHERE genero = 'indie' OR genero IS NULL ORDER BY id ASC");
-        } else {
-            // Si no existe la columna genero, mostrar todas las bandas
-            $result = $conexion->query("SELECT * FROM bandas ORDER BY id ASC");
-        }
-        // Inicializar contador para alternar el diseño de las bandas
-        $c = 0;
-        
-        // Verificar si la consulta fue exitosa y devolvió resultados
-        if ($result) {
-            // Recorrer cada fila (banda) del resultado de la consulta
-            while ($row = $result->fetch_assoc()) {
-                // Extraer los datos de cada banda del array asociativo
-                $nombre = $row['nombre'];
-                $descripcion = $row['descripcion'];
-                // Construir rutas de las imágenes agregando '../' para subir un directorio
-                $imgPrincipal = '../' . $row['imagen_principal'];
-                $imgFondo = '../' . $row['imagen_fondo'];
-                
-                // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
-                $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
-                // Incrementar contador para alternar diseños
-                $c++;
-                
-                // Alternar entre dos diseños diferentes según si el contador es par o impar
-                if($c % 2 != 0){
-                    // Diseño normal (contador impar): usar clase 'indie-section'
-                    echo '<hr>';
-                    echo '<div class="indie-section" style="' . $bgStyle . '">';
-                    echo '<div><img class="indie-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
-                    echo '<div class="indie-description">';
-                    echo '<h2>' . $nombre . '</h2>';
-                    echo '<p>' . $descripcion . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                }else{
-                    // Diseño inverso (contador par): usar clase 'indie-section-reverse'
-                    echo '<hr>';
-                    echo '<div class="indie-section-reverse" style="' . $bgStyle . '">';
-                    echo '<div><img class="indie-img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
-                    echo '<div class="indie-description">';
-                    echo '<h2>' . $nombre . '</h2>'; 
-                    echo '<p>' . $descripcion . '</p>';
-                    echo '</div>';
-                    echo '</div>';
-                }
-            }
-        }
-    ?>
-
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
-        <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">
-        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <?php if($_SESSION["state"]=="0"){ ?>
+            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+        <?php } ?>        
+            <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>
 </html>

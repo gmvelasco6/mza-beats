@@ -175,6 +175,23 @@ textarea{
     gap: 20px;
     width: 100%;
 }
+.table-usuarios{
+    width: 100%;
+    border-collapse:collapse;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+.table-usuarios th, td, tr{
+    border: 2px solid black;
+    padding: 5px;
+}
+.table-usuarios input{
+    font-size: medium;
+    margin: 10px;
+    width: 70%;
+}
+
 .table-bandas{
     width: 100%;
     border-collapse:collapse;
@@ -198,8 +215,20 @@ textarea{
     color: rgba(255, 255, 255, 0.621);
     font-weight: 400;
 }
+.table-usuarios input, .descripcion{
+    border: 0px;
+    border-radius: 10px;
+    background-color: #0e5050b3;
+    color: rgba(255, 255, 255, 0.621);
+    font-weight: 400;
+}
 /*AL PASAR POR ENCIMA*/
 .table-bandas input:hover, .descripcion:hover{
+    background-color: #0e5050;
+    color: white;
+    font-weight: 900;
+}
+.table-usuarios input:hover, .descripcion:hover{
     background-color: #0e5050;
     color: white;
     font-weight: 900;
@@ -209,6 +238,25 @@ textarea{
     background-color: #0e5050;
     color: white;
     font-weight: 900;
+}
+.table-usuarios input:focus, .descripcion:focus{
+    background-color: #0e5050;
+    color: white;
+    font-weight: 900;
+}
+
+.table-usuarios td{
+    background-color: #062424;
+}
+.table-usuarios th{
+    color: white;
+    font-weight: bolder;
+    font-size: 20px;
+    background-color: #0e5050;
+}
+.table-usuarios th:hover{
+    color: #d25525;
+    cursor: default;
 }
 
 .table-bandas td{
@@ -224,6 +272,7 @@ textarea{
     color: #d25525;
     cursor: default;
 }
+
 .table-container h1{
     margin-top: 20px;
     color: #d25525;

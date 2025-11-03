@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(!empty($_POST["btn-cambiar"])){ 
     if (empty($_POST["password"]) && empty($_POST["new-password"])){
         echo '<div class="advertencia" align="center">Hay campos vacios</div>';

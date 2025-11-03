@@ -10,7 +10,7 @@
 <body>
 <?php
     session_start();
-    if(empty($_SESSION["id"]) || $_SESSION["id"] != "6967"){
+    if(empty($_SESSION["id"]) || $_SESSION["state"] != "67"){
         header("Location: ../index.php");
         exit;
     }
@@ -31,17 +31,18 @@
         </div>
     <?php
         include("../bd/conexion_bd.php");
-        include("../controladores/control_administrar.php");
-    ?>
+        include("../controladores/control_administrar.php")
+?>
     <main class="table-container">
         <h1 id="tabla-usuarios" align="center">Usuarios</h1>
-        <table class="table-bandas" cellpadding="5">
+        <table class="table-usuarios" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Usuario</th>
                 <th>Clave</th>
                 <th>Estado</th>
+                <th>Cantidad de Creaciones</th>
                 <th>Acción</th>
             </tr>
             <!--MOSTRAR USUARIOS-->
@@ -54,6 +55,7 @@
                     <td><input type="text" name="usuario" value="<?php echo $filaUser['usuario']; ?>" readonly></td>
                     <td><input type="text" name="clave" value="<?php echo $filaUser['clave']; ?>" readonly></td>
                     <td><input type="text" name="estado" value="<?php echo $filaUser['estado']; ?>"></td>
+                    <td><input type="text" name="cantidad_creaciones" value="<?php echo $filaUser['cantidad_creaciones']; ?>"></td>
 
                     <td>
                         <button type="submit" name="actualizar-usuario" class="btn-update">Actualizar</button>

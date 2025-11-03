@@ -23,8 +23,9 @@ if (isset($_POST['eliminar'])) {
 if (isset($_POST['actualizar-usuario'])) {
     $id = $_POST['id'];
     $state = $_POST['estado'];
+    $creation_count = $_POST['cantidad_creaciones'];
 
-    $sql_update = "UPDATE usuarios SET estado='$state' WHERE id='$id'";
+    $sql_update = "UPDATE usuarios SET estado='$state', cantidad_creaciones='$creation_count' WHERE id='$id'";
     $conexion->query($sql_update);
 }
 
