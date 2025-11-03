@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/indie-style.css">
+    <link rel="stylesheet" href="../css/genero-style.css">
     <link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
     <title>Indie</title>
 </head>
@@ -20,14 +20,19 @@
                 <ul class="nav-list">
                     <li class="nav-list-item"><a class="link" href="../index.php">Inicio</a></li>
                     <li>|</li>
-                    <li class="nav-list-item-genero"><a href="">Generos</a>
+                    <li class="nav-list-item-genero">
+                    <input type="checkbox" id="btn-genero" class="btn-genero">
+                    <label for="btn-genero" class="genero-label">Genero</label>
                         <ul class="genero-list">
                             <li class="genero-list-item"><a href="indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="pop.php">Pop</a></li>
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
-                           <li class="genero-list-item"><a href="otros.php">Otros</a></li>
                         </ul>    
                     </li>
+                    <?php if(!empty($_SESSION["id"])){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
@@ -49,15 +54,15 @@
     </header>
     <main>
         <div class="intro">
-            <ul class="indie-nav">
+            <ul class="mini-nav">
                 <li><a href="#indie-uno">Usted Señalemelo</a></li>
                 <li><a href="#indie-dos">Mi Amigo Invencible</a></li>
                 <li><a href="#indie-tres">Pasado Verde</a></li>
             </ul>
         </div>
-        <section  id="indie" class="indie-container">
-            <img src="../images/indie/00.png" alt="imagen_Indie" class="indie-img-intro">
-            <div class="indie-description">
+        <section id="indie" class="container">
+            <img src="../images/indie/00.png" alt="imagen_Indie" class="img-intro">
+            <div class="description">
                 <h2>Seccion Indie</h2>
                 <p>
                     Mendoza ha sido un semillero de música alternativa y emergente, 
@@ -78,97 +83,17 @@
                 </p>
             </div>
         </section>
-        <hr>
+        <?php
+            include("../bd/conexion_bd.php");
+            include("../controladores/generos/control_indie.php");
+        ?>
     </main>
-    <?php
-        // Listado dinámico de bandas agregadas (soporta tablas sin columna 'genero')
-        try {
-            include_once __DIR__ . '/../bd/conexion_bd.php';
-            if (isset($conexion) && $conexion instanceof mysqli) {
-                // Detectar columnas existentes
-                $cols = [];
-                if ($resCols = $conexion->query("SHOW COLUMNS FROM bandas")) {
-                    while ($c = $resCols->fetch_assoc()) { $cols[$c['Field']] = true; }
-                }
-
-                $hasGenero = isset($cols['genero']);
-                // Construir lista de campos según existan en la tabla
-                $selectFields = ['id', 'nombre', 'descripcion'];
-                if (isset($cols['imagen_principal'])) { $selectFields[] = 'imagen_principal'; }
-                if (isset($cols['imagen_fondo'])) { $selectFields[] = 'imagen_fondo'; }
-                $fieldsSql = implode(', ', $selectFields);
-                // Elegir columna de orden válida
-                if (isset($cols['fecha_creacion'])) $orderCol = 'fecha_creacion';
-                elseif (isset($cols['creado_en'])) $orderCol = 'creado_en';
-                else $orderCol = 'id';
-
-                // Construir consulta según exista o no 'genero'
-                if ($hasGenero) {
-                    $sql = "SELECT $fieldsSql FROM bandas WHERE genero = ? ORDER BY $orderCol DESC";
-                    $stmt = $conexion->prepare($sql);
-                    if ($stmt) {
-                        $gen = 'indie';
-                        $stmt->bind_param('s', $gen);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
-                    }
-                } else {
-                    $sql = "SELECT $fieldsSql FROM bandas ORDER BY $orderCol DESC";
-                    $result = $conexion->query($sql);
-                }
-                
-                if (isset($result) && $result && $result->num_rows > 0) {
-                     while ($row = $result->fetch_assoc()) {
-
-                        $nombre = htmlspecialchars($row['nombre'] ?? '', ENT_QUOTES, 'UTF-8');
-                        $descripcion = nl2br(htmlspecialchars($row['descripcion'] ?? '', ENT_QUOTES, 'UTF-8'));
-                        $rawPrincipal = $row['imagen_principal'] ?? '';
-                        $rawFondo = $row['imagen_fondo'] ?? '';
-                        $isAbs = function($p){ return (bool)preg_match('~^(https?:)?//|^data:~i', $p); };
-                        $imgPrincipal = $rawPrincipal ? ($isAbs($rawPrincipal) ? $rawPrincipal : ('../' . ltrim($rawPrincipal, '/\\'))) : '';
-                        $imgFondo = $rawFondo ? ($isAbs($rawFondo) ? $rawFondo : ('../' . ltrim($rawFondo, '/\\'))) : '';
-
-                        $bgStyle = $imgFondo !== '' ? "--item-bg: url('" . htmlspecialchars($imgFondo, ENT_QUOTES, 'UTF-8') . "');" : '';
-                        $c=$c+1;
-                        if($c % 2 != 0){
-                            echo '<hr>';
-                            echo '<div class="indie-section" style="' . $bgStyle . '">';
-                            if ($imgPrincipal !== '') {
-                                echo '<div><img class="indie-img" src="' . htmlspecialchars($imgPrincipal, ENT_QUOTES, 'UTF-8') . '" alt="' . $nombre . '"></div>';
-                            }
-                            echo '<div class="indie-description">';
-                            echo '<h2>' . $nombre . '</h2>';
-                            echo '<p>' . $descripcion . '</p>';
-                            echo '</div>';
-                            echo '</div>';
-                        }else{
-                            echo '<hr>';
-                            echo '<div class="indie-section-reverse" style="' . $bgStyle . '">';
-                            if ($imgPrincipal !== '') {
-                                echo '<div><img class="indie-img" src="' . htmlspecialchars($imgPrincipal, ENT_QUOTES, 'UTF-8') . '" alt="' . $nombre . '"></div>';
-                            }
-                            echo '<div class="indie-description">';
-                            echo '<h2>' . $nombre . '</h2>';
-                            echo '<p>' . $descripcion . '</p>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
-                        echo '</section>';
-                    }  
-                }
-            }
-        } catch (Throwable $e) {
-            // Silencioso en producción; para debug, se podría loguear
-        }
-    ?>
-
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
-        <input class="btn-participar" type="submit" onclick="window.location.href='../php/formulario.php';" value="¡Quiero aparecer!">
-        <?php if(!empty($_SESSION["id"]) && $_SESSION["state"]=="1"): ?>
-            <input class="btn-participar" type="button" style="align-self:flex-start; margin-left:20px;" onclick="window.location.href='../php/agregar_banda.php';" value="Agregar banda">
-        <?php endif; ?>
-        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <?php if($_SESSION["state"]=="0"){ ?>
+            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+        <?php } ?>        
+            <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>
 </html>

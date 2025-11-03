@@ -18,26 +18,30 @@
                 <img class="logo" src="images\logo\logoMzaBeats.png" alt="">
             </div>
             <div class="nav-container">
-                <label for="nav-toggle" class="nav-label">&equiv;</label>
-                <input type="checkbox" class="nav-toggle" id="nav-toggle">
+                <input type="checkbox" class="btn-nav" id="btn-nav">
+                <label for="btn-nav" class="menu-icon">&#9776;</label>
+                
                 <ul class="nav-list">
                     <li class="nav-list-item"><a href="index.php">Inicio</a></li>
                     <li class="linea">|</li>
                     <li class="nav-list-item-genero">
-                        <label class="genero-label" for="genero-toggle"><a>Genero</a></label>
-                        <input type="checkbox" name="genero-toggle" id="genero-toggle" class="genero-toggle">
+                    <input type="checkbox" id="btn-genero" class="btn-genero">
+                    <label for="btn-genero" class="genero-label">Genero</label>
                         <ul class="genero-list">
                             <li class="genero-list-item"><a href="generos\indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="generos\pop.php">Pop</a></li>
                             <li class="genero-list-item"><a href="generos\rock.php">Rock</a></li>
-                           <li class="genero-list-item"><a href="generos\otros.php">Otros</a></li>
                         </ul>    
                     </li>
                     <li class="linea">|</li>
-                    <li class="nav-list-item"><a href="#about-us">Sobre Nosotros</a></li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="1"){ ?>
-                        <li>|</li>
-                        <li><a href="php/admin-bandas.php">Admin. Bandas</a></li>
+                    <li><a href="#about-us">Sobre Nosotros</a></li>
+                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/administrar.php">Administrar</a></li>
+                    <?php } ?>
+                    <?php if(!empty($_SESSION["id"])){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
                     <?php } ?>
                 </ul>
             </div>
@@ -88,6 +92,7 @@
         </section>
         <hr>
         <section class="pop-container"> 
+            <img src="images/inicio/pop.png" alt="imagen_Pop" class="pop-img">
             <div class="pop-description">
                 <h2>Seccion Pop</h2>
                 <p>
@@ -107,7 +112,6 @@
                     creativa en constante evolución.
                 </p>
             </div>
-            <img src="images/inicio/pop.png" alt="imagen_Pop" class="pop-img">
         </section>
         <hr>
         <section class="rock-container">
@@ -140,7 +144,12 @@
         </section>
     </main>
     <footer>
-        <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+        <?php if(empty($_SESSION["state"])){ ?>
+            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+        <?php } ?>
+        <?php if(!empty($_SESSION["id"]) && $_SESSION["creation_count"]>="1"){ ?>
+            <input class="btn-participar" type="button" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
+        <?php } ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 

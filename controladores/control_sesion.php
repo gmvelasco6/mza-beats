@@ -14,6 +14,7 @@ if(!empty($_POST["btn-iniciar"])){
             $_SESSION["id"]=$datos->id;
             $_SESSION["user"]=$datos->usuario;
             $_SESSION["state"]=$datos->estado;
+            $_SESSION["creation_count"]=$datos->cantidad_creaciones;
             header("location:../index.php");
         } else {
             echo '<div class="advertencia" align="center">Acceso denegado</div>';
