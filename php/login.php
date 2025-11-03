@@ -17,7 +17,7 @@
 	<div class="formulario-container">
 		<?php
 			include("../bd/conexion_bd.php");
-			include("../controladores/control_sesion.php");
+			include("../controladores/login-signin/control_sesion.php");
 		?>
 		<form class="formulario" align="center" method="post" action="">
 			<h1 align="center">Iniciar Sesion</h1>

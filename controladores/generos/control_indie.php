@@ -20,7 +20,7 @@ if ($resultado) {
         // Alternar entre dos diseños diferentes según si el contador es par o impar
         if($c % 2 != 0){
             echo '<hr>';
-            echo '<div class="section" style="' . $bgStyle . '">';
+            echo '<div id="'. $c .'" class="section" style="' . $bgStyle . '">';
             echo '<div><img class="img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
             echo '<div class="description">';
             echo '<h2>' . $nombre . '</h2>';
@@ -29,7 +29,7 @@ if ($resultado) {
             echo '</div>';
         }else{
             echo '<hr>';
-            echo '<div class="section-reverse" style="' . $bgStyle . '">';
+            echo '<div id="'. $c .'" class="section-reverse" style="' . $bgStyle . '">';
             echo '<div><img class="img" src="' . $imgPrincipal . '" alt="' . $nombre . '"></div>';
             echo '<div class="description">';
             echo '<h2>' . $nombre . '</h2>'; 

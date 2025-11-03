@@ -17,9 +17,11 @@
                 <img class="logo" src="../images\logo\logoMzaBeats.png" alt="">
             </div>
             <div class="nav-container">
+                <input type="checkbox" class="btn-nav" id="btn-nav">
+                <label for="btn-nav" class="menu-icon">&#9776;</label>
                 <ul class="nav-list">
-                    <li class="nav-list-item"><a class="link" href="../index.php">Inicio</a></li>
-                    <li>|</li>
+                    <li class="nav-list-item"><a href="../index.php">Inicio</a></li>
+                    <li class="linea">|</li>
                     <li class="nav-list-item-genero">
                     <input type="checkbox" id="btn-genero" class="btn-genero">
                     <label for="btn-genero" class="genero-label">Genero</label>
@@ -29,6 +31,12 @@
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
                         </ul>    
                     </li>
+                    <li class="linea">|</li>
+                    <li><a href="#about-us">Sobre Nosotros</a></li>
+                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
+                        <li class="linea">|</li>
+                        <li><a href="php/administrar.php">Administrar</a></li>
+                    <?php } ?>
                     <?php if(!empty($_SESSION["id"])){ ?>
                         <li class="linea">|</li>
                         <li><a href="php/usuario.php">Ver Cuenta</a></li>
@@ -40,7 +48,7 @@
                     <?php
                         if(!empty($_SESSION["id"])){
                             echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                            echo "<li><a class='salir' href='../controladores/control_close_sesion.php'>SALIR</a></li>";
+                            echo "<li><a class='salir' href='../controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
                         }else{
                             echo "<li><a class='ini-sesion' href='../php/login.php'>LOG IN</a> |</li> ";
                             echo "<li><a class='registrarse' href='../php/register.php'> SIGN IN</a></li> ";
@@ -86,9 +94,9 @@
     </main>
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
-        <?php if($_SESSION["state"]=="0"){ ?>
+        <?php if(empty($_SESSION["state"])){ ?>
             <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
-        <?php } ?>        
+        <?php } ?>   
             <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
 </body>

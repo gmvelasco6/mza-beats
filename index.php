@@ -20,7 +20,6 @@
             <div class="nav-container">
                 <input type="checkbox" class="btn-nav" id="btn-nav">
                 <label for="btn-nav" class="menu-icon">&#9776;</label>
-                
                 <ul class="nav-list">
                     <li class="nav-list-item"><a href="index.php">Inicio</a></li>
                     <li class="linea">|</li>
@@ -50,13 +49,12 @@
                     <?php
                     if(!empty($_SESSION["id"])){
                         echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                        echo "<li><a class='salir' href='controladores/control_close_sesion.php'>SALIR</a></li>";
+                        echo "<li><a class='salir' href='controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
                     }else{
                         echo "<li><a class='ini-sesion' href='php/login.php'>LOG IN</a> |</li> ";
                         echo "<li><a class='registrarse' href='php/register.php'> SIGN IN</a></li> ";
                     }  
                     ?>
-                    
                 </ul>
             </div>
         </nav>

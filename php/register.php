@@ -18,7 +18,7 @@
 		<form class="formulario" method="post" action="">
 			<?php
 				include("../bd/conexion_bd.php");
-				include("../controladores/control_registro.php");
+				include("../controladores/login-signin/control_registro.php");
 			?>
 			<h1>Registrarse</h1>	
 			<h2>Nombre</h2>
