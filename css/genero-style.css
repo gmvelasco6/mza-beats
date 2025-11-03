@@ -229,9 +229,3 @@ footer p{
     display: none;
 }
 
-@media (max-width: 900px) {
-    .indie-item { flex-direction: column; }
-    .indie-thumb, .indie-placeholder { width: 100%; max-width: 100%; height: auto; }
-    .indie-thumb img { height: auto; }
-}
-

@@ -251,8 +251,10 @@ footer p{
         grid-template-columns:1fr 1fr 1fr ;
         place-items: center;
         position: fixed;
+        z-index: 1000;
     }
     .nav-list {
+        position: absolute;
         display: none;
         flex-direction: column;
         position: fixed;
@@ -266,9 +268,9 @@ footer p{
     }
 
     .genero-list {
+        position: fixed;
         display: none;
         flex-direction: column;
-        position: absolute;
         top: 120px;
         left: 0;
         width: 100%;
@@ -279,6 +281,46 @@ footer p{
     }
     .btn-genero:checked ~ .genero-list {
         display: flex;
+    }
+
+    /* Cuando el menú de géneros está abierto, que aparezca solo en el área del menú */
+    .btn-genero:checked ~ .genero-list {
+        display: flex;
+        position: fixed;
+        top: 120px;
+        left: 0;
+        width: 100%;
+        background-color: #062424;
+        flex-direction: column;
+        padding: 20px 0;
+        z-index: 9999;
+        height: auto;
+    }
+
+    
+    .btn-genero:checked ~ .genero-list .genero-list-item a {
+        font-size: 30px;
+        color: #fff0de;
+        text-decoration: none;
+        padding: 10px;
+        display: block;
+    }
+    
+    .btn-genero:checked ~ .genero-list .genero-list-item a:hover {
+        color: #d25525;
+    }
+
+    /* Asegurar que el menú de géneros aparezca debajo del nav */
+    .nav-list-item-genero {
+        position: relative;
+    }
+    
+    .nav-list-item-genero .genero-list {
+        position: fixed;
+        top: 120px;
+        left: 0;
+        right: 0;
+        z-index: 2000;
     }
 
     .menu-icon {

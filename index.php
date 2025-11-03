@@ -144,6 +144,7 @@
         </section>
     </main>
     <footer>
+                <!-- (!empty es igual a no vacio y empty es igual a vacio) -->
         <?php if(empty($_SESSION["state"])){ ?>
             <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>
