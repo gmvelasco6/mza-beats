@@ -164,6 +164,8 @@ textarea{
 .tabla th, td, tr{
     border: 2px solid black;
     padding: 10px;
+    background-color: #093535;
+    color: white;
 }
 /*BANDAS*/
 .table-container{
@@ -371,6 +373,7 @@ textarea{
     padding: 10px;
     border: none;
     border-radius: 10px;
+    margin: 15px;
 }
 .btn:hover{
     transform: scale(110%);

@@ -46,7 +46,7 @@
                 </ul>
             </div>
             <div class="user-container">
-                <ul>
+                <ul class="user-list">
                     <?php
                     if(!empty($_SESSION["id"])){
                         echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
@@ -152,5 +152,6 @@
         <?php } ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
+
 </body>
 </html>

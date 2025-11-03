@@ -28,6 +28,12 @@ nav{
 .user-container a, .user-container li{
     font-size: 20px;
 }
+.genero-button{
+    background-color: transparent;
+    border: 0px;
+    color: #fff0de;
+    font-size: 30px;
+}
 li{
     list-style: none;
     display: inline;
@@ -47,7 +53,6 @@ li{
 }
 .genero-list-item{
     place-items: center;
-    margin-left: 10px;
 }
 .genero-list-item a{
     padding-left: 5px;
