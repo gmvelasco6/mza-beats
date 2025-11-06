@@ -31,42 +31,44 @@
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
                         </ul>    
                     </li>
-                    <li class="linea">|</li>
-                    <li><a href="#about-us">Sobre Nosotros</a></li>
                     <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
                         <li class="linea">|</li>
                         <li><a href="php/administrar.php">Administrar</a></li>
                     <?php } ?>
                     <?php if(!empty($_SESSION["id"])){ ?>
                         <li class="linea">|</li>
-                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
+                        <li><a href="../php/usuario.php">Ver Cuenta</a></li>
                     <?php } ?>
                 </ul>
             </div>
             <div class="user-container">
-                <ul>
-                    <?php
-                    if(!empty($_SESSION["id"])){
-                        echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                        echo "<li><a class='salir' href='../controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
-                    }else{
-                        echo "<li><a class='ini-sesion' href='../php/login.php'>LOG IN</a> |</li> ";
-                        echo "<li><a class='registrarse' href='../php/register.php'> SIGN IN</a></li> ";
-                    }
-                        
-                    ?>
-                    
-                </ul>
+                <?php 
+                echo "<ul class='user-list'>";
+                if(!empty($_SESSION["id"])){
+                    echo"<a href='../php/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo "<div>";
+                    echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
+                    echo "<li><a class='salir' href='../controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
+                    echo "</div>";
+                }else{
+                    echo "<li><a class='ini-sesion' href='../php/login-signin/login.php'>LOG IN</a> |</li> ";
+                    echo "<li><a class='registrarse' href='../php/login-signin/register.php'> SIGN IN</a></li> ";
+                }
+                echo "</ul>"  
+                ?>
             </div>
         </nav>
     </header>
     <main>
-        <div class="intro">
-            <ul class="mini-nav">
-                <li><a href="#indie-uno">Usted Señalemelo</a></li>
-                <li><a href="#indie-dos">Mi Amigo Invencible</a></li>
-                <li><a href="#indie-tres">Pasado Verde</a></li>
-            </ul>
+        <?php
+        include("../bd/conexion_bd.php");
+        include("../controladores/control_buscar.php");
+        ?>
+        <div class="mini-nav">
+            <form method="POST" action="../controladores/control_buscar.php">
+                <input type="text" name="buscar" placeholder=" Busca una banda...">
+                <button type="submit">Buscar</button>
+            </form>
         </div>
         <section id="indie" class="container">
             <img src="../images/indie/00.png" alt="imagen_Indie" class="img-intro">

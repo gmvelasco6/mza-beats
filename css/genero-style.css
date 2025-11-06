@@ -73,14 +73,6 @@ a:hover{
     color: #d25525;
 }
 
-
-/*intro*/
-.intro{
-    display: flex;
-    justify-content: space-between;
-    background-color: #031414;  
-    width: 100%;
-}
 hr{
     width: 100%;
     height: 50px;
@@ -90,22 +82,13 @@ hr{
 /*mini nav*/
 .mini-nav{
     display: flex;
-    list-style: none;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     width: 100%;
-    height: 50px;
+    margin-top: 10px;
+    padding: 15px;
 }
-.mini-nav li a{
-    text-decoration: none;
-    font-size: x-large;
-    font-weight: 800;
-    color: #d25525;
-    margin: auto;
-}
-.mini-nav li a:hover{
-    color: #6e2d13;
-}
+
 /*seccion*/
 .container{
     width: 100%;
@@ -228,8 +211,9 @@ footer p{
 .btn-nav, .menu-icon, .btn-genero{
     display: none;
 }
-
-
+.img-usuario{
+    display: none;
+}
 @media screen and (max-width: 768px) {
     .linea{
         display: none;
@@ -239,10 +223,26 @@ footer p{
         height: 120px;
         background-color: #062424;
         display: grid;
-        grid-template-columns:1fr 1fr 1fr ;
+        grid-template-columns: 1fr 1fr 1fr;
         place-items: center;
         position: fixed;
         z-index: 1000;
+    }
+    .logo-container .logo{
+        width: 170px;
+        height: 100%;
+        margin-left: 0;
+    }
+    .img-usuario{
+        display: flex;
+        width: 70px;
+        height: 70px;
+    }
+    .user-container{
+        margin-right: 0;
+    }
+    .user-list div{
+        display: none;
     }
     .nav-list {
         position: absolute;

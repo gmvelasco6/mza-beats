@@ -18,7 +18,7 @@
 	<nav class="nav-admin">
 		<img class="logo" src="../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
-            <li class="nav-list-item"><a href="../index.php">Volver a Incio</a></li>
+            <li class="nav-list-item"><a href="../index.php">Ir a Incio</a></li>
 		</ul>
 	</nav>
     <?php
@@ -41,8 +41,8 @@
         $resultado = $conexion->query($sql);
     ?>
     <main class="table-container">
-        <h1 id="tabla-usuarios" align="center">Mi cuenta</h1>
-        <table class="table-bandas" cellpadding="5">
+        <h1 align="center">Mi cuenta</h1>
+        <table class="table-usuarios" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>
@@ -57,7 +57,7 @@
                     <td><input type="text" name="nombre" value="<?php echo $fila['nombre']; ?>"></td>
                     <td><input type="text" name="apellido" value="<?php echo $fila['apellido']; ?>"></td>
                     <td><input type="text" name="usuario" value="<?php echo $fila['usuario']; ?>"></td>
-                    <td><a class="cambiar-contraseña" href="../php/cambiar-clave.php">Cambiar Clave</a></td>
+                    <td><a class="cambiar-contraseña" href="../php/cambiar-clave.php">Cambiar</a></td>
 
                     <td>    
                         <button type="submit" name="actualizar" class="btn-update-usuario">Actualizar</button>

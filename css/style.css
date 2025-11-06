@@ -54,6 +54,7 @@ li{
 }
 .genero-list-item{
     place-items: center;
+    margin-left: 10px;
 }
 .genero-list-item a{
     padding-left: 5px;
@@ -219,7 +220,7 @@ footer p{
     background-color: #0e5050;
     border-radius: 8px;
 }
-/**/
+/*BOTONES PARTICIPAR Y AGREGAR*/
 .btn-participar{
     width: 15%;
     background-color: #0e50504e;
@@ -234,9 +235,26 @@ footer p{
     color: #d25525;
     cursor:pointer;
 }
+.btn-agregar{
+    width: 15%;
+    background-color: #0e50504e;
+    border:0;
+    border-radius: 10px;
+    padding: 10px;
+    color: #fff0de;
+    font-size: 25px;
+}
+.btn-agregar:hover{
+    transform: scale(110%);
+    color: #d25525;
+    cursor:pointer;
+}
 
 /*RESPONSIVE*/
 .btn-nav, .menu-icon, .btn-genero{
+    display: none;
+}
+.img-usuario{
     display: none;
 }
 
@@ -250,10 +268,27 @@ footer p{
         height: 120px;
         background-color: #062424;
         display: grid;
-        grid-template-columns:1fr 1fr 1fr ;
+        grid-template-columns: 1fr 1fr 1fr;
         place-items: center;
         position: fixed;
         z-index: 1000;
+    }
+
+    .logo-container .logo{
+        width: 170px;
+        height: 100%;
+        margin-left: 0;
+    }
+    .img-usuario{
+        display: flex;
+        width: 70px;
+        height: 70px;
+    }
+    .user-container{
+        margin-right: 0;
+    }
+    .user-list div{
+        display: none;
     }
     .nav-list {
         position: absolute;
@@ -353,8 +388,8 @@ footer p{
         margin: 15px;
     }
     .indie-img, .pop-img, .rock-img{
-        height: 70%;
-        width: 70%;
+        height: 80%;
+        width: 80%;
     }
     .about-us{
         background-color: #031414;
@@ -365,7 +400,7 @@ footer p{
     }
     /**/
     .btn-participar{
-        width: 30%;
+        width: 50%;
         background-color: #0e50504e;
         border:0;
         border-radius: 10px;
@@ -373,11 +408,16 @@ footer p{
         color: #fff0de;
         font-size: 25px;
     }
-    .btn-participar:hover{
-        transform: scale(110%);
-        color: #d25525;
-        cursor:pointer;
+    .btn-agregar{
+        width: 40%;
+        background-color: #0e50504e;
+        border:0;
+        border-radius: 10px;
+        padding: 10px;
+        color: #fff0de;
+        font-size: 25px;
     }
+    
     * {
         overflow-x: hidden;
     }

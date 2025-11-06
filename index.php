@@ -45,17 +45,20 @@
                 </ul>
             </div>
             <div class="user-container">
-                <ul class="user-list">
-                    <?php
-                    if(!empty($_SESSION["id"])){
-                        echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                        echo "<li><a class='salir' href='controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
-                    }else{
-                        echo "<li><a class='ini-sesion' href='php/login.php'>LOG IN</a> |</li> ";
-                        echo "<li><a class='registrarse' href='php/register.php'> SIGN IN</a></li> ";
-                    }  
-                    ?>
-                </ul>
+                <?php 
+                echo "<ul class='user-list'>";
+                if(!empty($_SESSION["id"])){
+                    echo"<a href='php/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo "<div>";
+                    echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
+                    echo "<li><a class='salir' href='controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
+                    echo "</div>";
+                }else{
+                    echo "<li><a class='ini-sesion' href='php/login-signin/login.php'>LOG IN</a> |</li> ";
+                    echo "<li><a class='registrarse' href='php/login-signin/register.php'> SIGN IN</a></li> ";
+                }
+                echo "</ul>"  
+                ?>
             </div>
         </nav>
     </header>
@@ -142,11 +145,12 @@
         </section>
     </main>
     <footer>
+                <!-- (!empty es igual a no vacio y empty es igual a vacio) -->
         <?php if(empty($_SESSION["state"])){ ?>
             <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>
         <?php if(!empty($_SESSION["id"]) && $_SESSION["creation_count"]>="1"){ ?>
-            <input class="btn-participar" type="button" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
+            <input class="btn-agregar" type="button" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
         <?php } ?>
         <p>&copy;Derechos de autor a Basigalup y Velasco</p>
     </footer>
