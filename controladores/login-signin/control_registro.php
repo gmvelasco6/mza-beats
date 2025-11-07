@@ -7,8 +7,9 @@ if(!empty($_POST["btn-registro"])){
         $lastname=$_POST["lastname"];
         $user=$_POST["user"];
         $pass=md5($_POST["password"]);
-        $sql=$conexion->query(query: "INSERT INTO usuarios(nombre, apellido, usuario, clave) VALUES ('$name','$lastname','$user','$pass')");
-        if ($sql==1) {
+        $sql="INSERT INTO usuarios(nombre, apellido, usuario, clave) VALUES ('$name','$lastname','$user','$pass')";
+        $resultado=$conexion->query( $sql);
+        if ($resultado) {
             echo '<div class="verificado" align="center">Usuario registrado correctamente</div>';
         } else {
             echo '<div class="advertencia" align="center">Error al registrar usuario</div>';

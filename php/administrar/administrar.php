@@ -3,22 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../css/php-style.css">
-	<link rel="shortcut icon" href="..\images\logo\page-icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="../../css/php-style.css">
+	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
 	<title>Administrar Bandas</title>
 </head>
 <body>
 <?php
     session_start();
     if(empty($_SESSION["id"]) || $_SESSION["state"] != "67"){
-        header("Location: ../index.php");
+        header("Location: ../../index.php");
         exit;
     }
 ?>
 	<nav class="nav-admin">
-		<img class="logo" src="../images/logo/logoMzaBeats.png" alt="">
+		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
-            <li class="nav-list-item"><a href="../index.php">Volver a Incio</a></li>
+            <li class="nav-list-item"><a href="../../index.php">Volver a Inicio</a></li>
 		</ul>
 	</nav>
     <div class="intro">
@@ -27,11 +27,12 @@
                 <li><a href="#tabla-indie">Indie</a></li>
                 <li><a href="#tabla-pop">Pop</a></li>
                 <li><a href="#tabla-rock">Rock</a></li>
+                <li><a href="#tabla-consultas">Consultas</a></li>
             </ul>
         </div>
     <?php
-        include("../bd/conexion_bd.php");
-        include("../controladores/control_administrar.php")
+        include("../../bd/conexion_bd.php");
+        include("../../controladores/administrar/control_administrar.php")
 ?>
     <main class="table-container">
         <h1 id="tabla-usuarios" align="center">Usuarios</h1>
@@ -156,7 +157,32 @@
             </tr>
         <?php }?>
         </table>
-    </main>
 
+        <h1 id="tabla-consultas" align="center">Consultas</h1>
+        <table class="table-usuarios" cellpadding="5">
+            <tr>
+                <th>Nombre</th>
+                <th>Razon</th>
+                <th>Email</th>
+                <th>Acción</th>
+            </tr>
+            <!--MOSTRAR USUARIOS-->
+        <?php while ($filaConsultas = $resultadoConsulta->fetch_assoc()){ ?>
+            <tr align="center">
+                <form class="formulario" method="POST" action="">
+                    <input type="hidden" name="id" value="<?php echo $filaConsultas['id']; ?>">
+                    <td><input type="text" name="nombre" value="<?php echo $filaConsultas['nombre']; ?>"></td>
+                    <td><textarea name="descripcion" class="descripcion"><?php echo $filaConsultas['razon']; ?></textarea></td>
+                    <td><input type="text" name="email" value="<?php echo $filaConsultas['email']; ?>"></td>
+                    <td>
+                        <button type="submit" name="eliminar" class="btn-delete">Eliminar</button>
+                    </td>
+                </form>
+            </tr>
+        <?php } ?>
+        </table>
+    </main>
+    <footer>
+    </footer>
 </body>
 </html>

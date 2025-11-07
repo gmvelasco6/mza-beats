@@ -31,14 +31,16 @@
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
                         </ul>    
                     </li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="php/administrar.php">Administrar</a></li>
-                    <?php } ?>
-                    <?php if(!empty($_SESSION["id"])){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="../php/usuario.php">Ver Cuenta</a></li>
-                    <?php } ?>
+                    <?php 
+                        if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='../php/administrar/administrar.php'>Administrar</a>";
+                        }
+                        if(!empty($_SESSION["id"])){
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='../php/administrar/usuario.php'>Ver Cuenta</a>";
+                        }
+                    ?>
                 </ul>
             </div>
             <div class="user-container">
@@ -60,14 +62,6 @@
         </nav>
     </header>
     <main>
-        <div class="intro">
-            <ul class="mini-nav">
-                <li><a href="#rock-uno">Karamelo Santo</a></li>
-                <li><a href="#rock-dos">Santo Tabú</a></li>
-                <li><a href="#rock-tres">Chantas</a></li>
-                <li><a href="#rock-cuatro">Brut4l</a></li>
-            </ul>
-        </div>
         <section class="container">
             <img src="../images/rock/00.png" alt="imagen_Rock" class="img-intro">
             <div class="description">

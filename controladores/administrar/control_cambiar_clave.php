@@ -12,7 +12,7 @@ if(!empty($_POST["btn-cambiar"])){
             if (!$resultado) {
                 die("Error en la consulta: " . $conexion->error);
             } else {
-                header("Location: ../index.php");
+                header("Location: ../../index.php");
                 exit;
             }
         }

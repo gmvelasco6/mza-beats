@@ -31,14 +31,16 @@
                             <li class="genero-list-item"><a href="rock.php">Rock</a></li>
                         </ul>    
                     </li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="php/administrar.php">Administrar</a></li>
-                    <?php } ?>
-                    <?php if(!empty($_SESSION["id"])){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="../php/usuario.php">Ver Cuenta</a></li>
-                    <?php } ?>
+                    <?php 
+                        if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='../php/administrar/administrar.php'>Administrar</a>";
+                        }
+                        if(!empty($_SESSION["id"])){
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='../php/administrar/usuario.php'>Ver Cuenta</a>";
+                        }
+                    ?>
                 </ul>
             </div>
             <div class="user-container">
@@ -60,16 +62,6 @@
         </nav>
     </header>
     <main>
-        <?php
-        include("../bd/conexion_bd.php");
-        include("../controladores/control_buscar.php");
-        ?>
-        <div class="mini-nav">
-            <form method="POST" action="../controladores/control_buscar.php">
-                <input type="text" name="buscar" placeholder=" Busca una banda...">
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
         <section id="indie" class="container">
             <img src="../images/indie/00.png" alt="imagen_Indie" class="img-intro">
             <div class="description">

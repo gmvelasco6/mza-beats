@@ -30,7 +30,7 @@
 		</form>
 	</div>
 	<footer>
-        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
 </html>

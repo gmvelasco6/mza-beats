@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Banda</title>
     <link rel="stylesheet" href="../css/php-style.css">
-    <link rel="shortcut icon" href="../images/logo/page-icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="../images/logo/page-icon.png" type="image/x-icon">
 </head>
 <body>
 <?php
@@ -18,7 +18,7 @@
     <nav>
         <img class="logo" src="../images/logo/logoMzaBeats.png" alt="">
         <ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../generos/indie.php">Ir a Indie</a></li>
+            <li class="nav-list-item"><a class="link" href="../index.php">Volver a Inicio</a></li>
         </ul>
     </nav>
     <main>
@@ -26,19 +26,14 @@
             <form class="formulario" method="POST" action="../controladores/control_add_band.php">
                 <h1>Agregar Banda</h1>
                 
-                <!-- Nombre de la banda -->
                 <h2>Nombre de la banda:</h2>
                 <input type="text" id="nombre" name="nombre" required placeholder="Ejemplo: Los Rockeros">
 
-                <!-- Descripción de la banda -->
                 <h2>Cuéntanos sobre la banda:</h2>
                 <textarea id="descripcion" name="descripcion" required placeholder="Describe la historia de la banda, su estilo musical, integrantes, etc." cols="50"  rows="6"></textarea>
             
-                <!-- Imágenes -->
-                <p>Por favor, mandá fotos de tu banda al siguiente correo:
-                     <a href="mailto:mzabeatsbandas@gmail.com">mzabeatsbandas@gmail.com</a></p>
+                <p>Por favor, mandá fotos de tu banda al siguiente correo:<a href="mailto:mzabeatsbandas@gmail.com"> mzabeatsbandas@gmail.com</a></p>
                 
-                     
                 <h2>Género musical:</h2>
                 <select id="genero" name="genero" required>
                     <option value="">Selecciona un género</option>
@@ -55,7 +50,7 @@
         </div>
     </main>
     <footer>
-            <p>&copy;Derechos de autor a Basigalup y Velasco</p>
-        </footer>
+        <p>&copy;Derechos de autor Reservados</p>
+    </footer>
     </body>
 </html>

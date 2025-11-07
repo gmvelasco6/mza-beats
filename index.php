@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="images\logo\page-icon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="images/logo/page-icon.png" type="image/x-icon">
     <title>MzaBeats</title>
 </head>
 <body>
@@ -34,14 +34,17 @@
                     </li>
                     <li class="linea">|</li>
                     <li><a href="#about-us">Sobre Nosotros</a></li>
-                    <?php if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="php/administrar.php">Administrar</a></li>
-                    <?php } ?>
-                    <?php if(!empty($_SESSION["id"])){ ?>
-                        <li class="linea">|</li>
-                        <li><a href="php/usuario.php">Ver Cuenta</a></li>
-                    <?php } ?>
+                    <?php 
+                        if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='php/administrar/administrar.php'>Administrar</a>";
+                        }
+                        if(!empty($_SESSION["id"])){
+                            echo "<li class='linea'>|</li>";
+                            echo "<li><a href='php/administrar/usuario.php'>Ver Cuenta</a>";
+
+                        }
+                    ?>
                 </ul>
             </div>
             <div class="user-container">

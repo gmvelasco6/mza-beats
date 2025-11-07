@@ -1,4 +1,6 @@
 <?php
+//CONSULTAS PARA ACTUALIZAR
+
 //ACTUALIZAR BANDA
 if (isset($_POST['actualizar'])) {
     $id = $_POST['id'];
@@ -11,14 +13,6 @@ if (isset($_POST['actualizar'])) {
     $sql_update = "UPDATE bandas SET nombre='$name', descripcion='$description', imagen_principal='$img', imagen_fondo='$img_bg', genero='$music_genre' WHERE id='$id'";
     $conexion->query($sql_update);
 }
-//ELIMINAR BANDA
-if (isset($_POST['eliminar'])) {
-    $id = $_POST['id'];
-
-    $sql_delete = "DELETE FROM bandas WHERE id=$id";
-    $conexion->query($sql_delete);
-}
-
 //ACTUALIZAR USUARIO
 if (isset($_POST['actualizar-usuario'])) {
     $id = $_POST['id'];
@@ -29,20 +23,41 @@ if (isset($_POST['actualizar-usuario'])) {
     $conexion->query($sql_update);
 }
 
-//ELIMINAR USUARIO
+//CONSULTAS PARA ELMINAR
+
+//ELIMINAR BANDA
+if (isset($_POST['eliminar'])) {
+    $id = $_POST['id'];
+
+    $sql_delete = "DELETE FROM bandas WHERE id=$id";
+    $conexion->query($sql_delete);
+}
+//ELIMINAR USUARIO 
 if (isset($_POST['eliminar'])) {
     $id = $_POST['id'];
 
     $sql_delete = "DELETE FROM usuarios WHERE id='$id'";
     $conexion->query($sql_delete);
 }
+//ELIMINAR CONSULTA 
+if (isset($_POST['eliminar'])) {
+    $id = $_POST['id'];
 
-//Consultas para cada genero
+    $sql_delete = "DELETE FROM consultas WHERE id='$id'";
+    $conexion->query($sql_delete);
+}
+
+
+
+//CONSULTAS PARA TODAS MOSTRAR LAS TABLAS EN administrar.php
+$sqlConsulta = "SELECT * FROM consultas";
 $sqlUser = "SELECT * FROM usuarios";
 $sqlIndie = "SELECT * FROM bandas WHERE genero='indie'";
 $sqlPop = "SELECT * FROM bandas WHERE genero='pop'";
 $sqlRock = "SELECT * FROM bandas WHERE genero='rock'";
 
+//RESULTADO DE LAS CONSULTAS
+$resultadoConsulta = $conexion->query($sqlConsulta);
 $resultadoUser = $conexion->query($sqlUser);
 $resultadoIndie = $conexion->query($sqlIndie);
 $resultadoPop = $conexion->query($sqlPop);
