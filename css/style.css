@@ -13,7 +13,8 @@ nav{
     height: 100px;
     background-color: #062424;
     display: grid;
-    grid-template-columns: 1fr 10fr 2fr ;
+    grid-template-columns: 1fr 3fr 1fr ;
+    align-items: center;
     place-items: center;
     position:fixed;
     z-index: 9998;
@@ -320,7 +321,6 @@ footer p{
         display: flex;
     }
 
-    /* Cuando el menú de géneros está abierto, que aparezca solo en el área del menú */
     .btn-genero:checked ~ .genero-list {
         display: flex;
         position: fixed;
@@ -347,7 +347,6 @@ footer p{
         color: #d25525;
     }
 
-    /* Asegurar que el menú de géneros aparezca debajo del nav */
     .nav-list-item-genero {
         position: relative;
     }
@@ -398,7 +397,7 @@ footer p{
         padding: 40px;
         font-size: 20px;
     }
-    /**/
+    /*BOTONES*/
     .btn-participar{
         width: 50%;
         background-color: #0e50504e;

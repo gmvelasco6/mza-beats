@@ -8,12 +8,22 @@ if ($resultado) {
         // Extraer los datos de cada banda del array 
         $nombre = $row['nombre'];
         $descripcion = $row['descripcion'];
+<<<<<<< HEAD
         // sirve para subir las rutas de las imágenes 
+=======
+
+        // Construir rutas de las imágenes agregando '../' para subir un directorio
+>>>>>>> 5deddf882ae5ff82a53861c5c39914f44fe0e28a
         $imgPrincipal = '../' . $row['imagen_principal'];
         $imgFondo = '../' . $row['imagen_fondo'];
         // sirve para crear el estilo CSS para la imagen de fondo 
         $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+<<<<<<< HEAD
         // se utiliza para cambiar los diseños de las secciones (contador par o impar)
+=======
+        
+        // Incrementar contador para alternar diseños
+>>>>>>> 5deddf882ae5ff82a53861c5c39914f44fe0e28a
         $c++;
         
         // Alternar entre dos diseños diferentes según si el contador es par o impar
