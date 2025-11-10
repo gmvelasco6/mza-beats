@@ -1,7 +1,7 @@
 <?php
 $resultado = $conexion->query("SELECT * FROM bandas WHERE genero = 'rock' ORDER BY id ASC");
 $c = 0;
-// Verificar si la consulta fue exitosa y devolvió resultados
+// se encarga de verificar si la consulta fue exitosa y devolvio resultados
 if ($resultado) {
     // Recorrer cada fila (banda) del resultado de la consulta
     while ($row = $resultado->fetch_assoc()) {
@@ -14,7 +14,7 @@ if ($resultado) {
         
         // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
         $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
-        // Incrementar contador para alternar diseños
+        // se utiliza para cambiar los diseños de las secciones (contador par o impar)
         $c++;
         
         // Alternar entre dos diseños diferentes según si el contador es par o impar

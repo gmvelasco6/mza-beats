@@ -1,19 +1,18 @@
 <?php
 $resultado = $conexion->query("SELECT * FROM bandas WHERE genero = 'indie' ORDER BY id ASC");
 $c = 0;
-// Verificar si la consulta fue exitosa y devolvió resultados
+// se encarga de verificar si la consulta fue exitosa y devolvio resultados
 if ($resultado) {
     // Recorrer cada fila (banda) del resultado de la consulta
     while ($row = $resultado->fetch_assoc()) {
-        // Extraer los datos de cada banda del array asociativo
+        // Extraer los datos de cada banda del array 
         $nombre = $row['nombre'];
         $descripcion = $row['descripcion'];
 
         // Construir rutas de las imágenes agregando '../' para subir un directorio
         $imgPrincipal = '../' . $row['imagen_principal'];
         $imgFondo = '../' . $row['imagen_fondo'];
-        
-        // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
+        // sirve para crear el estilo CSS para la imagen de fondo 
         $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
         
         // Incrementar contador para alternar diseños

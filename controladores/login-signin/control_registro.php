@@ -1,8 +1,10 @@
 <?php
+// sirve para verificar si se presiono el boton de registro del formulario 
 if(!empty($_POST["btn-registro"])){ 
     if (empty($_POST["name"]) || empty($_POST["lastname"]) || empty($_POST["user"]) || empty($_POST["password"])){
         echo '<div class="advertencia" align="center">Hay campos vacios</div>';
     }else{
+        // se usa para obtener los datos del formulario y almacenarlos en variables
         $name=$_POST["name"];
         $lastname=$_POST["lastname"];
         $user=$_POST["user"];
