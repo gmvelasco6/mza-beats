@@ -49,7 +49,7 @@ if (isset($_POST['eliminar'])) {
 
 
 
-//CONSULTAS PARA TODAS MOSTRAR LAS TABLAS EN administrar.php
+//CONSULTAS PARA  MOSTRAR TODAS LAS TABLAS EN administrar.php
 $sqlConsulta = "SELECT * FROM consultas";
 $sqlUser = "SELECT * FROM usuarios";
 $sqlIndie = "SELECT * FROM bandas WHERE genero='indie'";
