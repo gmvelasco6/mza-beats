@@ -47,7 +47,6 @@
         <table class="table-usuarios" cellpadding="5">
             <tr>
                 <th>Nombre</th>
-                <th>Apellido</th>
                 <th>Usuario</th>
                 <th>Clave</th>
                 <th>Acción</th>
@@ -57,7 +56,6 @@
                 <form class="formulario" method="POST" action="">
                     <input type="hidden" name="id" value="<?php echo $fila['id']; ?>">
                     <td><input type="text" name="nombre" value="<?php echo $fila['nombre']; ?>"></td>
-                    <td><input type="text" name="apellido" value="<?php echo $fila['apellido']; ?>"></td>
                     <td><input type="text" name="usuario" value="<?php echo $fila['usuario']; ?>"></td>
                     <td><a class="cambiar-contraseña" href="../administrar/cambiar-clave.php">Cambiar</a></td>
 

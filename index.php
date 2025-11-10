@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,9 +50,9 @@
                 <?php 
                 echo "<ul class='user-list'>";
                 if(!empty($_SESSION["id"])){
-                    echo"<a href='php/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo"<a href='php/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
-                    echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
+                    echo "<li>HOLA ".$_SESSION["name"]." |</li>";
                     echo "<li><a class='salir' href='controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
                     echo "</div>";
                 }else{
@@ -149,6 +148,7 @@
     </main>
     <footer>
                 <!-- (!empty es igual a no vacio y empty es igual a vacio) -->
+                <!-- sirve para que si el usuario no tiene sesion no pueda agregar bandas y si si estado es mayor o igual a 1 le parace el boton para poder agregar bandas -->
         <?php if(empty($_SESSION["state"])){ ?>
             <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>

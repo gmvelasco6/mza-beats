@@ -36,10 +36,9 @@
 ?>
     <main class="table-container">
         <h1 id="tabla-usuarios" align="center">Usuarios</h1>
-        <table class="table-usuarios" cellpadding="5">
+        <table class="table" cellpadding="5">
             <tr>
                 <th>Nombre</th>
-                <th>Apellido</th>
                 <th>Usuario</th>
                 <th>Clave</th>
                 <th>Estado</th>
@@ -47,12 +46,12 @@
                 <th>Acción</th>
             </tr>
             <!--MOSTRAR USUARIOS-->
+            <!-- sirve para combertir el resultado en un array en el que cada columna se comvierte en una propiedad  -->
         <?php while ($filaUser = $resultadoUser->fetch_assoc()){ ?>
             <tr align="center">
                 <form class="formulario" method="POST" action="">
                     <input type="hidden" name="id" value="<?php echo $filaUser['id']; ?>">
                     <td><input type="text" name="nombre" value="<?php echo $filaUser['nombre']; ?>" readonly></td>
-                    <td><input type="text" name="apellido" value="<?php echo $filaUser['apellido']; ?>" readonly></td>
                     <td><input type="text" name="usuario" value="<?php echo $filaUser['usuario']; ?>" readonly></td>
                     <td><input type="text" name="clave" value="<?php echo $filaUser['clave']; ?>" readonly></td>
                     <td><input type="text" name="estado" value="<?php echo $filaUser['estado']; ?>"></td>
@@ -68,7 +67,7 @@
         <?php }?>
         </table>
         <h1 id="tabla-indie" align="center">Bandas Indie</h1>
-        <table class="table-bandas" cellpadding="5">
+        <table class="table" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Descripcion</th>
@@ -98,7 +97,7 @@
         <?php }?>
         </table>
         <h1 id="tabla-pop" align="center">Bandas Pop</h1>
-        <table class="table-bandas" cellpadding="5">
+        <table class="table" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Descripcion</th>
@@ -128,7 +127,7 @@
         <?php }?>
         </table>
         <h1 id="tabla-rock" align="center">Bandas Rock</h1>
-        <table class="table-bandas" cellpadding="5">
+        <table class="table" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Descripcion</th>
@@ -159,7 +158,7 @@
         </table>
 
         <h1 id="tabla-consultas" align="center">Consultas</h1>
-        <table class="table-usuarios" cellpadding="5">
+        <table class="table" cellpadding="5">
             <tr>
                 <th>Nombre</th>
                 <th>Razon</th>

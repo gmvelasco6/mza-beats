@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db = "mzabeats";
+$db = "login";
 // sirve para conectar a la base de datos
 $conexion=new mysqli($host,$user,$pass,$db);
 if($conexion->connect_error){

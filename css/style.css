@@ -50,6 +50,7 @@ li{
     right: 0;
     top: 40px;
     background-color: #062424;
+    /* sirve para que este por encima de otras cosas*/
     z-index: 9999;
     text-align: center;
 }
@@ -62,7 +63,8 @@ li{
     width: 100%;
     text-align: center;
 }
-.nav-list-item-genero:focus-within>.genero-list, .nav-list-item-genero:hover>.genero-list{
+/* la segunda parte selecciona de la lsita genero cuando el usuario pasa el mouse sobre el elemento padre y se activa con la interaccion del cursor.   */
+.nav-list-item-genero>.genero-list, .nav-list-item-genero:hover>.genero-list{
     display: initial;
 }
 a, li{

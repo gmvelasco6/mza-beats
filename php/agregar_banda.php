@@ -10,6 +10,7 @@
 <body>
 <?php
     session_start();
+    // verificar si alguno de los dos se cumple osea que si no tenes secion te manda al index o si tu estado es menor a 1 tambien te manda al index
     if(empty($_SESSION["id"]) || $_SESSION["state"] < "1"){
         header("Location: ../index.php");
         exit;

@@ -204,37 +204,37 @@ textarea{
     width: 70%;
 }
 
-/*TABLA BANDAS*/
-.table-bandas{
-    width: 100%;
+/*TABLA ADMIN*/
+.table{
+    width: 90%;
     border-collapse:collapse;
     display: flex;
     justify-content: center;
     margin-bottom: 15%;
 }
-.table-bandas th, td, tr{
+.table th, td, tr{
     border: 2px solid black;
     padding: 10px;
 }
-.table-bandas td{
+.table td{
     background-color: #062424;
 }
-.table-bandas th{
+.table th{
     color: white;
     font-weight: bolder;
     font-size: 20px;
     background-color: #0e5050;
 }
-.table-bandas th:hover{
+.table th:hover{
     color: #d25525;
     cursor: default;
 }
-.table-bandas input{
+.table input{
     font-size: medium;
-    margin: 15px;
+    width: 70%;
 }
 /*INPUTS NORMAL*/
-.table-bandas input, .descripcion{
+.table input, .descripcion{
     border: 0px;
     border-radius: 10px;
     background-color: #0e5050b3;
@@ -249,7 +249,7 @@ textarea{
     font-weight: 400;
 }
 /*INPUTS AL PASAR POR ENCIMA*/
-.table-bandas input:hover, .descripcion:hover{
+.table input:hover, .descripcion:hover{
     background-color: #0e5050;
     color: white;
     font-weight: 900;
@@ -260,7 +260,7 @@ textarea{
     font-weight: 900;
 }
 /*INPUTS AL ESCRIBIR EN EL*/
-.table-bandas input:focus, .descripcion:focus{
+.table input:focus, .descripcion:focus{
     background-color: #0e5050;
     color: white;
     font-weight: 900;
@@ -454,23 +454,23 @@ footer p{
     textarea{
         padding: 10px;
     }
-    .table-bandas{
+    .table{
         width: 100%;
         border-collapse:collapse;
         display: flex;
         justify-content: center;
         padding-top: 50px;
     }
-    .table-bandas th, td, tr{
+    .table th, td, tr{
         border: 2px solid black;
         padding: 0px;
     }
-    .table-bandas input{
+    .table input{
         font-size: small;
         margin: 0px;
         width: 50%;
     }
-    .table-bandas textarea{
+    .table textarea{
         width: 50%;
     }
     .table-usuarios input{
@@ -478,8 +478,18 @@ footer p{
         margin: 5px;
         width: 50%;
     }
-    .table-bandas td{
+    .table td{
         background-color: #062424;
+    }
+    .table th, .table-usuarios th{
+        color: white;
+        font-weight: bolder;
+        font-size: 15px;
+        background-color: #0e5050;
+    }
+    .table th:hover{
+        color: #d25525;
+        cursor: default;
     }
     .table-bandas th, .table-usuarios th{
         color: white;

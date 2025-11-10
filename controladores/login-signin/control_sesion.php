@@ -18,14 +18,15 @@ if(!empty($_POST["btn-iniciar"])){
 
         if ($datos=$resultado->fetch_object()) {
             $_SESSION["id"]=$datos->id;
+            $_SESSION["name"]=$datos->nombre;
             $_SESSION["user"]=$datos->usuario;
             $_SESSION["state"]=$datos->estado;
             $_SESSION["creation_count"]=$datos->cantidad_creaciones;
             header("location:../../index.php");
         } else {
             echo '<div class="advertencia" align="center">Acceso denegado</div>';
-        }
-
     }
+
+}
 };
 ?>

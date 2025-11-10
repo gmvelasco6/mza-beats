@@ -1,12 +1,11 @@
 <?php
 // sirve para verificar si se presiono el boton de registro del formulario 
 if(!empty($_POST["btn-registro"])){ 
-    if (empty($_POST["name"]) || empty($_POST["lastname"]) || empty($_POST["user"]) || empty($_POST["password"])){
+    if (empty($_POST["name"]) || empty($_POST["user"]) || empty($_POST["password"])){
         echo '<div class="advertencia" align="center">Hay campos vacios</div>';
     }else{
         // se usa para obtener los datos del formulario y almacenarlos en variables
         $name=$_POST["name"];
-        $lastname=$_POST["lastname"];
         $user=$_POST["user"];
         $pass=md5($_POST["password"]);
 
@@ -20,10 +19,10 @@ if(!empty($_POST["btn-registro"])){
             echo '<div class="advertencia" align="center">Usuario existente, elige otro</div>';
         }else{
             //CONSULTA PARA INGRESAR DATOS
-            $sql="INSERT INTO usuarios(nombre, apellido, usuario, clave) VALUES (?, ?, ?, ?)";
+            $sql="INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?)";
             $stmt=$conexion->prepare( $sql);
             if($stmt){
-                $stmt->bind_param('ssss', $name, $lastname, $user, $pass);
+                $stmt->bind_param('ssss', $name, $user, $pass);
                 if($stmt->execute()){
                     header("Location: ../../index.php");            
                 }else{
@@ -36,4 +35,3 @@ if(!empty($_POST["btn-registro"])){
         }
     }
 };
-?>

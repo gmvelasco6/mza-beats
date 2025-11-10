@@ -47,7 +47,7 @@
                 <?php 
                 echo "<ul class='user-list'>";
                 if(!empty($_SESSION["id"])){
-                    echo"<a href='../php/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo"<a href='../php/administrar/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
                     echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
                     echo "<li><a class='salir' href='../controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
