@@ -40,6 +40,5 @@ if ($stmt->execute()) {
     exit;
 }else{
     die('Error al ejecutar la consulta: ' . $conexion->error);
-
 }
 ?>

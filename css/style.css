@@ -194,7 +194,7 @@ hr{
 .about-us p{
     color: #fff0de;
 }
-/*seccion footer*/
+/*FOOTER*/
 footer{
     display: flex;
     flex-direction: column;
@@ -261,34 +261,35 @@ footer p{
 
 
 @media screen and (max-width: 768px) {
-    .linea{
-        display: none;
-    }
+    
+    /*NAVEGADOR*/
     nav{
         width: 100%;
         height: 120px;
         background-color: #062424;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 2fr 1fr 2fr;
         place-items: center;
         position: fixed;
         z-index: 1000;
     }
-
     .logo-container .logo{
         width: 170px;
         height: 100%;
         margin-left: 0;
+    }
+    .user-container{
+        margin-right: 0;
+    }
+    .user-list div{
+        display: none;
     }
     .img-usuario{
         display: flex;
         width: 70px;
         height: 70px;
     }
-    .user-container{
-        margin-right: 0;
-    }
-    .user-list div{
+    .linea{
         display: none;
     }
     .nav-list {
@@ -304,7 +305,6 @@ footer p{
         padding: 20px 0;
         z-index: 1000;
     }
-
     .genero-list {
         position: fixed;
         display: none;
@@ -317,24 +317,14 @@ footer p{
         padding: 20px 0;
         z-index: 2000;
     }
-    .btn-genero:checked ~ .genero-list {
-        display: flex;
-    }
-
-    .btn-genero:checked ~ .genero-list {
-        display: flex;
-        position: fixed;
-        top: 120px;
-        left: 0;
-        width: 100%;
-        background-color: #062424;
-        flex-direction: column;
-        padding: 20px 0;
-        z-index: 9999;
-        height: auto;
-    }
-
     
+    /*AL APRETAR BOTON GENERO SE MUESTRA LA LISTA Y LINKS*/
+    .btn-genero:checked ~ .genero-list {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        z-index: 9999;
+    }
     .btn-genero:checked ~ .genero-list .genero-list-item a {
         font-size: 30px;
         color: #fff0de;
@@ -342,15 +332,14 @@ footer p{
         padding: 10px;
         display: block;
     }
-    
     .btn-genero:checked ~ .genero-list .genero-list-item a:hover {
         color: #d25525;
     }
 
+    /*ITEMS DENTRO GENERO*/
     .nav-list-item-genero {
         position: relative;
     }
-    
     .nav-list-item-genero .genero-list {
         position: fixed;
         top: 120px;
@@ -359,19 +348,20 @@ footer p{
         z-index: 2000;
     }
 
+    /*ICONO DEL MENU*/
     .menu-icon {
         display: flex;
         color: #fff0de;
         font-size: 45px;
         cursor: pointer;
     }
+    /*ACCION DEL BOTON DEL MENU*/
     .btn-nav:checked ~ .nav-list {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
-
 
     /*SECCIONES*/
     .indie-container, .pop-container, .rock-container{
@@ -381,7 +371,6 @@ footer p{
         align-items: center;
         background-color: black;
         padding: 50px;
-
     }
     .indie-description, .pop-description, .rock-description{
         margin: 15px;

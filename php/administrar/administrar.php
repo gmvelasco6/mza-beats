@@ -15,14 +15,14 @@
         exit;
     }
 ?>
-	<nav>
+	<nav class="nav-admin">
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
             <li class="nav-list-item"><a href="../../index.php">Volver a Inicio</a></li>
 		</ul>
 	</nav>
     <div class="intro">
-            <ul class="admin-nav">
+            <ul class="admin-nav-list">
                 <li><a href="#tabla-usuarios">Usuarios</a></li>
                 <li><a href="#tabla-indie">Indie</a></li>
                 <li><a href="#tabla-pop">Pop</a></li>
@@ -43,7 +43,7 @@
                 <th>Usuario</th>
                 <th>Clave</th>
                 <th>Estado</th>
-                <th>Cantidad de Creaciones</th>
+                <th>Cantidad Creaciones</th>
                 <th>Acción</th>
             </tr>
             <!--MOSTRAR USUARIOS-->

@@ -42,7 +42,6 @@
                     <option value="rock">Rock</option>
                 </select>
                 
-                <!-- Botones -->
                 <button type="submit" class="btn-submit">Guardar Banda</button>
                 <button type="button" class="btn-cancel" onclick="window.location.href='../generos/indie.php'">Cancelar</button>
 

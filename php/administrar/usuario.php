@@ -32,11 +32,13 @@
             $user = $_POST['usuario'];
             $pass = $_POST['clave'];
 
-            $sql_update = "UPDATE usuarios SET nombre='$name', apellido='$lastname', usuario='$user', clave='$pass' WHERE id='$id'";
-            $conexion->query($sql_update);
+            $sql_update = "UPDATE usuarios SET nombre= ?, apellido= ?, usuario= ?, clave= ? WHERE id= ?";
+            $stmt_update = $conexion->prepare($sql_update);
+            $stmt_update->bind_param("ssssi", $name, $lastname, $user, $pass, $id);
+            $stmt_update->execute();
         }
 
-        //Consultas para cada genero
+        //Consulta
         $sql = "SELECT * FROM usuarios WHERE id='$id'";
         $resultado = $conexion->query($sql);
     ?>

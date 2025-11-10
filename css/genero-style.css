@@ -214,15 +214,13 @@ footer p{
     display: none;
 }
 @media screen and (max-width: 768px) {
-    .linea{
-        display: none;
-    }
+    /*NAVEGADOR*/
     nav{
         width: 100%;
         height: 120px;
         background-color: #062424;
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 2fr 1fr 2fr;
         place-items: center;
         position: fixed;
         z-index: 1000;
@@ -232,15 +230,18 @@ footer p{
         height: 100%;
         margin-left: 0;
     }
+    .user-container{
+        margin-right: 0;
+    }
+    .user-list div{
+        display: none;
+    }
     .img-usuario{
         display: flex;
         width: 70px;
         height: 70px;
     }
-    .user-container{
-        margin-right: 0;
-    }
-    .user-list div{
+    .linea{
         display: none;
     }
     .nav-list {
@@ -256,7 +257,6 @@ footer p{
         padding: 20px 0;
         z-index: 1000;
     }
-
     .genero-list {
         position: fixed;
         display: none;
@@ -269,25 +269,14 @@ footer p{
         padding: 20px 0;
         z-index: 2000;
     }
-    .btn-genero:checked ~ .genero-list {
-        display: flex;
-    }
-
-    /* Cuando el menú de géneros está abierto, que aparezca solo en el área del menú */
-    .btn-genero:checked ~ .genero-list {
-        display: flex;
-        position: fixed;
-        top: 120px;
-        left: 0;
-        width: 100%;
-        background-color: #062424;
-        flex-direction: column;
-        padding: 20px 0;
-        z-index: 9999;
-        height: auto;
-    }
-
     
+    /*AL APRETAR BOTON GENERO SE MUESTRA LA LISTA Y LINKS*/
+    .btn-genero:checked ~ .genero-list {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        z-index: 9999;
+    }
     .btn-genero:checked ~ .genero-list .genero-list-item a {
         font-size: 30px;
         color: #fff0de;
@@ -295,16 +284,14 @@ footer p{
         padding: 10px;
         display: block;
     }
-    
     .btn-genero:checked ~ .genero-list .genero-list-item a:hover {
         color: #d25525;
     }
 
-    /* Asegurar que el menú de géneros aparezca debajo del nav */
+    /*ITEMS DENTRO GENERO*/
     .nav-list-item-genero {
         position: relative;
     }
-    
     .nav-list-item-genero .genero-list {
         position: fixed;
         top: 120px;
@@ -313,25 +300,27 @@ footer p{
         z-index: 2000;
     }
 
+    /*ICONO DEL MENU*/
     .menu-icon {
         display: flex;
         color: #fff0de;
         font-size: 45px;
         cursor: pointer;
     }
+    /*ACCION DEL BOTON DEL MENU*/
     .btn-nav:checked ~ .nav-list {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
-    .intro{
-        margin-top: 120px;
+    /*CONTENIDO DE LA PAGINA*/
+    .container{
+        margin-top: 27%;
     }
     .section, .section-reverse{
         flex-direction: column;
     }
-
     .img-intro{
         height: 100%;
         width: 300px;
@@ -343,7 +332,7 @@ footer p{
         width: 350px;
         border-radius: 5%;
     }
-    /**/
+    /*BOTONES*/
     .btn-participar{
         width: 30%;
         background-color: #0e50504e;
