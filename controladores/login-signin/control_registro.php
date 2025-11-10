@@ -10,8 +10,8 @@ if(!empty($_POST["btn-registro"])){
         $pass=md5($_POST["password"]);
 
         //REVISO QUE EL USUARIO SEA UNICO
-        $sql_check = "SELECT id FROM usuarios WHERE usuario = ? ";
-        $stmt_check = $conexion->prepare($sql_check);
+        $consulta_check = "SELECT id FROM usuarios WHERE usuario = ? ";
+        $stmt_check = $conexion->prepare($consulta_check);
         $stmt_check->bind_param('s', $user);
         $stmt_check->execute();
         $stmt_check->store_result();
@@ -19,8 +19,8 @@ if(!empty($_POST["btn-registro"])){
             echo '<div class="advertencia" align="center">Usuario existente, elige otro</div>';
         }else{
             //CONSULTA PARA INGRESAR DATOS
-            $sql="INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?)";
-            $stmt=$conexion->prepare( $sql);
+            $consulta="INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?)";
+            $stmt=$conexion->prepare( $consulta);
             if($stmt){
                 $stmt->bind_param('ssss', $name, $user, $pass);
                 if($stmt->execute()){

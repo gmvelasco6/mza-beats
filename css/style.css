@@ -64,7 +64,7 @@ li{
     text-align: center;
 }
 /* la segunda parte selecciona de la lsita genero cuando el usuario pasa el mouse sobre el elemento padre y se activa con la interaccion del cursor.   */
-.nav-list-item-genero>.genero-list, .nav-list-item-genero:hover>.genero-list{
+.nav-list-item-genero:hover>.genero-list{
     display: initial;
 }
 a, li{

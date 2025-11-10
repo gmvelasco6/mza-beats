@@ -8,8 +8,8 @@ $genero = trim($_POST['genero'] ?? '');
 
 // sirve para que el campo de genero no este vacio y (? ? ?) sirve para evitar sql injection y hace que el codigo sea mas seguro
 if ($genero !== '') {
-    $sql = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
-    $stmt = $conexion->prepare($sql);
+    $consulta = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
+    $stmt = $conexion->prepare($consulta);
     // sirve para validar si la colsulta se preparo correctamente y si no muestra el error
     if (!$stmt) {
         die('Error al preparar la consulta: ' . $conexion->error);
@@ -20,8 +20,8 @@ if ($genero !== '') {
     if ($stmt->execute()) {
         // Después de insertar la banda, actualizar cantidad_creaciones
         $userId = $_SESSION['id'];
-        $sqlUpdateUser = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
-        $stmtUpdateUser = $conexion->prepare($sqlUpdateUser);
+        $consultaUpdateUser = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
+        $stmtUpdateUser = $conexion->prepare($consultaUpdateUser);
         if ($stmtUpdateUser) {
             $stmtUpdateUser->bind_param('i', $userId);
             $stmtUpdateUser->execute();
@@ -33,10 +33,10 @@ if ($genero !== '') {
     }
 }
 //CONSULTA
-$sql = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
+$consulta = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
 
 //PREPARAR CONSULTA
-$stmt = $conexion->prepare($sql);
+$stmt = $conexion->prepare($consulta);
 if (!$stmt) {
     die('Error al preparar la consulta: ' . $conexion->error);
 }
@@ -49,7 +49,7 @@ if ($stmt->execute()) {
     //ACTUALIZAR CANTIDAD DE CREACIONES
     $userId = $_SESSION['id'];
     //CONSULTA
-    $sqlUpdate = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
+    $consultaUpdate = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
     //PREPARO
     $stmtUpdate = $conexion->prepare($sqlUpdate);
     if ($stmtUpdate) {

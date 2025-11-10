@@ -10,8 +10,8 @@ if(!empty($_POST["btn-cambiar"])){
         }else{
             $id = $_SESSION["id"];
             $pass=md5($_POST["password"]);
-            $sql = "UPDATE usuarios SET clave=? WHERE id= ?";
-            $stmt = $conexion->prepare($sql);
+            $consulta = "UPDATE usuarios SET clave=? WHERE id= ?";
+            $stmt = $conexion->prepare($consulta);
             if($stmt){
                 $stmt->bind_param('si', $pass, $id);
                 $stmt->execute();

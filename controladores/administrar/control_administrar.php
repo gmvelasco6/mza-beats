@@ -10,8 +10,8 @@ if (isset($_POST['actualizar'])) {
     $img_bg = $_POST['imagen_fondo'];
     $music_genre = $_POST['genero'];
 
-    $sql_update = "UPDATE bandas SET nombre= ?, descripcion= ?, imagen_principal= ?, imagen_fondo= ?, genero= ? WHERE id= ? ";
-    $stmt_update = $conexion->prepare($sql_update);
+    $consulta_update = "UPDATE bandas SET nombre= ?, descripcion= ?, imagen_principal= ?, imagen_fondo= ?, genero= ? WHERE id= ? ";
+    $stmt_update = $conexion->prepare($consulta_update);
 
     if ($stmt_update) {
 
@@ -28,8 +28,8 @@ if (isset($_POST['actualizar-usuario'])) {
     $state = $_POST['estado'];
     $creation_count = $_POST['cantidad_creaciones'];
 
-    $sql_update = "UPDATE usuarios SET estado= ?, cantidad_creaciones= ? WHERE id= ?";
-    $stmt_update = $conexion->prepare($sql_update);
+    $consulta_update = "UPDATE usuarios SET estado= ?, cantidad_creaciones= ? WHERE id= ?";
+    $stmt_update = $conexion->prepare($consulta_update);
 
     if($stmt_update){
 
@@ -47,35 +47,35 @@ if (isset($_POST['actualizar-usuario'])) {
 if (isset($_POST['eliminar'])) {
     $id = $_POST['id'];
 
-    $sql_delete = "DELETE FROM bandas WHERE id=$id";
-    $conexion->query($sql_delete);
+    $consulta_delete = "DELETE FROM bandas WHERE id=$id";
+    $conexion->query($consulta_delete);
 }
 //ELIMINAR USUARIO 
 if (isset($_POST['eliminar'])) {
     $id = $_POST['id'];
 
-    $sql_delete = "DELETE FROM usuarios WHERE id='$id'";
-    $conexion->query($sql_delete);
+    $consulta_delete = "DELETE FROM usuarios WHERE id='$id'";
+    $conexion->query($consulta_delete);
 }
 //ELIMINAR CONSULTA 
 if (isset($_POST['eliminar'])) {
     $id = $_POST['id'];
 
-    $sql_delete = "DELETE FROM consultas WHERE id='$id'";
-    $conexion->query($sql_delete);
+    $consulta_delete = "DELETE FROM consultas WHERE id='$id'";
+    $conexion->query($consulta_delete);
 }
 
 //CONSULTAS PARA TODAS MOSTRAR LAS TABLAS EN administrar.php
-$sqlConsulta = "SELECT * FROM consultas";
-$sqlUser = "SELECT * FROM usuarios";
-$sqlIndie = "SELECT * FROM bandas WHERE genero='indie'";
-$sqlPop = "SELECT * FROM bandas WHERE genero='pop'";
-$sqlRock = "SELECT * FROM bandas WHERE genero='rock'";
+$consultaConsult = "SELECT * FROM consultas";
+$consultaUser = "SELECT * FROM usuarios";
+$consultaIndie = "SELECT * FROM bandas WHERE genero='indie'";
+$consultaPop = "SELECT * FROM bandas WHERE genero='pop'";
+$consultaRock = "SELECT * FROM bandas WHERE genero='rock'";
 
 //RESULTADO DE LAS CONSULTAS
-$resultadoConsulta = $conexion->query($sqlConsulta);
-$resultadoUser = $conexion->query($sqlUser);
-$resultadoIndie = $conexion->query($sqlIndie);
-$resultadoPop = $conexion->query($sqlPop);
-$resultadoRock = $conexion->query($sqlRock);
+$resultadoConsulta = $conexion->query($consultaConsult);
+$resultadoUser = $conexion->query($consultaUser);
+$resultadoIndie = $conexion->query($consultaIndie);
+$resultadoPop = $conexion->query($consultaPop);
+$resultadoRock = $conexion->query($consultaRock);
 ?>

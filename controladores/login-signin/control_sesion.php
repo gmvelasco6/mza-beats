@@ -7,9 +7,9 @@ if(!empty($_POST["btn-iniciar"])){
         $user=$_POST["user"];
         $pass=md5($_POST["password"]);
 
-        $sql= "SELECT * FROM usuarios WHERE usuario= ? AND clave= ?";
-        $stmt=$conexion->prepare($sql);
-        if (!$sql) {
+        $consulta= "SELECT * FROM usuarios WHERE usuario= ? AND clave= ?";
+        $stmt=$conexion->prepare($consulta);
+        if (!$consulta) {
             die("Error al preparar consulta: " . $conexion->error);
         }
         $stmt->bind_param('ss', $user, $pass);

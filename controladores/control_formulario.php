@@ -4,8 +4,8 @@ if(isset($_POST['btn-crear'])){
     $nombre=$_POST['nombre'];
     $razon=$_POST['razon'];
     $email=$_POST['email'];
-    $sql = "INSERT INTO consultas (nombre, razon, email) VALUES ('$nombre', '$razon', '$email')";
-    $resultado=$conexion->query($sql);
+    $consulta = "INSERT INTO consultas (nombre, razon, email) VALUES ('$nombre', '$razon', '$email')";
+    $resultado=$conexion->query($consulta);
     if($resultado){
         echo '<div class="verificado" align="center">Consulta registrado correctamente</div>';
     }else{

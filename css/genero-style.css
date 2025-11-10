@@ -58,7 +58,7 @@ li{
     width: 100%;
     text-align: center;
 }
-.nav-list-item-genero>.genero-list, .nav-list-item-genero:hover>.genero-list{
+.nav-list-item-genero:hover>.genero-list{
     display: initial;
 }
 a, li, .genero-label{
