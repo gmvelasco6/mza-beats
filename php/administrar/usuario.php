@@ -15,7 +15,7 @@
         exit;
     }
 ?>
-	<nav class="nav-admin">
+	<nav>
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
             <li class="nav-list-item"><a href="../../index.php">Ir a Inicio</a></li>

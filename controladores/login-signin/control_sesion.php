@@ -6,11 +6,17 @@ if(!empty($_POST["btn-iniciar"])){
     }else{
         $user=$_POST["user"];
         $pass=md5($_POST["password"]);
-        $sql=$conexion->query("SELECT * FROM usuarios WHERE usuario='$user' AND clave='$pass' ");
+
+        $sql= "SELECT * FROM usuarios WHERE usuario= ? AND clave= ?";
+        $stmt=$conexion->prepare($sql);
         if (!$sql) {
-            die("Error en la consulta: " . $conexion->error);
+            die("Error al preparar consulta: " . $conexion->error);
         }
-        if ($datos=$sql->fetch_object()) {
+        $stmt->bind_param('ss', $user, $pass);
+        $stmt->execute();
+        $resultado=$stmt->get_result();
+
+        if ($datos=$resultado->fetch_object()) {
             $_SESSION["id"]=$datos->id;
             $_SESSION["user"]=$datos->usuario;
             $_SESSION["state"]=$datos->estado;

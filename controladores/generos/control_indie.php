@@ -8,12 +8,14 @@ if ($resultado) {
         // Extraer los datos de cada banda del array asociativo
         $nombre = $row['nombre'];
         $descripcion = $row['descripcion'];
+
         // Construir rutas de las imágenes agregando '../' para subir un directorio
         $imgPrincipal = '../' . $row['imagen_principal'];
         $imgFondo = '../' . $row['imagen_fondo'];
         
         // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
         $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+        
         // Incrementar contador para alternar diseños
         $c++;
         

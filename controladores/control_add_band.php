@@ -6,29 +6,40 @@ $nombre = trim($_POST['nombre'] ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
 $genero = trim($_POST['genero'] ?? '');
 
-if ($genero !== '') {
-    $sql = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
-    $stmt = $conexion->prepare($sql);
-    if (!$stmt) {
-        die('Error al preparar la consulta: ' . $conexion->error);
-    }
-    $stmt->bind_param('sss', $nombre, $descripcion, $genero);
+//CONSULTA
+$sql = "INSERT INTO bandas (nombre, descripcion, genero) VALUES (?, ?, ?)";
 
-    if ($stmt->execute()) {
-        // Después de insertar la banda, actualizar cantidad_creaciones
-        $userId = $_SESSION['id'];
-        $sqlUpdateUser = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
-        $stmtUpdateUser = $conexion->prepare($sqlUpdateUser);
-        if ($stmtUpdateUser) {
-            $stmtUpdateUser->bind_param('i', $userId);
-            $stmtUpdateUser->execute();
-            $_SESSION['creation_count']--;
-        }
-        
-        header('Location: ../generos/' . $genero . '.php');
-        exit;
-    }
+//PREPARAR CONSULTA
+$stmt = $conexion->prepare($sql);
+if (!$stmt) {
+    die('Error al preparar la consulta: ' . $conexion->error);
 }
 
-echo 'ERROR: ' . $stmt->error;
+//ASIGNAR TIPO Y VALOR A ? ? ?
+$stmt->bind_param('sss', $nombre, $descripcion, $genero);
+
+//EJECUTAR EL STATEMENT
+if ($stmt->execute()) {
+    //ACTUALIZAR CANTIDAD DE CREACIONES
+    $userId = $_SESSION['id'];
+    //CONSULTA
+    $sqlUpdate = "UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ?";
+    //PREPARO
+    $stmtUpdate = $conexion->prepare($sqlUpdate);
+    if ($stmtUpdate) {
+        //ASIGNO
+        $stmtUpdate->bind_param('i', $userId);
+        //EJECUTO
+        $stmtUpdate->execute();
+        $_SESSION['creation_count']--;
+    }else{
+        die('Error al actualizar la consulta: ' . $conexion->error);
+    }
+    //REDIRIGIR A LA PAGINA CORRESPONDIENTE
+    header('Location: ../generos/' . $genero . '.php');
+    exit;
+}else{
+    die('Error al ejecutar la consulta: ' . $conexion->error);
+
+}
 ?>
