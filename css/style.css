@@ -273,6 +273,7 @@ footer p{
         grid-template-columns: 2fr 1fr 2fr;
         place-items: center;
         position: fixed;
+        /* preguntar */
         z-index: 1000;
     }
     .logo-container .logo{
@@ -321,6 +322,7 @@ footer p{
     }
     
     /*AL APRETAR BOTON GENERO SE MUESTRA LA LISTA Y LINKS*/
+    /* preguntar */
     .btn-genero:checked ~ .genero-list {
         display: flex;
         flex-direction: column;
