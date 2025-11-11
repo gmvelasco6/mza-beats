@@ -46,7 +46,6 @@
                 <th>Acción</th>
             </tr>
             <!--MOSTRAR USUARIOS-->
-            <!-- sirve para combertir el resultado en un array en el que cada columna se comvierte en una propiedad  -->
         <?php while ($filaUser = $resultadoUser->fetch_assoc()){ ?>
             <tr align="center">
                 <form class="formulario" method="POST" action="">
@@ -166,6 +165,7 @@
                 <th>Acción</th>
             </tr>
             <!--MOSTRAR USUARIOS-->
+            <!-- fetch_assoc se usa para devolver una fila de una consulta en forma de array -->
         <?php while ($filaConsultas = $resultadoConsulta->fetch_assoc()){ ?>
             <tr align="center">
                 <form class="formulario" method="POST" action="">

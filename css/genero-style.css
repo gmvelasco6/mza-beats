@@ -192,7 +192,7 @@ footer p{
     background-color: #0e5050;
     border-radius: 8px;
 }
-/*Home Button*/
+/*boton home*/
 .flecha{
     border-radius: 100%;
     font-weight: 900;
@@ -288,7 +288,7 @@ footer p{
         color: #d25525;
     }
 
-    /*ITEMS DENTRO GENERO*/
+    /*ITEMS DENTRO DE GENERO*/
     .nav-list-item-genero {
         position: relative;
     }

@@ -19,7 +19,7 @@
             <div class="nav-container">
                 <input type="checkbox" class="btn-nav" id="btn-nav">
                 <label for="btn-nav" class="menu-icon">&#9776;</label>
-                <ul class="nav-list">
+            <ul class="nav-list">
                     <li class="nav-list-item"><a href="../index.php">Inicio</a></li>
                     <li class="linea">|</li>
                     <li class="nav-list-item-genero">
