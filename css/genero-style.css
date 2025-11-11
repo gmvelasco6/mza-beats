@@ -113,6 +113,7 @@ hr{
     width: 450px;
     border-radius: 5%;
 }
+/*seccion todo lo que tiene las fotos y descripcion*/
 .section{
     overflow: hidden;
     display: flex;
@@ -137,6 +138,8 @@ hr{
     background-position: center;
     padding: 20px;
 }
+/*fin de la descripcion*/
+/*descripcion*/
 .description{
     text-align: center;
     width: 80%;
@@ -146,10 +149,13 @@ hr{
     border-radius: 10px;
     padding: 20px;
 }
+/*fin descripcion*/
+/*titulo descripcion*/
 .description h2{
     font-size: xx-large;
     font-weight: 900;
 }
+/*fin titulo descripcion*/
 
 /*FOOTER*/
 footer{
