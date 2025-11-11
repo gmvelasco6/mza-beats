@@ -144,6 +144,10 @@
             <p>MzaBeats es una página web que almacena todas las bandas originas de la provincia de Mendoza, Argentina.
                 Nuestra idea es que la cultura musical Mendocina sea más reconocida, por todo el mundo.
             </p>
+            <h2>¿Como aparezco en la pagina?</h2>
+            <p>Si sos una banda o un artista mendocino solo tenes que llenar el 
+                formulario de consulta con tu nombre, mail y razon de participar
+                y nos pondremos en contacto lo más rapido posible</p>
         </section>
     </main>
     <footer>
