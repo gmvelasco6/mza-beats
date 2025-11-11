@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../css/php-style.css">
+    <link rel="stylesheet" href="../../css/php-style.css">
 	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
 	<title>Administrar Bandas</title>
 </head>
@@ -11,7 +11,7 @@
 <?php
     session_start();
     if(empty($_SESSION["id"])){
-        header("Location: ../../index.php");
+    header("Location: ../../index.php");
         exit;
     }
 ?>
@@ -42,8 +42,8 @@
         $sql = "SELECT * FROM usuarios WHERE id='$id'";
         $resultado = $conexion->query($sql);
     ?>
-    <main class="table-container">
-        <h1 align="center">Mi cuenta</h1>
+    <main class="table-container-usuario">
+        <h1 class="h1-usuario" align="center">Mi cuenta</h1>
         <table class="table-usuarios" cellpadding="5">
             <tr>
                 <th>Nombre</th>
@@ -58,7 +58,6 @@
                     <td><input type="text" name="nombre" value="<?php echo $fila['nombre']; ?>"></td>
                     <td><input type="text" name="usuario" value="<?php echo $fila['usuario']; ?>"></td>
                     <td><a class="cambiar-contraseña" href="../administrar/cambiar-clave.php">Cambiar</a></td>
-
                     <td>    
                         <button type="submit" name="actualizar" class="btn-update-usuario">Actualizar</button>
                     </td>
@@ -69,6 +68,7 @@
         </table>
     </main>
     <footer>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
 </html>

@@ -8,23 +8,23 @@
 	<title>Inicio de Sesion</title>
 </head>
 <body>
-    <?php
-        session_start();
-        if(empty($_SESSION["id"])){
-            header("Location: ../../index.php");
-            exit;
-        }
-    ?>
+	<?php
+		session_start();
+		if(empty($_SESSION["id"])){
+			header("Location: ../../index.php");
+			exit;
+		}
+	?>
 	<nav>
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
+			<li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
 		</ul>
 	</nav>
 	<div class="formulario-container">
 		<?php
 			include("../../bd/conexion_bd.php");
-			include("../../controladores/administrar/control_cambiar_clave.php");
+			include("../../logica/administrar/control_cambiar_clave.php");
 		?>
 		<form class="formulario" align="center" method="post" action="">
 			<h1 align="center">Cambiar Clave</h1>
@@ -37,7 +37,7 @@
 		</form>
 	</div>
 	<footer>
-        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
 </html>

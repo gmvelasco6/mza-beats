@@ -11,13 +11,13 @@
 	<nav>
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
+			<li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
 		</ul>
 	</nav>
 	<div class="formulario-container">
 		<?php
 			include("../../bd/conexion_bd.php");
-			include("../../controladores/login-signin/control_sesion.php");
+			include("../../logica/login-signin/control_sesion.php");
 		?>
 		<form class="formulario" align="center" method="post" action="">
 			<h1 align="center">Iniciar Sesion</h1>

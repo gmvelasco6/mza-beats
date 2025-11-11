@@ -5,9 +5,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../../css/php-style.css">
 	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
-	<title>Registro</title>
+	<title>Inicio de Sesion</title>
 </head>
 <body>
+	<?php
+		session_start();
+		if(empty($_SESSION["id"])){
+			header("Location: ../../index.php");
+			exit;
+		}
+	?>
 	<nav>
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">
@@ -15,22 +22,18 @@
 		</ul>
 	</nav>
 	<div class="formulario-container">
-		<form class="formulario" method="post" action="">
-			<?php
-				include("../../bd/conexion_bd.php");
-				include("../../logica/login-signin/control_registro.php");
-			?>
-			<h1>Registrarse</h1>	
-			<h2>Nombre</h2>
-			<input type="text" id="name" class="input" name="name">
-			<h2>Apellido</h2>
-			<input type="text" id="lastname" class="input" name="lastname">
-			<h2>Usuario</h2>
-			<input type="text" id="user" class="input" name="user">
-			<h2>Contraseña</h2>
+		<?php
+			include("../../bd/conexion_bd.php");
+			include("../../logica/administrar/control_cambiar_clave.php");
+		?>
+		<form class="formulario" align="center" method="post" action="">
+			<h1 align="center">Cambiar Clave</h1>
+			<h2>Nueva Clave</h2>
 			<input type="password" id="password" class="input" name="password">
-			<p>Ya tenes un usuario? <a href="login.php">Inicia Sesion</a></p>
-			<input type="submit" name="btn-registro" class="btn" value="Registrarme">
+			<h2>Confirmar Clave</h2>
+			<input type="password" id="new-password" class="input" name="new-password">
+
+			<input type="submit" name="btn-cambiar" class="btn" value="Cambiar">
 		</form>
 	</div>
 	<footer>

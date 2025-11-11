@@ -36,11 +36,11 @@
                     <?php 
                         if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='php/administrar/administrar.php'>Administrar</a>";
+                            echo "<li><a href='vistas/administrar/administrar.php'>Administrar</a>";
                         }
                         if(!empty($_SESSION["id"])){
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='php/administrar/usuario.php'>Ver Cuenta</a>";
+                            echo "<li><a href='vistas/administrar/usuario.php'>Ver Cuenta</a>";
 
                         }
                     ?>
@@ -50,14 +50,14 @@
                 <?php 
                 echo "<ul class='user-list'>";
                 if(!empty($_SESSION["id"])){
-                    echo"<a href='php/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo"<a href='vistas/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
                     echo "<li>HOLA ".$_SESSION["name"]." |</li>";
-                    echo "<li><a class='salir' href='controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
+                    echo "<li><a class='salir' href='logica/login-signin/control_close_sesion.php'>SALIR</a></li>";
                     echo "</div>";
                 }else{
-                    echo "<li><a class='ini-sesion' href='php/login-signin/login.php'>LOG IN</a> |</li> ";
-                    echo "<li><a class='registrarse' href='php/login-signin/register.php'> SIGN IN</a></li> ";
+                    echo "<li><a class='ini-sesion' href='vistas/login-signin/login.php'>LOG IN</a> |</li> ";
+                    echo "<li><a class='registrarse' href='vistas/login-signin/register.php'> SIGN IN</a></li> ";
                 }
                 echo "</ul>"  
                 ?>
@@ -150,12 +150,12 @@
                 <!-- (!empty es igual a no vacio y empty es igual a vacio) -->
                 <!-- sirve para que si el usuario no tiene sesion no pueda agregar bandas y si si estado es mayor o igual a 1 le parace el boton para poder agregar bandas -->
         <?php if(empty($_SESSION["state"])){ ?>
-            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+            <input class="btn-participar" type="submit" onclick="window.location.href='vistas/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>
         <?php if(!empty($_SESSION["id"]) && $_SESSION["creation_count"]>="1"){ ?>
-            <input class="btn-agregar" type="button" onclick="window.location.href='php/agregar_banda.php';" value="Agregar banda">
+            <input class="btn-agregar" type="button" onclick="window.location.href='vistas/agregar_banda.php';" value="Agregar banda">
         <?php } ?>
-        <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 
 </body>

@@ -34,11 +34,11 @@
                     <?php 
                         if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='../php/administrar/administrar.php'>Administrar</a>";
+                            echo "<li><a href='../vistas/administrar/administrar.php'>Administrar</a>";
                         }
                         if(!empty($_SESSION["id"])){
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='../php/administrar/usuario.php'>Ver Cuenta</a>";
+                            echo "<li><a href='../vistas/administrar/usuario.php'>Ver Cuenta</a>";
                         }
                     ?>
                 </ul>
@@ -47,14 +47,14 @@
                 <?php 
                 echo "<ul class='user-list'>";
                 if(!empty($_SESSION["id"])){
-                    echo"<a href='../php/administrar/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo"<a href='../vistas/administrar/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
                     echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                    echo "<li><a class='salir' href='../controladores/login-signin/control_close_sesion.php'>SALIR</a></li>";
+                    echo "<li><a class='salir' href='../logica/login-signin/control_close_sesion.php'>SALIR</a></li>";
                     echo "</div>";
                 }else{
-                    echo "<li><a class='ini-sesion' href='../php/login-signin/login.php'>LOG IN</a> |</li> ";
-                    echo "<li><a class='registrarse' href='../php/login-signin/register.php'> SIGN IN</a></li> ";
+                    echo "<li><a class='ini-sesion' href='../vistas/login-signin/login.php'>LOG IN</a> |</li> ";
+                    echo "<li><a class='registrarse' href='../vistas/login-signin/register.php'> SIGN IN</a></li> ";
                 }
                 echo "</ul>"  
                 ?>
@@ -87,15 +87,15 @@
         </section>
         <?php
             include("../bd/conexion_bd.php");
-            include("../controladores/generos/control_indie.php");
+            include("../logica/generos/control_indie.php");
         ?>
     </main>
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <?php if(empty($_SESSION["state"])){ ?>
-            <input class="btn-participar" type="submit" onclick="window.location.href='php/formulario.php';" value="¡Quiero aparecer!">
+            <input class="btn-participar" type="submit" onclick="window.location.href='vistas/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>      
-            <p>&copy;Derechos de autor a Basigalup y Velasco</p>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
 </html>

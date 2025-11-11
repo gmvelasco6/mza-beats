@@ -173,6 +173,18 @@ textarea{
     color: #d25525;
     font-size: xxx-large;
 }
+.table-container-usuario{
+    margin: 100px 0px 100px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+.table-container-usuario .h1-usuario{
+    color: #d25525;
+    font-size: xxx-large;
+}
 /*TABLA USUARIOS*/
 .table-usuarios{
     width: 99%;
@@ -400,10 +412,14 @@ footer p{
 
 @media screen and (max-width: 768px) {
     nav{
-        display: flex;
-        justify-content: space-evenly;
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
     }
-    
+    .logo{
+        width: 200px;
+        height: 100%;
+        margin-left: 25px;
+    }
     .nav-admin{
         width: 100%;
         height: 100px;
@@ -429,7 +445,6 @@ footer p{
     }
     .formulario-container h1{
         color: #d25525;
-    
     }
     .formulario-container p{
         color: #fff0de;

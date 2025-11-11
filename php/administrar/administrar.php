@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../css/php-style.css">
+    <link rel="stylesheet" href="../../css/php-style.css">
 	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
 	<title>Administrar Bandas</title>
 </head>
@@ -11,7 +11,7 @@
 <?php
     session_start();
     if(empty($_SESSION["id"]) || $_SESSION["state"] != "67"){
-        header("Location: ../../index.php");
+    header("Location: ../../index.php");
         exit;
     }
 ?>
@@ -31,8 +31,8 @@
             </ul>
         </div>
     <?php
-        include("../../bd/conexion_bd.php");
-        include("../../controladores/administrar/control_administrar.php")
+    include("../../bd/conexion_bd.php");
+    include("../../logica/administrar/control_administrar.php")
 ?>
     <main class="table-container">
         <h1 id="tabla-usuarios" align="center">Usuarios</h1>
@@ -182,6 +182,7 @@
         </table>
     </main>
     <footer>
+        <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
 </html>
