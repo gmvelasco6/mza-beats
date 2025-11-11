@@ -28,13 +28,11 @@
 		if (isset($_POST['actualizar'])) {
 			$id = $_POST['id'];
 			$name = $_POST['nombre'];
-			$lastname = $_POST['apellido'];
 			$user = $_POST['usuario'];
-			$pass = $_POST['clave'];
 
-			$sql_update = "UPDATE usuarios SET nombre= ?, apellido= ?, usuario= ?, clave= ? WHERE id= ?";
+			$sql_update = "UPDATE usuarios SET nombre= ?, usuario= ? WHERE id= ?";
 			$stmt_update = $conexion->prepare($sql_update);
-			$stmt_update->bind_param("ssssi", $name, $lastname, $user, $pass, $id);
+			$stmt_update->bind_param("ssi", $name, $user, $id);
 			$stmt_update->execute();
 		}
 

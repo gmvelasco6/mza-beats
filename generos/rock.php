@@ -92,7 +92,7 @@
     <footer>
         <a href="#inicio" class="flecha">&uparrow;</a>
         <?php if(empty($_SESSION["state"])){ ?>
-            <input class="btn-participar" type="submit" onclick="window.location.href='vistas/formulario.php';" value="¡Quiero aparecer!">
+            <input class="btn-participar" type="submit" onclick="window.location.href='../vistas/formulario.php';" value="¡Quiero aparecer!">
         <?php } ?>     
         <p>&copy;Derechos de autor Reservados</p>
     </footer>

@@ -20,6 +20,7 @@ if(!empty($_POST["btn-iniciar"])){
             $_SESSION["id"]=$datos->id;
             $_SESSION["name"]=$datos->nombre;
             $_SESSION["user"]=$datos->usuario;
+            $_SESSION["pass"]=$datos->clave;
             $_SESSION["state"]=$datos->estado;
             $_SESSION["creation_count"]=$datos->cantidad_creaciones;
             header("location:../../index.php");

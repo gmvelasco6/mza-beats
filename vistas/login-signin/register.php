@@ -23,8 +23,6 @@
 			<h1>Registrarse</h1>	
 			<h2>Nombre</h2>
 			<input type="text" id="name" class="input" name="name">
-			<h2>Apellido</h2>
-			<input type="text" id="lastname" class="input" name="lastname">
 			<h2>Usuario</h2>
 			<input type="text" id="user" class="input" name="user">
 			<h2>Contraseña</h2>
