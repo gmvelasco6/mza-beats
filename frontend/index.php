@@ -14,21 +14,24 @@
     <header>
         <nav>
             <div class="logo-container">
-                <img class="logo" src="images\logo\logoMzaBeats.png" alt="">
+                <img class="logo" src="images/logo/logoMzaBeats.png" alt="">
             </div>
+
+            <!-- Checkbox e icono hamburguesa fuera del container -->
+            <input type="checkbox" class="btn-nav" id="btn-nav">
+            <label for="btn-nav" class="menu-icon">&#9776;</label>
+
             <div class="nav-container">
-                <input type="checkbox" class="btn-nav" id="btn-nav">
-                <label for="btn-nav" class="menu-icon">&#9776;</label>
                 <ul class="nav-list">
                     <li class="nav-list-item"><a href="index.php">Inicio</a></li>
                     <li class="linea">|</li>
                     <li class="nav-list-item-genero">
-                    <input type="checkbox" id="btn-genero" class="btn-genero">
-                    <label for="btn-genero" class="genero-label">Genero</label>
+                        <input type="checkbox" id="btn-genero" class="btn-genero">
+                        <label for="btn-genero" class="genero-label">Genero</label>
                         <ul class="genero-list">
-                            <li class="genero-list-item"><a href="generos\indie.php">Indie</a></li>
-                            <li class="genero-list-item"><a href="generos\pop.php">Pop</a></li>
-                            <li class="genero-list-item"><a href="generos\rock.php">Rock</a></li>
+                            <li class="genero-list-item"><a href="generos/indie.php">Indie</a></li>
+                            <li class="genero-list-item"><a href="generos/pop.php">Pop</a></li>
+                            <li class="genero-list-item"><a href="generos/rock.php">Rock</a></li>
                         </ul>    
                     </li>
                     <li class="linea">|</li>
@@ -36,21 +39,40 @@
                     <?php 
                         if(!empty($_SESSION["id"]) and $_SESSION["state"]=="67"){ 
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='vistas/administrar/administrar.php'>Administrar</a>";
+                            echo "<li><a href='vistas/administrar/administrar.php'>Administrar</a></li>";
                         }
                         if(!empty($_SESSION["id"])){
                             echo "<li class='linea'>|</li>";
-                            echo "<li><a href='vistas/administrar/usuario.php'>Ver Cuenta</a>";
-
+                            echo "<li><a href='vistas/administrar/usuario.php'>Ver Cuenta</a></li>";
                         }
                     ?>
                 </ul>
+
+                <!-- BLOQUE DE USUARIO DENTRO DEL DESPLEGABLE MÓVIL -->
+                <div class="user-container-mobile">
+                    <?php 
+                    echo "<ul class='user-list'>";
+                    if(!empty($_SESSION["id"])){
+                        echo "<a href='vistas/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                        echo "<div>";
+                        echo "<li>HOLA ".$_SESSION["name"]."</li>";
+                        echo "<li><a class='salir' href='logica/login-signin/control_close_sesion.php'>Log out</a></li>";
+                        echo "</div>";
+                    }else{
+                        echo "<li><a class='ini-sesion' href='vistas/login-signin/login.php'>Log in</a></li>";
+                        echo "<li><a class='registrarse' href='vistas/login-signin/register.php'>Sign in</a></li>";
+                    }
+                    echo "</ul>";
+                    ?>
+                </div>
             </div>
+
+            <!-- BLOQUE DE USUARIO PARA ESCRITORIO -->
             <div class="user-container">
                 <?php 
                 echo "<ul class='user-list'>";
                 if(!empty($_SESSION["id"])){
-                    echo"<a href='vistas/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
+                    echo "<a href='vistas/administrar/usuario.php'><img src='images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
                     echo "<li>HOLA ".$_SESSION["name"]." |</li>";
                     echo "<li><a class='salir' href='logica/login-signin/control_close_sesion.php'>SALIR</a></li>";
@@ -59,7 +81,7 @@
                     echo "<li><a class='ini-sesion' href='vistas/login-signin/login.php'>LOG IN</a> |</li> ";
                     echo "<li><a class='registrarse' href='vistas/login-signin/register.php'> SIGN IN</a></li> ";
                 }
-                echo "</ul>"  
+                echo "</ul>";
                 ?>
             </div>
         </nav>

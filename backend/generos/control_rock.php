@@ -1,21 +1,30 @@
 <?php
-$resultado = $conexion->query("SELECT * FROM bandas WHERE genero = 'indie' ORDER BY id ASC");
+$buscador = $_GET['buscador'] ?? '';
+
+if (isset($_GET['limpiar'])) {
+    $buscador = '';
+}
+$resultado = ($buscador != '')
+    ? $conexion->query("SELECT * FROM bandas WHERE genero = 'rock' AND nombre LIKE '%$buscador%' ORDER BY id ASC")
+    : $conexion->query("SELECT * FROM bandas WHERE genero = 'rock' ORDER BY id ASC");
+if($resultado->num_rows==0){
+    echo '<h2 class="notificacion">No se encontraron resultados</h2>';
+}
 $c = 0;
 // se encarga de verificar si la consulta fue exitosa y devolvio resultados
 if ($resultado) {
     // Recorrer cada fila (banda) del resultado de la consulta
     while ($row = $resultado->fetch_assoc()) {
-        // Extraer los datos de cada banda del array 
+        // Extraer los datos de cada banda del array asociativo
         $nombre = $row['nombre'];
         $descripcion = $row['descripcion'];
-
         // Construir rutas de las imágenes agregando '../' para subir un directorio
         $imgPrincipal = '../' . $row['imagen_principal'];
         $imgFondo = '../' . $row['imagen_fondo'];
-        // sirve para crear el estilo CSS para la imagen de fondo 
-        $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
         
-        // Incrementar contador para alternar diseños
+        // Crear estilo CSS para imagen de fondo (si existe una ruta válida)
+        $bgStyle = $imgFondo !== '../' ? "--item-bg: url('" . $imgFondo . "');" : '';
+        // se utiliza para cambiar los diseños de las secciones (contador par o impar)
         $c++;
         
         // Alternar entre dos diseños diferentes según si el contador es par o impar
