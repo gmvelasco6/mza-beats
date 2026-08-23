@@ -7,6 +7,9 @@ RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN echo "variables_order = \"EGPCS\"" > /usr/local/etc/php/conf.d/custom-env.ini
 RUN echo "PassEnv MYSQLHOST MYSQLUSER MYSQLPASSWORD MYSQLDATABASE MYSQLPORT" >> /etc/apache2/apache2.conf
 
+# Permitir redirecciones por .htaccess
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+
 # Copiar todo el código
 COPY . /var/www/html/
 
