@@ -1,0 +1,20 @@
+FROM php:8.2-apache
+
+# Instalar la extensión mysqli para la base de datos
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+
+# Copiar todo el código del repositorio al contenedor
+COPY . /var/www/html/
+
+# Cambiar el Root Document de Apache hacia la carpeta frontend
+ENV APACHE_DOCUMENT_ROOT /var/www/html/frontend
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+
+# Habilitar mod_rewrite si usas rutas limpias o htaccess
+RUN a2enmod rewrite
+
+# Ajustar permisos de lectura y escritura
+RUN chown -R www-data:www-data /var/www/html
+
+EXPOSE 80
