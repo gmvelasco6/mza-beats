@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +11,6 @@
     <title>MzaBeats</title>
 </head>
 <body>
-    <?php
-        session_start();
-    ?>
     <header>
         <nav>
             <div class="logo-container">
