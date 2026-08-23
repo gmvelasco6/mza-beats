@@ -21,7 +21,7 @@ if (!empty($_POST["btn-registro"])) {
             $error_registro = '<div class="advertencia" align="center">Usuario existente, elige otro</div>';
         } else {
             // Consulta para ingresar datos (3 parámetros = 'sss')
-            $consulta = "INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?, ?, ?)";
+            $consulta = "INSERT INTO usuarios(nombre, usuario, clave, estado, cantidad_creaciones) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($consulta);
 
             if ($stmt) {
