@@ -136,6 +136,10 @@ a:hover, .genero-label:hover {
     align-items: center;
     gap: 10px;
 }
+.user-container .img-usuario{
+    width: 50px;
+    
+}
 
 /* OCULTAR ELEMENTOS MÓVILES EN ESCRITORIO */
 .btn-nav, .btn-genero, .menu-icon {

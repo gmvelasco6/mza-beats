@@ -11,7 +11,6 @@
     <title>Indie</title>
 </head>
 <body>
-
     <header id="inicio">
         <nav>
             <div class="logo-container">
@@ -54,7 +53,7 @@
                     if(!empty($_SESSION["id"])){
                         echo "<a href='../vistas/administrar/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                         echo "<div>";
-                        echo "<li>HOLA ".$_SESSION["user"]."</li>";
+                        echo "<li>Hola! ".$_SESSION["user"]."</li>";
                         echo "<li><a class='salir' href='../logica/login-signin/control_close_sesion.php'>Log out</a></li>";
                         echo "</div>";
                     }else{
@@ -73,12 +72,12 @@
                 if(!empty($_SESSION["id"])){
                     echo "<a href='../vistas/administrar/usuario.php'><img src='../images/inicio/usuario.png' class='img-usuario' alt='img-usuario'></a>";
                     echo "<div>";
-                    echo "<li>HOLA ".$_SESSION["user"]. " |</li>";
-                    echo "<li><a class='salir' href='../logica/login-signin/control_close_sesion.php'>SALIR</a></li>";
+                    echo "<li>Hola! ".$_SESSION["user"]. " |</li>";
+                    echo "<li><a class='salir' href='../logica/login-signin/control_close_sesion.php'>Log out</a></li>";
                     echo "</div>";
                 }else{
-                    echo "<li><a class='ini-sesion' href='../vistas/login-signin/login.php'>LOG IN</a> |</li> ";
-                    echo "<li><a class='registrarse' href='../vistas/login-signin/register.php'> SIGN IN</a></li> ";
+                    echo "<li><a class='ini-sesion' href='../vistas/login-signin/login.php'>Log in</a> |</li> ";
+                    echo "<li><a class='registrarse' href='../vistas/login-signin/register.php'> Sign in</a></li> ";
                 }
                 echo "</ul>";
                 ?>

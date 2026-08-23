@@ -138,7 +138,10 @@ a:hover, .genero-label:hover {
     align-items: center;
     gap: 10px;
 }
-
+.user-container .img-usuario{
+    width: 50px;
+    
+}
 /* OCULTAR ELEMENTOS MÓVILES EN ESCRITORIO */
 .btn-nav, .btn-genero, .menu-icon {
     display: none !important;
@@ -355,7 +358,9 @@ footer p {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #d25525;
 }
-
+.user-container-mobile{
+    display: none;
+}
 /* RESPONSIVE DESIGN (DISPOSITIVOS MÓVILES) */
 @media screen and (max-width: 900px) {
     nav {
