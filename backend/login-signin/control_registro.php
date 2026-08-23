@@ -8,7 +8,8 @@ if (!empty($_POST["btn-registro"])) {
         $name = $_POST["name"];
         $user = $_POST["user"];
         $pass = md5($_POST["password"]);
-
+        $state = 1;
+        $creation_count = 0;
         // Validar que el usuario sea único
         $consulta_check = "SELECT id FROM usuarios WHERE usuario = ?";
         $stmt_check = $conexion->prepare($consulta_check);
@@ -20,11 +21,11 @@ if (!empty($_POST["btn-registro"])) {
             $error_registro = '<div class="advertencia" align="center">Usuario existente, elige otro</div>';
         } else {
             // Consulta para ingresar datos (3 parámetros = 'sss')
-            $consulta = "INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?)";
+            $consulta = "INSERT INTO usuarios(nombre, usuario, clave) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($consulta);
 
             if ($stmt) {
-                $stmt->bind_param('sss', $name, $user, $pass);
+                $stmt->bind_param('sssii', $name, $user, $pass, $state, $creation_count);
                 if ($stmt->execute()) {
                     header("Location: ../../index.php");
                     exit();
