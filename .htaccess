@@ -1,8 +1,0 @@
-DirectoryIndex frontend/index.php index.php
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    
-    # Si la petición es a la raíz principal, cargar frontend/index.php
-    RewriteRule ^$ frontend/index.php [L]
-</IfModule>
