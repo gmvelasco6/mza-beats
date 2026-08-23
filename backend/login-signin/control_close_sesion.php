@@ -4,5 +4,5 @@ session_start();
 // destruye  la sesion actual
 session_destroy();
 // se encarga de redirigir al usuario a la pagina de login
-header("location: ../../vistas/login-signin/login.php");
+header("Location: ../../frontend/vistas/login-signin/login.php");
 ?>
