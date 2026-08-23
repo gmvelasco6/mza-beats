@@ -1,5 +1,4 @@
 <?php
-// logica/conexion.php
 
 $host     = getenv('MYSQLHOST')     ?: 'localhost';
 $user     = getenv('MYSQLUSER')     ?: 'root';
