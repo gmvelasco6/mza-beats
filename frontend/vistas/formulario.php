@@ -16,8 +16,8 @@
 	</nav>
 	
 	<?php
-		include("../bd/conexion_bd.php");
-		include("../logica/control_formulario.php");
+		include("../../backend/bd/conexion_bd.php");
+		include("../../backend/logica/control_formulario.php");
 	?>
 	<div class="formulario-container">	
 		<h1>¡Se parte de MzaBeats!</h1>

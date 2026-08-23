@@ -299,7 +299,9 @@ footer p {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #d25525;
 }
-
+.user-container-mobile{
+    display: none;
+}
 @media screen and (max-width: 900px) {
     nav {
         height: 70px;

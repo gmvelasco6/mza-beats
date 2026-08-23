@@ -31,8 +31,8 @@
 			</ul>
 		</div>
 	<?php
-		include("../../bd/conexion_bd.php");
-	include("../../logica/administrar/control_administrar.php")
+		include("../../../backend/bd/conexion_bd.php");
+	include("../../../backend/logica/administrar/control_administrar.php")
 ?>
 	<main class="table-container">
 		<h1 id="tabla-usuarios" align="center">Usuarios</h1>

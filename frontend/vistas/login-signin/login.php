@@ -16,8 +16,8 @@
 	</nav>
 	<div class="formulario-container">
 		<?php
-			include("../../bd/conexion_bd.php");
-			include("../../logica/login-signin/control_sesion.php");
+			include("../../../backend/bd/conexion_bd.php");
+			include("../../../backend/logica/login-signin/control_sesion.php");
 		?>
 		<form class="formulario" align="center" method="post" action="">
 			<h1 align="center">Iniciar Sesion</h1>
