@@ -60,9 +60,9 @@
                         echo "<li><a class='salir' href='sesion_control/control_close_sesion.php'>Log out</a></li>";
                         echo "</div>";
                     }else{
-                        echo "<li><a class='ini-sesion' href='vistas/login-signin/login.php'>Log in</a></li>";
+                        echo "<li><a class='ini-sesion' href='vistas/login.php'>Log in</a></li>";
                         echo '<li class="linea"> | </li>';
-                        echo "<li><a class='registrarse' href='vistas/login-signin/register.php'>Sign in</a></li>";
+                        echo "<li><a class='registrarse' href='vistas/register.php'>Sign in</a></li>";
                     }
                     echo "</ul>";
                     ?>
