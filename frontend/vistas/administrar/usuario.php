@@ -22,7 +22,7 @@
 		</ul>
 	</nav>
 	<?php
-		include("../../bd/conexion_bd.php");
+		include("../../../backend/bd/conexion_bd.php");
 		$id=$_SESSION['id'];
 		//ACTUALIZAR USUARIO
 		if (isset($_POST['actualizar'])) {

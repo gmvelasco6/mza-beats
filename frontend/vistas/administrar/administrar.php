@@ -32,7 +32,7 @@
 		</div>
 	<?php
 		include("../../../backend/bd/conexion_bd.php");
-	include("../../../backend/logica/administrar/control_administrar.php")
+	include("../../../backend/administrar/control_administrar.php")
 ?>
 	<main class="table-container">
 		<h1 id="tabla-usuarios" align="center">Usuarios</h1>
