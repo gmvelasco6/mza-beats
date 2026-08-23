@@ -1,3 +1,10 @@
+<?php
+	session_start();
+	if(empty($_SESSION["id"]) || $_SESSION["state"] != "67"){
+	header("Location: ../../index.php");
+		exit;
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +15,6 @@
 	<title>Administrar Bandas</title>
 </head>
 <body>
-<?php
-	session_start();
-	if(empty($_SESSION["id"]) || $_SESSION["state"] != "67"){
-	header("Location: ../../index.php");
-		exit;
-	}
-?>
 	<nav class="nav-admin">
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">

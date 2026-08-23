@@ -1,3 +1,11 @@
+<?php
+    session_start();
+    // verificar si alguno de los dos se cumple osea que si no tenes secion te manda al index o si tu estado es menor a 1 tambien te manda al index
+    if(empty($_SESSION["id"]) || $_SESSION["state"] < "1"){
+        header("Location: ../index.php");
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,14 +16,6 @@
 	<link rel="shortcut icon" href="../images/logo/page-icon.png" type="image/x-icon">
 </head>
 <body>
-<?php
-    session_start();
-    // verificar si alguno de los dos se cumple osea que si no tenes secion te manda al index o si tu estado es menor a 1 tambien te manda al index
-    if(empty($_SESSION["id"]) || $_SESSION["state"] < "1"){
-        header("Location: ../index.php");
-        exit;
-    }
-?>
     <nav>
         <img class="logo" src="../images/logo/logoMzaBeats.png" alt="">
         <ul class="nav-list">

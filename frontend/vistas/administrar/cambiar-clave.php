@@ -1,3 +1,10 @@
+<?php
+		session_start();
+		if(empty($_SESSION["id"])){
+			header("Location: ../../index.php");
+			exit;
+		}
+	?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +15,6 @@
 	<title>Inicio de Sesion</title>
 </head>
 <body>
-	<?php
-		session_start();
-		if(empty($_SESSION["id"])){
-			header("Location: ../../index.php");
-			exit;
-		}
-	?>
 	<nav>
 		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
 		<ul class="nav-list">

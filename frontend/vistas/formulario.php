@@ -1,3 +1,7 @@
+<?php
+		include("../../backend/bd/conexion_bd.php");
+		include("../../backend/logica/control_formulario.php");
+	?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,11 +18,6 @@
 			<li class="nav-list-item"><a class="link" href="../index.php">Ir a Inicio</a></li>
 		</ul>
 	</nav>
-	
-	<?php
-		include("../../backend/bd/conexion_bd.php");
-		include("../../backend/logica/control_formulario.php");
-	?>
 	<div class="formulario-container">	
 		<h1>¡Se parte de MzaBeats!</h1>
 		<p>Completá este formulario <br> para poder ser parte de la página web.</p>	
