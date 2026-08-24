@@ -27,7 +27,7 @@
                     <li class="linea">|</li>
                     <li class="nav-list-item-genero">
                         <input type="checkbox" id="btn-genero" class="btn-genero">
-                        <label for="btn-genero" class="genero-label">Genero</label>
+                        <label for="btn-genero" class="genero-label">Género</label>
                         <ul class="genero-list">
                             <li class="genero-list-item"><a href="generos/indie.php">Indie</a></li>
                             <li class="genero-list-item"><a href="generos/pop.php">Pop</a></li>
@@ -60,9 +60,9 @@
                         echo "<li><a class='salir' href='sesion_control/control_close_sesion.php'>Log out</a></li>";
                         echo "</div>";
                     }else{
-                        echo "<li><a class='ini-sesion' href='vistas/login.php'>Log in</a></li>";
+                        echo "<li><a class='ini-sesion' href='vistas/login-signin/login.php'>Log in</a></li>";
                         echo '<li class="linea"> | </li>';
-                        echo "<li><a class='registrarse' href='vistas/register.php'>Sign in</a></li>";
+                        echo "<li><a class='registrarse' href='vistas/login-signin/register.php'>Sign in</a></li>";
                     }
                     echo "</ul>";
                     ?>
@@ -93,13 +93,13 @@
     <main>
         <div class="intro">
             <h1>Bienvenido a MzaBeats</h1>
-            <h3>Mendoza no solo es la tierra del buen vino, sino tambien, de la buena musica. 
-                <br>En MzaBeats encontraras tu proxima banda favortia.</h3>
+            <h3>Mendoza no solo es la tierra del buen vino, sino también, de la buena música. 
+                <br>En MzaBeats encontrarás tu próxima banda favorita.</h3>
             </div>
         <section class="indie-container">
                 <img src="images/inicio/indie.png" alt="imagen_Indie" class="indie-img">
                 <div class="indie-description">
-                    <h2>Seccion Indie</h2>
+                    <h2>Sección Indie</h2>
                     <p>
                         Mendoza ha sido un semillero de música alternativa y emergente, 
                         con una rica escena indie que ha crecido a lo largo de los años. 
@@ -123,7 +123,7 @@
         <section class="pop-container"> 
             <img src="images/inicio/pop.png" alt="imagen_Pop" class="pop-img">
             <div class="pop-description">
-                <h2>Seccion Pop</h2>
+                <h2>Sección Pop</h2>
                 <p>
                     La escena pop de Mendoza ha crecido con fuerza en los últimos años, 
                     dando lugar a propuestas frescas y originales que combinan 
@@ -146,7 +146,7 @@
         <section class="rock-container">
             <img src="images/inicio/rock.png" alt="imagen_Rock" class="rock-img">
             <div class="rock-description">
-                <h2>Seccion Rock</h2>
+                <h2>Sección Rock</h2>
                 <p>
                     El rock mendocino tiene una historia sólida y vibrante, 
                     con bandas que han sabido combinar la potencia del género con un 
@@ -166,14 +166,14 @@
             </div>
         </section>
         <section id="about-us" class="about-us">
-            <h2>¿Que es MzaBeats?</h2>
-            <p>MzaBeats es una página web que almacena todas las bandas originas de la provincia de Mendoza, Argentina.
-                Nuestra idea es que la cultura musical Mendocina sea más reconocida, por todo el mundo.
+            <h2>¿Qué es MzaBeats?</h2>
+            <p>MzaBeats es una página web que almacena todas las bandas de la provincia de Mendoza, Argentina.
+                Nuestra idea es que la cultura musical mendocina sea más reconocida en todo el mundo.
             </p>
-            <h2>¿Como aparezco en la pagina?</h2>
-            <p>Si sos una banda o un artista mendocino solo tenes que llenar el 
-                formulario de consulta con tu nombre, mail y razon de participar
-                y nos pondremos en contacto lo más rapido posible</p>
+            <h2>¿Cómo aparezco en la página?</h2>
+            <p>Si sos una banda o un artista mendocino, solo tenés que completar el 
+                formulario de consulta con tu nombre, mail y razón de participar,
+                y nos pondremos en contacto lo más rápido posible.</p>
         </section>
     </main>
     <footer>
@@ -185,7 +185,7 @@
         <?php if(!empty($_SESSION["id"]) && $_SESSION["creation_count"]>="1"){ ?>
             <input class="btn-agregar" type="button" onclick="window.location.href='vistas/agregar_banda.php';" value="Agregar banda">
         <?php } ?>
-        <p>&copy;Derechos de autor Reservados</p>
+        <p>&copy;Todos los derechos reservados</p>
     </footer>
 
 </body>
