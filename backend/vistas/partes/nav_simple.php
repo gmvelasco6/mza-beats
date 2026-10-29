@@ -11,6 +11,6 @@ $claseNav = $claseNav ?? '';
 <nav<?= $claseNav !== '' ? ' class="' . e($claseNav) . '"' : '' ?>>
     <img class="logo" src="<?= e(url('images/logo/logoMzaBeats.png')) ?>" alt="MzaBeats">
     <ul class="nav-list">
-        <li class="nav-list-item"><a class="link" href="<?= e(url('index.php')) ?>"><?= e($textoVolver) ?></a></li>
+        <li class="nav-list-item"><a class="link" href="<?= e(url('')) ?>"><?= e($textoVolver) ?></a></li>
     </ul>
 </nav>

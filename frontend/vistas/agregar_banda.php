@@ -7,7 +7,7 @@
 require __DIR__ . '/../../backend/bootstrap.php';
 
 if (!puede_agregar_bandas()) {
-    redirigir('index.php');
+    redirigir('');
 }
 
 $error = null;
@@ -67,7 +67,7 @@ vista('partes/head', ['titulo' => 'Agregar Banda', 'hojaDeEstilo' => 'css/php-st
                 </select>
 
                 <button type="submit" class="btn-submit">Guardar Banda</button>
-                <button type="button" class="btn-cancel" onclick="window.location.href='<?= e(url('index.php')) ?>'">Cancelar</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='<?= e(url('')) ?>'">Cancelar</button>
             </form>
         </div>
     </main>

@@ -5,7 +5,7 @@
 require __DIR__ . '/../../../backend/bootstrap.php';
 
 if (esta_logueado()) {
-    redirigir('index.php');
+    redirigir('');
 }
 
 $error = null;

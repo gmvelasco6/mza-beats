@@ -72,14 +72,14 @@ function mostrar_boton_participar(): bool
 function requerir_login(): void
 {
     if (!esta_logueado()) {
-        redirigir('index.php');
+        redirigir('');
     }
 }
 
 function requerir_admin(): void
 {
     if (!es_admin()) {
-        redirigir('index.php');
+        redirigir('');
     }
 }
 

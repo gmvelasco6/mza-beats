@@ -27,6 +27,8 @@ function js(string $texto): string
  * Ejemplo: url('generos/rock.php') devuelve "generos/rock.php" desde index.php
  * y "../../generos/rock.php" desde vistas/administrar/usuario.php.
  * Así los enlaces funcionan igual en Docker y en una subcarpeta de XAMPP.
+ *
+ * url('') es la página de inicio, sin "index.php" en la dirección.
  */
 function url(string $ruta = ''): string
 {
@@ -39,7 +41,8 @@ function url(string $ruta = ''): string
         $prefijo = $subcarpeta === '' ? '' : str_repeat('../', substr_count($subcarpeta, '/') + 1);
     }
 
-    return $prefijo . ltrim($ruta, '/');
+    $destino = $prefijo . ltrim($ruta, '/');
+    return $destino === '' ? './' : $destino;
 }
 
 /** Redirige a otra página del sitio y corta la ejecución. */

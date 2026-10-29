@@ -17,7 +17,7 @@ $conSobreNosotros = $conSobreNosotros ?? false;
 
     <div class="nav-container">
         <ul class="nav-list">
-            <li class="nav-list-item"><a href="<?= e(url('index.php')) ?>">Inicio</a></li>
+            <li class="nav-list-item"><a href="<?= e(url('')) ?>">Inicio</a></li>
             <li class="linea">|</li>
             <li class="nav-list-item-genero">
                 <input type="checkbox" id="btn-genero" class="btn-genero">

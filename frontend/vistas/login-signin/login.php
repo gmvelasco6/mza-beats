@@ -5,7 +5,7 @@
 require __DIR__ . '/../../../backend/bootstrap.php';
 
 if (esta_logueado()) {
-    redirigir('index.php');
+    redirigir('');
 }
 
 $error = null;
@@ -20,7 +20,7 @@ if (es_post()) {
         $error = 'Demasiados intentos fallidos. Probá de nuevo en ' . LOGIN_BLOQUEO_MINUTOS . ' minutos.';
     } elseif (intentar_login($usuario, $clave)) {
         login_limpiar_fallos($usuario);
-        redirigir('index.php');
+        redirigir('');
     } else {
         login_registrar_fallo($usuario, ip_cliente());
         $error = 'Acceso denegado';
