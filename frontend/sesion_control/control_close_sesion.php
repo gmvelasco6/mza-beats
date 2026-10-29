@@ -1,8 +1,8 @@
 <?php
-// inicia la sesion del usuario
-session_start();
-// destruye  la sesion actual
-session_destroy();
-// se encarga de redirigir al usuario a la pagina de login
-header("Location: ../vistas/login-signin/login.php");
-?>
+/**
+ * Cierra la sesión y vuelve al login.
+ */
+require __DIR__ . '/../../backend/bootstrap.php';
+
+cerrar_sesion();
+redirigir('vistas/login-signin/login.php');

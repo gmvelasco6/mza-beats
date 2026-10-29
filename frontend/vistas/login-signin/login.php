@@ -1,42 +1,48 @@
 <?php
-session_start();
+/**
+ * Inicio de sesión.
+ */
+require __DIR__ . '/../../../backend/bootstrap.php';
 
-// 1. Incluir la base de datos y procesar la lógica de sesión ANTES del HTML
-include("../../../backend/bd/conexion_bd.php");
-include("../../../backend/login-signin/control_sesion.php");
+if (esta_logueado()) {
+    redirigir('');
+}
+
+$error = null;
+
+if (es_post()) {
+    $usuario = texto_post('user');
+    $clave = $_POST['password'] ?? '';
+
+    if ($usuario === '' || !is_string($clave) || $clave === '') {
+        $error = 'Hay campos vacíos';
+    } elseif (login_bloqueado($usuario, ip_cliente())) {
+        $error = 'Demasiados intentos fallidos. Probá de nuevo en ' . LOGIN_BLOQUEO_MINUTOS . ' minutos.';
+    } elseif (intentar_login($usuario, $clave)) {
+        login_limpiar_fallos($usuario);
+        redirigir('');
+    } else {
+        login_registrar_fallo($usuario, ip_cliente());
+        $error = 'Acceso denegado';
+    }
+}
+
+vista('partes/head', ['titulo' => 'Inicio de Sesión', 'hojaDeEstilo' => 'css/php-style.css']);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/php-style.css">
-    <link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
-    <title>Inicio de Sesión</title>
-</head>
 <body>
-    <nav>
-        <img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
-        <ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
-        </ul>
-    </nav>
+    <?php vista('partes/nav_simple'); ?>
     <div class="formulario-container">
-        <form class="formulario" align="center" method="post" action="">
+        <form class="formulario" align="center" method="post">
+            <?= csrf_campo() ?>
             <h1 align="center">Iniciar Sesión</h1>
-            
-            <?php 
-            // Mostrar los mensajes de error/advertencia que genere control_sesion.php
-            if (isset($error_login)) {
-                echo $error_login;
-            }
-            ?>
+
+            <?php vista('partes/mensajes', ['error' => $error]); ?>
 
             <h2>Usuario</h2>
-            <input type="text" id="user" class="input" name="user">
+            <input type="text" id="user" class="input" name="user" value="<?= e(texto_post('user')) ?>" autocomplete="username">
             <h2>Contraseña</h2>
-            <input type="password" id="password" class="input" name="password">
-            <p>¿No has creado un usuario? <a href="register.php">Regístrate</a></p>
+            <input type="password" id="password" class="input" name="password" autocomplete="current-password">
+            <p>¿No has creado un usuario? <a href="<?= e(url('vistas/login-signin/register.php')) ?>">Regístrate</a></p>
             <input type="submit" name="btn-iniciar" class="btn" value="Iniciar Sesion">
         </form>
     </div>

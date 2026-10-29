@@ -1,0 +1,5 @@
+.git
+.env
+compose.yaml
+database
+README.md

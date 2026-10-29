@@ -5,52 +5,110 @@ MzaBeats es una aplicacion web dedicada a difundir bandas y artistas musicales d
 ## Funcionalidades
 
 - Navegacion por los generos Indie, Pop y Rock.
+- Busqueda de bandas por nombre dentro de cada genero.
 - Registro e inicio de sesion de usuarios.
-- Visualizacion y administracion de la cuenta.
-- Carga de bandas para usuarios autorizados.
-- Panel de administracion para usuarios con permisos.
-- Busqueda de bandas por genero.
-- Cierre de sesion.
+- "Mi cuenta": cambiar nombre, usuario y contraseña.
+- Carga de bandas para usuarios con creaciones disponibles.
+- Formulario "¡Quiero aparecer!" para que las bandas pidan sumarse.
+- Panel de administracion: usuarios, bandas y consultas.
 
 ## Tecnologias
 
-- PHP 8.2
+- PHP 8 (sin frameworks)
 - Apache
-- MySQL/MariaDB
+- MariaDB / MySQL
 - HTML y CSS
 - Docker
 
 ## Estructura del proyecto
 
 ```text
-backend/
-  bd/                  Conexion a la base de datos
-  generos/             Controladores de los generos
-  login-signin/        Registro e inicio de sesion
-  administrar/         Funciones de administracion
-frontend/
-  index.php            Pagina principal
-  generos/             Paginas de cada genero
-  vistas/              Formularios y vistas de usuario
-  css/                 Hojas de estilos
-  images/              Imagenes del sitio
-Dockerfile             Configuracion para ejecutar con Docker
+frontend/                  Carpeta publica (lo unico que ve el navegador)
+  index.php                Pagina principal
+  generos/                 Una pagina por genero (todas usan la misma vista)
+  vistas/                  Formularios, login, registro y administracion
+  sesion_control/          Cierre de sesion
+  css/ images/ fonts/      Estilos, imagenes y tipografias
+
+backend/                   Codigo privado (no se puede abrir desde el navegador)
+  bootstrap.php            Se incluye al principio de cada pagina: carga todo,
+                           inicia la sesion y verifica el token CSRF
+  config/app.php           Configuracion: roles, generos, limites de los campos
+  lib/
+    db.php                 Conexion y funciones para consultar la base
+    auth.php               Login, sesion y permisos
+    csrf.php               Proteccion de formularios
+    helpers.php            Funciones generales: e(), url(), redirigir(), vista()...
+  modelos/                 Una funcion por cada consulta a la base
+    bandas.php
+    usuarios.php
+    consultas.php
+  vistas/                  HTML reutilizable
+    partes/                Head, menus, mensajes
+    genero.php             Pagina de un genero
+
+database/                  Estructura de la base y bandas de ejemplo
+Dockerfile                 Imagen de la web (Apache + PHP)
+compose.yaml               Web + base de datos para desarrollo
 ```
+
+### Como esta organizada una pagina
+
+Cada archivo de `frontend/` sigue el mismo orden:
+
+1. `require` de `backend/bootstrap.php`.
+2. Chequeo de permisos (`requerir_login()`, `requerir_admin()`...).
+3. Si llego un formulario (`es_post()`): validar, guardar con una funcion de `modelos/` y redirigir.
+4. Mostrar el HTML.
+
+Las consultas SQL estan sólo en `backend/modelos/`. Las paginas nunca escriben SQL.
+
+### Roles (columna `usuarios.estado`)
+
+| Valor | Rol | Puede |
+|---|---|---|
+| 0 | Sin permisos | Iniciar sesion |
+| 1 | Usuario | Cargar bandas si tiene creaciones disponibles |
+| 67 | Administrador | Todo, incluido el panel de administracion |
+
+Las constantes estan en `backend/config/app.php` (`ESTADO_ADMIN`, etc.).
+
+### Agregar un genero nuevo
+
+1. Agregalo en `GENEROS` en `backend/config/app.php`.
+2. Copia `frontend/generos/rock.php` con el nombre del genero y cambia `$genero`.
+3. Subi las imagenes a `frontend/images/<genero>/`.
+
+El menu, el panel de administracion y el formulario de bandas lo toman solos.
+
+## Seguridad
+
+- Todas las consultas usan sentencias preparadas (sin inyeccion SQL).
+- Todo lo que se muestra pasa por `e()` (sin XSS).
+- Contraseñas con `password_hash()`. Las cuentas viejas en MD5 se actualizan solas la proxima vez que inician sesion.
+- Token CSRF en todos los formularios POST.
+- Bloqueo de 15 minutos después de 5 logins fallidos para un mismo usuario (o 20 desde una misma IP). En una base existente, importá `database/03_intentos_login.sql`.
+- Cookies de sesion `HttpOnly` y `SameSite=Lax`; el id de sesion se renueva al iniciar sesion.
+- Los permisos se verifican en el servidor, no solo escondiendo botones.
+- Los errores internos van al log del servidor; el visitante ve un aviso generico. Para verlos en pantalla mientras programas, usa `APP_DEBUG=1`.
+
+## Ejecucion con Docker Compose (recomendado)
+
+```bash
+cp .env.example .env      # y cambia las contraseñas
+docker compose up --build
+```
+
+Abri `http://localhost:8080/`. La primera vez se crean las tablas y se cargan las bandas de ejemplo desde `database/`.
 
 ## Ejecucion local con XAMPP
 
-1. Instala XAMPP con Apache, PHP y MySQL.
-2. Clona o copia el proyecto dentro de `htdocs`.
-3. Inicia Apache y MySQL desde el panel de XAMPP.
-4. Crea una base de datos llamada `mzabeats`.
-5. Revisa las tablas necesarias para usuarios, bandas y generos.
-6. Abre la aplicacion en:
+1. Clona el proyecto dentro de `htdocs`.
+2. Inicia Apache y MySQL desde el panel de XAMPP.
+3. En phpMyAdmin crea la base `mzabeats` e importa `database/01_esquema.sql` y `database/02_bandas.sql`.
+4. Abri la carpeta `frontend/` del proyecto, por ejemplo `http://localhost/Mzbeats/ProyectoMza/frontend/`.
 
-```text
-http://localhost/Mzbeats/ProyectoMza/frontend/
-```
-
-La conexion local usa estos valores por defecto:
+Sin variables de entorno, la conexion usa:
 
 ```text
 MYSQLHOST=localhost
@@ -60,39 +118,11 @@ MYSQLDATABASE=mzabeats
 MYSQLPORT=3306
 ```
 
-## Ejecucion con Docker
+## Despliegue en Render u otro servidor con Docker
 
-Construye la imagen desde la raiz del proyecto:
+Construi la imagen con el `Dockerfile` y configura las variables `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE` y `MYSQLPORT`.
 
-```bash
-docker build -t mzabeats .
-```
-
-Ejecuta el contenedor configurando las variables de conexion:
-
-```bash
-docker run --name mzabeats -p 8080:80 \
-  -e MYSQLHOST=tu-host \
-  -e MYSQLUSER=tu-usuario \
-  -e MYSQLPASSWORD=tu-contrasena \
-  -e MYSQLDATABASE=mzabeats \
-  -e MYSQLPORT=3306 \
-  mzabeats
-```
-
-Luego visita `http://localhost:8080/`.
-
-## Despliegue en Render
-
-El proyecto incluye un `Dockerfile` que configura Apache con `frontend/` como raiz publica. Para desplegarlo en Render:
-
-1. Conecta el repositorio de GitHub.
-2. Selecciona el entorno Docker.
-3. Configura las variables de entorno de MySQL:
-   `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE` y `MYSQLPORT`.
-4. Inicia el despliegue.
-
-No subas contrasenas ni otros datos sensibles al repositorio. Configuralos como variables de entorno en Render.
+No subas contraseñas ni otros datos sensibles al repositorio.
 
 ## Licencia
 

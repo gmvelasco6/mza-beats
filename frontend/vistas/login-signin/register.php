@@ -1,43 +1,53 @@
 <?php
-session_start();
+/**
+ * Registro de usuarios nuevos.
+ */
+require __DIR__ . '/../../../backend/bootstrap.php';
 
-// Cargar la lógica ANTES de renderizar cualquier salida HTML
-include("../../../backend/bd/conexion_bd.php");
-include("../../../backend/login-signin/control_registro.php");
+if (esta_logueado()) {
+    redirigir('');
+}
+
+$error = null;
+
+if (es_post()) {
+    $nombre = texto_post('name');
+    $usuario = texto_post('user');
+    $clave = $_POST['password'] ?? '';
+    $confirmacion = $_POST['password-confirm'] ?? '';
+    $clave = is_string($clave) ? $clave : '';
+    $confirmacion = is_string($confirmacion) ? $confirmacion : '';
+
+    $error = validar_datos_de_cuenta($nombre, $usuario)
+        ?? validar_clave_nueva($clave, $confirmacion);
+
+    if ($error === null) {
+        usuario_crear($nombre, $usuario, clave_hash($clave));
+        mensaje_guardar('ok', 'Cuenta creada. Ya podés iniciar sesión.');
+        redirigir('vistas/login-signin/login.php');
+    }
+}
+
+vista('partes/head', ['titulo' => 'Registro', 'hojaDeEstilo' => 'css/php-style.css']);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/php-style.css">
-    <link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
-    <title>Registro</title>
-</head>
 <body>
-    <nav>
-        <img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
-        <ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
-        </ul>
-    </nav>
+    <?php vista('partes/nav_simple'); ?>
     <div class="formulario-container">
-        <form class="formulario" method="post" action="">
+        <form class="formulario" method="post">
+            <?= csrf_campo() ?>
             <h1>Registrarse</h1>
 
-            <?php 
-            if (!empty($error_registro)) {
-                echo $error_registro;
-            }
-            ?>
+            <?php vista('partes/mensajes', ['error' => $error]); ?>
 
             <h2>Nombre</h2>
-            <input type="text" id="name" class="input" name="name">
+            <input type="text" id="name" class="input" name="name" value="<?= e(texto_post('name')) ?>" maxlength="<?= NOMBRE_LARGO_MAXIMO ?>">
             <h2>Usuario</h2>
-            <input type="text" id="user" class="input" name="user">
+            <input type="text" id="user" class="input" name="user" value="<?= e(texto_post('user')) ?>" maxlength="<?= USUARIO_LARGO_MAXIMO ?>" autocomplete="username">
             <h2>Contraseña</h2>
-            <input type="password" id="password" class="input" name="password">
-            <p>¿Ya tienes un usuario? <a href="login.php">Inicia Sesión</a></p>
+            <input type="password" id="password" class="input" name="password" minlength="<?= CLAVE_LARGO_MINIMO ?>" autocomplete="new-password">
+            <h2>Repetir contraseña</h2>
+            <input type="password" id="password-confirm" class="input" name="password-confirm" minlength="<?= CLAVE_LARGO_MINIMO ?>" autocomplete="new-password">
+            <p>¿Ya tienes un usuario? <a href="<?= e(url('vistas/login-signin/login.php')) ?>">Inicia Sesión</a></p>
             <input type="submit" name="btn-registro" class="btn" value="Registrarme">
         </form>
     </div>

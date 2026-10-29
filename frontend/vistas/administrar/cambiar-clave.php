@@ -1,42 +1,57 @@
 <?php
-		session_start();
-		if(empty($_SESSION["id"])){
-			header("Location: ../../index.php");
-			exit;
-		}
-	?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../css/php-style.css">
-	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
-	<title>Inicio de Sesion</title>
-</head>
-<body>
-	<nav>
-		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
-		<ul class="nav-list">
-			<li class="nav-list-item"><a class="link" href="../../index.php">Ir a Inicio</a></li>
-		</ul>
-	</nav>
-	<div class="formulario-container">
-		<?php
-			include("../../../backend/bd/conexion_bd.php");
-			include("../../../backend/administrar/control_cambiar_clave.php");
-		?>
-		<form class="formulario" align="center" method="post" action="">
-			<h1 align="center">Cambiar Clave</h1>
-			<h2>Nueva Clave</h2>
-			<input type="password" id="password" class="input" name="password">
-			<h2>Confirmar Clave</h2>
-			<input type="password" id="new-password" class="input" name="new-password">
+/**
+ * Cambio de contraseña del usuario logueado.
+ * Pide la contraseña actual para que nadie pueda cambiarla desde una sesión abierta ajena.
+ */
+require __DIR__ . '/../../../backend/bootstrap.php';
 
-			<input type="submit" name="btn-cambiar" class="btn" value="Cambiar">
-		</form>
-	</div>
-	<footer>
+requerir_login();
+
+$error = null;
+
+if (es_post()) {
+    $usuario = usuario_actual();
+    $actual = $_POST['clave-actual'] ?? '';
+    $nueva = $_POST['password'] ?? '';
+    $confirmacion = $_POST['new-password'] ?? '';
+
+    if (!is_string($actual) || !is_string($nueva) || !is_string($confirmacion)
+        || $actual === '' || $nueva === '' || $confirmacion === '') {
+        $error = 'Hay campos vacios';
+    } elseif (!clave_es_correcta($actual, $usuario['clave'])) {
+        $error = 'La contraseña actual no es correcta';
+    } else {
+        $error = validar_clave_nueva($nueva, $confirmacion);
+    }
+
+    if ($error === null) {
+        usuario_actualizar_clave((int) $usuario['id'], clave_hash($nueva));
+        session_regenerate_id(true);
+        mensaje_guardar('ok', 'Contraseña actualizada');
+        redirigir('vistas/administrar/usuario.php');
+    }
+}
+
+vista('partes/head', ['titulo' => 'Cambiar Clave', 'hojaDeEstilo' => 'css/php-style.css']);
+?>
+<body>
+    <?php vista('partes/nav_simple'); ?>
+    <div class="formulario-container">
+        <?php vista('partes/mensajes', ['error' => $error]); ?>
+        <form class="formulario" align="center" method="post">
+            <?= csrf_campo() ?>
+            <h1 align="center">Cambiar Clave</h1>
+            <h2>Clave Actual</h2>
+            <input type="password" id="clave-actual" class="input" name="clave-actual" autocomplete="current-password">
+            <h2>Nueva Clave</h2>
+            <input type="password" id="password" class="input" name="password" minlength="<?= CLAVE_LARGO_MINIMO ?>" autocomplete="new-password">
+            <h2>Confirmar Clave</h2>
+            <input type="password" id="new-password" class="input" name="new-password" minlength="<?= CLAVE_LARGO_MINIMO ?>" autocomplete="new-password">
+
+            <input type="submit" name="btn-cambiar" class="btn" value="Cambiar">
+        </form>
+    </div>
+    <footer>
         <p>&copy;Derechos de autor Reservados</p>
     </footer>
 </body>
