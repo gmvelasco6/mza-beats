@@ -118,6 +118,10 @@ MYSQLDATABASE=mzabeats
 MYSQLPORT=3306
 ```
 
+## Estadísticas de visitas (opcional)
+
+Si definís la variable `UMAMI_WEBSITE_ID` (el id del sitio en [Umami](https://umami.is)), cada página incluye el script de estadísticas. Por defecto se carga desde `/u/script.js`; se puede cambiar con `UMAMI_SCRIPT_URL`. Sin esas variables no se agrega nada.
+
 ## Despliegue en Render u otro servidor con Docker
 
 Construi la imagen con el `Dockerfile` y configura las variables `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE` y `MYSQLPORT`.
