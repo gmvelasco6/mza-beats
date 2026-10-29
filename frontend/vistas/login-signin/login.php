@@ -16,9 +16,13 @@ if (es_post()) {
 
     if ($usuario === '' || !is_string($clave) || $clave === '') {
         $error = 'Hay campos vacíos';
+    } elseif (login_bloqueado($usuario, ip_cliente())) {
+        $error = 'Demasiados intentos fallidos. Probá de nuevo en ' . LOGIN_BLOQUEO_MINUTOS . ' minutos.';
     } elseif (intentar_login($usuario, $clave)) {
+        login_limpiar_fallos($usuario);
         redirigir('index.php');
     } else {
+        login_registrar_fallo($usuario, ip_cliente());
         $error = 'Acceso denegado';
     }
 }

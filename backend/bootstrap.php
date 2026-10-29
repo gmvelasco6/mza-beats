@@ -22,6 +22,7 @@ require RAIZ_BACKEND . '/lib/auth.php';
 require RAIZ_BACKEND . '/modelos/bandas.php';
 require RAIZ_BACKEND . '/modelos/usuarios.php';
 require RAIZ_BACKEND . '/modelos/consultas.php';
+require RAIZ_BACKEND . '/modelos/intentos_login.php';
 
 configurar_errores();
 enviar_cabeceras_de_seguridad();

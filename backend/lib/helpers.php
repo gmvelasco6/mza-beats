@@ -82,6 +82,22 @@ function entero_post(string $campo): ?int
     return $valor === false ? null : $valor;
 }
 
+/**
+ * IP del visitante. Si el pedido llega a través de un proxy de la red interna
+ * (Docker, Tailscale Funnel, Cloudflare Tunnel), se usa la IP que informa el proxy.
+ */
+function ip_cliente(): string
+{
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+    $esProxyInterno = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
+    $reenviada = trim(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '')[0]);
+
+    if ($esProxyInterno && filter_var($reenviada, FILTER_VALIDATE_IP) !== false) {
+        return $reenviada;
+    }
+    return $ip;
+}
+
 function largo(string $texto): int
 {
     return mb_strlen($texto, 'UTF-8');

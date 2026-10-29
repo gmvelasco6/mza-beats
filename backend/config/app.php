@@ -26,6 +26,12 @@ const BANDA_NOMBRE_MAXIMO  = 255;
 const TEXTO_LARGO_MAXIMO   = 10000;
 const CONSULTA_RAZON_MAXIMO = 2000;
 
+// Bloqueo de login: después de tantos intentos fallidos en LOGIN_BLOQUEO_MINUTOS,
+// hay que esperar. Se cuenta por usuario y por IP.
+const LOGIN_MAX_INTENTOS_USUARIO = 5;
+const LOGIN_MAX_INTENTOS_IP      = 20;
+const LOGIN_BLOQUEO_MINUTOS      = 15;
+
 // Imagen que se muestra cuando una banda todavía no tiene foto cargada
 const IMAGEN_BANDA_POR_DEFECTO = 'images/logo/logoMzaBeats.png';
 

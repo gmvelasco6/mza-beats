@@ -87,6 +87,7 @@ El menu, el panel de administracion y el formulario de bandas lo toman solos.
 - Todo lo que se muestra pasa por `e()` (sin XSS).
 - Contraseñas con `password_hash()`. Las cuentas viejas en MD5 se actualizan solas la proxima vez que inician sesion.
 - Token CSRF en todos los formularios POST.
+- Bloqueo de 15 minutos después de 5 logins fallidos para un mismo usuario (o 20 desde una misma IP). En una base existente, importá `database/03_intentos_login.sql`.
 - Cookies de sesion `HttpOnly` y `SameSite=Lax`; el id de sesion se renueva al iniciar sesion.
 - Los permisos se verifican en el servidor, no solo escondiendo botones.
 - Los errores internos van al log del servidor; el visitante ve un aviso generico. Para verlos en pantalla mientras programas, usa `APP_DEBUG=1`.
