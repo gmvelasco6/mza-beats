@@ -1,0 +1,38 @@
+# Entorno completo para desarrollo: la web + MariaDB.
+#   1. cp .env.example .env   (y cambiá las contraseñas)
+#   2. docker compose up --build
+#   3. Abrí http://localhost:8080
+# La primera vez se crean las tablas con database/esquema.sql.
+services:
+  web:
+    build: .
+    ports:
+      - '8080:80'
+    environment:
+      MYSQLHOST: db
+      MYSQLPORT: '3306'
+      MYSQLDATABASE: ${DB_NAME}
+      MYSQLUSER: ${DB_USER}
+      MYSQLPASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - datos-db:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  datos-db:

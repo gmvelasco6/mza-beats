@@ -1,56 +1,78 @@
 <?php
-    session_start();
-    // verificar si alguno de los dos se cumple osea que si no tenes secion te manda al index o si tu estado es menor a 1 tambien te manda al index
-    if(empty($_SESSION["id"]) || $_SESSION["state"] < "1"){
-        header("Location: ../index.php");
-        exit;
+/**
+ * Carga de una banda nueva.
+ * Sólo para usuarios con permisos y creaciones disponibles; cada banda
+ * cargada descuenta una creación.
+ */
+require __DIR__ . '/../../backend/bootstrap.php';
+
+if (!puede_agregar_bandas()) {
+    redirigir('index.php');
+}
+
+$error = null;
+
+if (es_post()) {
+    $nombre = texto_post('nombre');
+    $descripcion = texto_post('descripcion');
+    $genero = texto_post('genero');
+
+    $error = validar_banda($nombre, $descripcion, $genero);
+
+    if ($error === null) {
+        $usuarioId = (int) usuario_actual()['id'];
+
+        // La banda se guarda sólo si se pudo descontar la creación (y viceversa)
+        $guardada = db_transaccion(function () use ($usuarioId, $nombre, $descripcion, $genero) {
+            if (!usuario_descontar_creacion($usuarioId)) {
+                return false;
+            }
+            banda_crear($nombre, $descripcion, $genero);
+            return true;
+        });
+
+        if ($guardada) {
+            redirigir("generos/$genero.php");
+        }
+        $error = 'No te quedan creaciones disponibles';
     }
+}
+
+vista('partes/head', ['titulo' => 'Agregar Banda', 'hojaDeEstilo' => 'css/php-style.css']);
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Banda</title>
-    <link rel="stylesheet" href="../css/php-style.css">
-	<link rel="shortcut icon" href="../images/logo/page-icon.png" type="image/x-icon">
-</head>
 <body>
-    <nav>
-        <img class="logo" src="../images/logo/logoMzaBeats.png" alt="">
-        <ul class="nav-list">
-            <li class="nav-list-item"><a class="link" href="../index.php">Volver a Inicio</a></li>
-        </ul>
-    </nav>
+    <?php vista('partes/nav_simple', ['textoVolver' => 'Volver a Inicio']); ?>
     <main>
         <div class="formulario-container">
-            <form class="formulario" method="POST" action="../logica/control_add_band.php">
+            <form class="formulario" method="POST">
+                <?= csrf_campo() ?>
                 <h1>Agregar Banda</h1>
-                
+
+                <?php vista('partes/mensajes', ['error' => $error]); ?>
+
                 <h2>Nombre de la banda:</h2>
-                <input type="text" id="nombre" name="nombre" required placeholder="Ejemplo: Los Rockeros">
+                <input type="text" id="nombre" name="nombre" required placeholder="Ejemplo: Los Rockeros" value="<?= e(texto_post('nombre')) ?>" maxlength="<?= BANDA_NOMBRE_MAXIMO ?>">
 
                 <h2>Cuéntanos sobre la banda:</h2>
-                <textarea id="descripcion" name="descripcion" required placeholder="Describe la historia de la banda, su estilo musical, integrantes, etc." cols="50"  rows="6"></textarea>
-            
+                <textarea id="descripcion" name="descripcion" required placeholder="Describe la historia de la banda, su estilo musical, integrantes, etc." cols="50" rows="6" maxlength="<?= TEXTO_LARGO_MAXIMO ?>"><?= e(texto_post('descripcion')) ?></textarea>
+
                 <p>Por favor, mandá fotos de tu banda al siguiente correo:<a href="mailto:mzabeatsbandas@gmail.com"> mzabeatsbandas@gmail.com</a></p>
-                
+
                 <h2>Género musical:</h2>
                 <select id="genero" name="genero" required>
                     <option value="">Selecciona un género</option>
-                    <option value="indie">Indie</option>
-                    <option value="pop">Pop</option>
-                    <option value="rock">Rock</option>
+                    <?php foreach (GENEROS as $clave => $datosGenero): ?>
+                        <option value="<?= e($clave) ?>" <?= texto_post('genero') === $clave ? 'selected' : '' ?>><?= e($datosGenero['nombre']) ?></option>
+                    <?php endforeach; ?>
                 </select>
-                
-                <button type="submit" class="btn-submit">Guardar Banda</button>
-                <button type="button" class="btn-cancel" onclick="window.location.href='../generos/indie.php'">Cancelar</button>
 
+                <button type="submit" class="btn-submit">Guardar Banda</button>
+                <button type="button" class="btn-cancel" onclick="window.location.href='<?= e(url('index.php')) ?>'">Cancelar</button>
             </form>
         </div>
     </main>
     <footer>
         <p>&copy;Derechos de autor Reservados</p>
     </footer>
-    </body>
+</body>
 </html>

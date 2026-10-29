@@ -1,72 +1,59 @@
 <?php
-	session_start();
-	if(empty($_SESSION["id"])){
-	header("Location: ../../index.php");
-		exit;
-	}
+/**
+ * "Mi cuenta": el usuario logueado cambia su nombre y su nombre de usuario.
+ * Siempre se edita la cuenta de la sesión, nunca un id que venga del formulario.
+ */
+require __DIR__ . '/../../../backend/bootstrap.php';
+
+requerir_login();
+
+$usuario = usuario_actual();
+$error = null;
+
+if (es_post()) {
+    $nombre = texto_post('nombre');
+    $nombreUsuario = texto_post('usuario');
+
+    $error = validar_datos_de_cuenta($nombre, $nombreUsuario, (int) $usuario['id']);
+
+    if ($error === null) {
+        usuario_actualizar_perfil((int) $usuario['id'], $nombre, $nombreUsuario);
+        mensaje_guardar('ok', 'Datos actualizados');
+        redirigir('vistas/administrar/usuario.php');
+    }
+}
+
+// Si hubo un error, se vuelve a mostrar lo que escribió el usuario
+$nombreMostrado = es_post() ? texto_post('nombre') : $usuario['nombre'];
+$usuarioMostrado = es_post() ? texto_post('usuario') : $usuario['usuario'];
+
+vista('partes/head', ['titulo' => 'Mi cuenta', 'hojaDeEstilo' => 'css/php-style.css']);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="../../css/php-style.css">
-	<link rel="shortcut icon" href="../../images/logo/page-icon.png" type="image/x-icon">
-	<title>Administrar Bandas</title>
-</head>
 <body>
-	<nav>
-		<img class="logo" src="../../images/logo/logoMzaBeats.png" alt="">
-		<ul class="nav-list">
-			<li class="nav-list-item"><a href="../../index.php">Ir a Inicio</a></li>
-		</ul>
-	</nav>
-	<?php
-		include("../../../backend/bd/conexion_bd.php");
-		$id=$_SESSION['id'];
-		//ACTUALIZAR USUARIO
-		if (isset($_POST['actualizar'])) {
-			$id = $_POST['id'];
-			$name = $_POST['nombre'];
-			$user = $_POST['usuario'];
-
-			$sql_update = "UPDATE usuarios SET nombre= ?, usuario= ? WHERE id= ?";
-			$stmt_update = $conexion->prepare($sql_update);
-			$stmt_update->bind_param("ssi", $name, $user, $id);
-			$stmt_update->execute();
-		}
-
-		//Consulta
-		$sql = "SELECT * FROM usuarios WHERE id='$id'";
-		$resultado = $conexion->query($sql);
-	?>
-	<main class="table-container-usuario">
-		<h1 class="h1-usuario" align="center">Mi cuenta</h1>
-		<table class="table-usuarios" cellpadding="5">
-			<tr>
-				<th>Nombre</th>
-				<th>Usuario</th>
-				<th>Clave</th>
-				<th>Acción</th>
-			</tr>
-		<?php while ($fila = $resultado->fetch_assoc()){ ?>
-			<tr align="center">
-				<form class="formulario" method="POST" action="">
-					<input type="hidden" name="id" value="<?php echo $fila['id']; ?>">
-					<td><input type="text" name="nombre" value="<?php echo $fila['nombre']; ?>"></td>
-					<td><input type="text" name="usuario" value="<?php echo $fila['usuario']; ?>"></td>
-					<td><a class="cambiar-contraseña" href="../administrar/cambiar-clave.php">Cambiar</a></td>
-					<td>    
-						<button type="submit" name="actualizar" class="btn-update-usuario">Actualizar</button>
-					</td>
-
-				</form>
-			</tr>
-		<?php }?>
-		</table>
-	</main>
-	<footer>
-		<p>&copy;Derechos de autor Reservados</p>
-	</footer>
+    <?php vista('partes/nav_simple'); ?>
+    <main class="table-container-usuario">
+        <h1 class="h1-usuario" align="center">Mi cuenta</h1>
+        <?php vista('partes/mensajes', ['error' => $error]); ?>
+        <form id="form-cuenta" method="POST"><?= csrf_campo() ?></form>
+        <table class="table-usuarios" cellpadding="5">
+            <tr>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Clave</th>
+                <th>Acción</th>
+            </tr>
+            <tr align="center">
+                <td><input type="text" name="nombre" form="form-cuenta" value="<?= e($nombreMostrado) ?>" maxlength="<?= NOMBRE_LARGO_MAXIMO ?>"></td>
+                <td><input type="text" name="usuario" form="form-cuenta" value="<?= e($usuarioMostrado) ?>" maxlength="<?= USUARIO_LARGO_MAXIMO ?>"></td>
+                <td><a class="cambiar-contraseña" href="<?= e(url('vistas/administrar/cambiar-clave.php')) ?>">Cambiar</a></td>
+                <td>
+                    <button type="submit" name="actualizar" form="form-cuenta" class="btn-update-usuario">Actualizar</button>
+                </td>
+            </tr>
+        </table>
+    </main>
+    <footer>
+        <p>&copy;Derechos de autor Reservados</p>
+    </footer>
 </body>
 </html>
