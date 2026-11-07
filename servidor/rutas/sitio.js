@@ -22,7 +22,9 @@ function bandaParaMostrar(banda) {
   const fondo = banda.imagen_fondo !== '' && rutaImagenEsValida(banda.imagen_fondo)
     ? `--item-bg: url('/${banda.imagen_fondo}');`
     : '';
-  return { nombre: banda.nombre, descripcion: banda.descripcion, imagen, fondo };
+  // Las biografías se cargan con saltos de línea: cada uno es un párrafo
+  const parrafos = banda.descripcion.split(/\s*\n\s*/).filter((parrafo) => parrafo.trim() !== '');
+  return { nombre: banda.nombre, parrafos, imagen, fondo };
 }
 
 rutasSitio.get('/generos/:genero', async (req, res, next) => {

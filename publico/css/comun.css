@@ -3,6 +3,13 @@
  * Los colores y las medidas son los de las hojas originales.
  */
 
+/* El buscador y el botón del pie usaban la letra del navegador en lugar de Kanit */
+.buscador-container input,
+.buscador-container button,
+.btn-participar {
+    font-family: inherit;
+}
+
 /* El buscador reemplaza este bloque sin recargar: conserva el orden de <main> */
 #resultados {
     width: 100%;

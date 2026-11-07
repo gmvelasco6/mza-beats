@@ -1,0 +1,263 @@
+/*
+ * Celulares y pantallas angostas. Se carga última y sólo cambia tipografía y
+ * espacios: la paleta, la fuente y el orden de cada página son los de siempre.
+ *
+ * Reglas de lectura que sigue:
+ *   - Títulos con interlineado cerrado; texto corrido con 1.6.
+ *   - Texto alineado a la izquierda: justificar abre huecos en columnas angostas.
+ *   - Un solo margen lateral en todo el sitio: 16px.
+ */
+@media screen and (max-width: 900px) {
+    /* ---------- Portada ---------- */
+
+    .intro {
+        padding: 112px 16px 48px;
+    }
+
+    .intro h1 {
+        font-size: clamp(2.25rem, 10.5vw, 2.75rem);
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        margin-bottom: 16px;
+        text-wrap: balance;
+    }
+
+    .intro h3 {
+        font-size: 1.125rem;
+        line-height: 1.5;
+        text-wrap: pretty;
+    }
+
+    .intro h3 br {
+        display: none;
+    }
+
+    .ecualizador {
+        margin-top: 24px;
+    }
+
+    /* ---------- Títulos ---------- */
+
+    .description h2,
+    .indie-description h2,
+    .pop-description h2,
+    .rock-description h2 {
+        font-size: 1.75rem;
+        line-height: 1.15;
+        margin-bottom: 12px;
+        text-wrap: balance;
+    }
+
+    /* ---------- Texto corrido ---------- */
+
+    .description p,
+    .indie-description p,
+    .pop-description p,
+    .rock-description p {
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        text-align: left;
+        text-wrap: pretty;
+    }
+
+    .description p + p {
+        margin-top: 0.9em;
+    }
+
+    /* ---------- Secciones y tarjetas ---------- */
+
+    .indie-container,
+    .pop-container,
+    .rock-container,
+    .section,
+    .section-reverse {
+        gap: 20px;
+        padding: 40px 16px;
+    }
+
+    .container {
+        padding: 24px 16px 48px;
+    }
+
+    .description,
+    .indie-description,
+    .pop-description,
+    .rock-description {
+        padding: 20px;
+        /* Algunos fondos son muy claros: el texto no puede depender de ellos */
+        background-color: rgba(6, 36, 36, 0.94);
+    }
+
+    /* Todas las fotos con el mismo ancho que su tarjeta y el mismo recorte */
+    .section > div:first-child {
+        width: 100%;
+    }
+
+    .img,
+    .img-intro,
+    .indie-img,
+    .pop-img,
+    .rock-img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        max-height: 60vh;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+    }
+
+    .img-intro {
+        margin-bottom: 20px;
+    }
+
+    /* ---------- Sobre nosotros ---------- */
+
+    .about-us {
+        padding: 56px 16px 64px;
+        text-align: left;
+    }
+
+    .about-us h2 {
+        font-size: 1.75rem;
+        line-height: 1.15;
+        margin: 40px 0 12px;
+        text-wrap: balance;
+    }
+
+    .about-us h2:first-child {
+        margin-top: 0;
+    }
+
+    .about-us p {
+        font-size: 1.0625rem;
+        line-height: 1.6;
+        text-wrap: pretty;
+    }
+
+    /* ---------- Buscador ---------- */
+
+    .buscador-container {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 86px;
+        padding: 16px;
+    }
+
+    .buscador-container input,
+    .buscador-container button {
+        min-height: 46px;
+        font-size: 1rem;
+    }
+
+    /* ---------- Menú desplegable ---------- */
+
+    .nav-container {
+        gap: 20px;
+        padding: 24px 16px;
+    }
+
+    .nav-list {
+        gap: 4px;
+    }
+
+    .nav-list a,
+    .nav-list .genero-label,
+    .user-list a,
+    .salir {
+        display: inline-block;
+        padding: 10px 12px;
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
+    /* Los géneros se abren dentro de la lista, sin tapar lo de abajo */
+    .nav-list-item-genero {
+        text-align: center;
+    }
+
+    .genero-list,
+    .nav-list-item-genero:hover .genero-list,
+    .nav-list-item-genero:focus-within .genero-list {
+        position: static;
+        display: none;
+        min-width: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    .nav-list-item-genero .btn-genero:checked ~ .genero-list {
+        display: flex;
+        position: static;
+        transform: none;
+    }
+
+    .genero-list-item {
+        padding: 0;
+    }
+
+    .genero-list-item a {
+        font-size: 1.0625rem;
+        opacity: 0.85;
+    }
+
+    /* ---------- Formularios y páginas simples ---------- */
+
+    nav {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    nav > .nav-list a {
+        padding: 10px 0;
+        font-size: 1rem;
+    }
+
+    /* El menú es fijo: el contenido arranca debajo, no detrás */
+    .formulario-container {
+        padding: 110px 16px 40px;
+    }
+
+    .table-container-usuario {
+        margin-top: 110px;
+    }
+
+    .formulario-container h1 {
+        line-height: 1.15;
+        text-align: center;
+        text-wrap: balance;
+    }
+
+    .formulario-container > p {
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .formulario-container > p br {
+        display: none;
+    }
+
+    .formulario {
+        padding: 20px;
+    }
+
+    .formulario h2 {
+        line-height: 1.3;
+    }
+
+    /* ---------- Pie ---------- */
+
+    footer {
+        padding: 32px 16px;
+    }
+
+    .btn-participar,
+    .btn-agregar {
+        width: 100%;
+        max-width: 420px;
+    }
+}

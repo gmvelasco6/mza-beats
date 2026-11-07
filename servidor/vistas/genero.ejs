@@ -40,7 +40,7 @@
                     <div data-revelar="<%= posicion % 2 === 0 ? 'izquierda' : 'derecha' %>"><img class="img" src="/<%= banda.imagen %>" alt="<%= banda.nombre %>" loading="lazy" decoding="async"></div>
                     <div class="description" data-revelar="<%= posicion % 2 === 0 ? 'derecha' : 'izquierda' %>">
                         <h2><%= banda.nombre %></h2>
-                        <p><%= banda.descripcion %></p>
+                        <% for (const parrafo of banda.parrafos) { %><p><%= parrafo %></p><% } %>
                     </div>
                 </div>
             <% }) %>

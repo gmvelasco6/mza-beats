@@ -48,7 +48,8 @@ servidor/                  Código privado (no se puede abrir desde el navegador
 
 publico/                   Lo único que ve el navegador
   css/                     style, genero-style y php-style son el diseño de cada tipo de página;
-                           comun tiene lo compartido y animaciones todo lo que se mueve
+                           comun tiene lo compartido, animaciones todo lo que se mueve
+                           y celular la tipografía y los espacios de pantallas angostas
   js/
     previo.js              Corre antes de pintar: evita que lo animado se vea antes de tiempo
     sitio.js               Confirmar antes de borrar y buscador sin recarga
