@@ -1,0 +1,22 @@
+<%# Formulario "¡Quiero aparecer!": una banda pide sumarse al sitio. %><%- include('partes/head') %>
+<body>
+    <%- include('partes/nav_simple') %>
+    <div class="formulario-container">
+        <h1 data-revelar="abajo">¡Se parte de MzaBeats!</h1>
+        <p data-revelar="abajo">Completá este formulario <br> para poder ser parte de la página web.</p>
+        <%- include('partes/mensajes') %>
+        <form class="formulario" method="post" data-revelar="abajo">
+            <%- include('partes/csrf') %>
+            <h2>Nombre</h2>
+            <input type="text" id="nombre" class="input" name="nombre" placeholder="Nombre de la Banda" value="<%= valores.nombre %>" required maxlength="<%= limites.bandaNombreMaximo %>">
+            <h2>Razon</h2>
+            <textarea id="razon" name="razon" required placeholder="Escribi la razon por la cual queres aparecer en MzaBeats..." cols="35" rows="6" maxlength="<%= limites.consultaRazonMaximo %>"><%= valores.razon %></textarea>
+            <h2>Email</h2>
+            <input type="email" id="email" class="input" name="email" value="<%= valores.email %>" required>
+            <br>
+            <input type="submit" name="btn-crear" class="btn" value="Enviar">
+        </form>
+    </div>
+    <%- include('partes/pie') %>
+</body>
+</html>

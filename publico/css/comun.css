@@ -1,0 +1,79 @@
+/*
+ * Estilos que comparten todas las páginas y que no son animación.
+ * Los colores y las medidas son los de las hojas originales.
+ */
+
+/* El buscador reemplaza este bloque sin recargar: conserva el orden de <main> */
+#resultados {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Botones que ahora son enlaces: se ven igual que antes */
+a.btn-participar,
+a.btn-agregar,
+a.btn-cancel {
+    display: inline-block;
+    text-align: center;
+    line-height: normal;
+}
+
+a.btn-cancel:hover {
+    color: #ffffff;
+}
+
+/* Cerrar sesión es un formulario, pero se ve como los demás enlaces del menú */
+.form-salir {
+    display: inline;
+}
+
+.salir {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #fff0de;
+    font: inherit;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.salir:hover {
+    color: #d25525;
+}
+
+/* Los campos de email y las listas iban sin estilo y quedaban blancos */
+input[type="email"],
+select {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #003b3b;
+    border-radius: 8px;
+    background-color: #041616;
+    color: #fff0de;
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+select:focus,
+input[type="email"]:focus {
+    border-color: #d25525;
+    box-shadow: 0 0 8px rgba(210, 85, 37, 0.4);
+}
+
+/* Al saltar a una sección, que no quede tapada por los menús fijos */
+h1[id],
+#about-us {
+    scroll-margin-top: 150px;
+}
+
+.cambiar-contraseña {
+    display: inline-block;
+    text-align: center;
+}

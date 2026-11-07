@@ -1,0 +1,57 @@
+<%#
+  Página de un género (Indie, Pop, Rock...).
+  genero    Clave del género (ej. 'rock')
+  info      Sus datos en GENEROS
+  busqueda  Texto buscado, o '' si no se buscó nada
+  bandas    Bandas a mostrar
+%><%- include('partes/head') %>
+<body>
+    <header id="inicio">
+        <%- include('partes/nav_sitio') %>
+    </header>
+    <main>
+        <form class="buscador-container" method="GET">
+            <input type="text" name="buscador" placeholder="Buscar banda..." value="<%= busqueda %>">
+            <div class="botones-buscador">
+                <button type="submit" name="buscar">Buscar</button>
+                <button type="submit" name="limpiar">Limpiar</button>
+            </div>
+        </form>
+
+        <div id="resultados">
+            <% if (busqueda === '') { %>
+                <section id="<%= genero %>" class="container">
+                    <img src="/<%= info.imagen %>" alt="imagen_<%= info.nombre %>" class="img-intro" data-revelar="abajo">
+                    <div class="description" data-revelar="abajo">
+                        <h2>Sección <%= info.nombre %></h2>
+                        <p><%= info.intro %></p>
+                    </div>
+                </section>
+            <% } %>
+
+            <% if (bandas.length === 0) { %>
+                <h2 class="notificacion" data-revelar="abajo">No se encontraron resultados</h2>
+            <% } %>
+
+            <% bandas.forEach((banda, posicion) => { %>
+                <%# Las bandas se muestran alternando la imagen a izquierda y derecha %>
+                <hr>
+                <div class="<%= posicion % 2 === 0 ? 'section' : 'section-reverse' %>" style="<%= banda.fondo %>" data-parallax>
+                    <div data-revelar="<%= posicion % 2 === 0 ? 'izquierda' : 'derecha' %>"><img class="img" src="/<%= banda.imagen %>" alt="<%= banda.nombre %>"></div>
+                    <div class="description" data-revelar="<%= posicion % 2 === 0 ? 'derecha' : 'izquierda' %>">
+                        <h2><%= banda.nombre %></h2>
+                        <p><%= banda.descripcion %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+    <footer>
+        <a href="#inicio" class="flecha">&uparrow;</a>
+        <% if (mostrarParticipar) { %>
+            <a class="btn-participar" href="/formulario">¡Quiero aparecer!</a>
+        <% } %>
+        <p>&copy;Derechos de autor Reservados</p>
+    </footer>
+</body>
+</html>

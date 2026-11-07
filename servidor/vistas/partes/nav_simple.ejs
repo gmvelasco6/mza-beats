@@ -1,0 +1,11 @@
+<%#
+  Menú corto de las páginas de formularios: logo y un enlace al inicio.
+  textoVolver  Texto del enlace (por defecto "Ir a Inicio")
+  claseNav     Clase CSS extra del <nav> (el panel admin usa "nav-admin")
+%>
+<nav<% if (locals.claseNav) { %> class="<%= claseNav %>"<% } %>>
+    <img class="logo" src="/images/logo/logoMzaBeats.png" alt="MzaBeats">
+    <ul class="nav-list">
+        <li class="nav-list-item"><a class="link" href="/"><%= locals.textoVolver || 'Ir a Inicio' %></a></li>
+    </ul>
+</nav>

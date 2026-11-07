@@ -1,0 +1,24 @@
+<%#
+  Comienzo de cada página: doctype, <head>, estilos y scripts.
+  titulo        Texto de la pestaña del navegador
+  hojaDeEstilo  Nombre del CSS de la página (style, genero-style o php-style)
+%><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/<%= hojaDeEstilo %>.css">
+    <link rel="stylesheet" href="/css/comun.css">
+    <link rel="stylesheet" href="/css/animaciones.css">
+    <link rel="shortcut icon" href="/images/logo/page-icon.png" type="image/x-icon">
+    <title><%= titulo %></title>
+    <script src="/js/previo.js"></script>
+    <script defer src="/vendor/gsap/gsap.min.js"></script>
+    <script defer src="/vendor/gsap/ScrollTrigger.min.js"></script>
+    <script defer src="/js/sitio.js"></script>
+    <script defer src="/js/animaciones.js"></script>
+    <% if (umamiId) { %>
+        <!-- Estadísticas de visitas (Umami). Sólo se activa si está configurado UMAMI_WEBSITE_ID -->
+        <script defer src="<%= umamiScript %>" data-website-id="<%= umamiId %>"></script>
+    <% } %>
+</head>

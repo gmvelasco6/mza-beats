@@ -1,0 +1,31 @@
+{
+  "name": "mzabeats",
+  "version": "2.0.0",
+  "description": "Bandas y artistas musicales de Mendoza, Argentina",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node servidor/index.js",
+    "dev": "node --watch servidor/index.js",
+    "test": "node --test \"pruebas/unidad/*.test.js\"",
+    "test:integracion": "node --test --test-concurrency=1 \"pruebas/integracion/*.test.js\""
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.2",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-mysql-session": "^3.0.3",
+    "express-session": "^1.19.0",
+    "gsap": "^3.15.1",
+    "mysql2": "^3.24.6"
+  },
+  "overrides": {
+    "express-mysql-session": {
+      "mysql2": "$mysql2"
+    }
+  }
+}

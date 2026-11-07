@@ -1,0 +1,12 @@
+<%#
+  Muestra los avisos pendientes ("Hay campos vacíos", "Banda guardada", etc.).
+  error  Error de la validación actual (opcional)
+%><%
+  const avisos = mensajesPendientes();
+  if (locals.error) {
+    avisos.push({ tipo: 'error', texto: locals.error });
+  }
+%>
+<% for (const aviso of avisos) { %>
+    <div class="<%= aviso.tipo === 'ok' ? 'verificado' : 'advertencia' %>" align="center"><%= aviso.texto %></div>
+<% } %>

@@ -1,0 +1,20 @@
+<%# Saludo y enlaces de sesión. Se usa dos veces en el menú: móvil y escritorio. %>
+<ul class="user-list">
+    <% if (usuario) { %>
+        <a href="/cuenta"><img src="/images/inicio/usuario.png" class="img-usuario" alt="img-usuario"></a>
+        <div>
+            <li>Hola! <%= usuario.usuario %></li>
+            <li class="linea"> | </li>
+            <li>
+                <form class="form-salir" method="post" action="/salir">
+                    <%- include('csrf') %>
+                    <button class="salir" type="submit">Log out</button>
+                </form>
+            </li>
+        </div>
+    <% } else { %>
+        <li><a class="ini-sesion" href="/login">Log in</a></li>
+        <li class="linea"> | </li>
+        <li><a class="registrarse" href="/registro">Sign in</a></li>
+    <% } %>
+</ul>

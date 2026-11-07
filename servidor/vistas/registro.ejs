@@ -1,0 +1,25 @@
+<%# Registro de usuarios nuevos. %><%- include('partes/head') %>
+<body>
+    <%- include('partes/nav_simple') %>
+    <div class="formulario-container">
+        <form class="formulario" method="post" data-revelar="abajo">
+            <%- include('partes/csrf') %>
+            <h1>Registrarse</h1>
+
+            <%- include('partes/mensajes') %>
+
+            <h2>Nombre</h2>
+            <input type="text" id="name" class="input" name="name" value="<%= valores.nombre %>" maxlength="<%= limites.nombreMaximo %>">
+            <h2>Usuario</h2>
+            <input type="text" id="user" class="input" name="user" value="<%= valores.usuario %>" maxlength="<%= limites.usuarioMaximo %>" autocomplete="username">
+            <h2>Contraseña</h2>
+            <input type="password" id="password" class="input" name="password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
+            <h2>Repetir contraseña</h2>
+            <input type="password" id="password-confirm" class="input" name="password-confirm" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
+            <p>¿Ya tienes un usuario? <a href="/login">Inicia Sesión</a></p>
+            <input type="submit" name="btn-registro" class="btn" value="Registrarme">
+        </form>
+    </div>
+    <%- include('partes/pie') %>
+</body>
+</html>

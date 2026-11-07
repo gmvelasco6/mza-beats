@@ -1,0 +1,197 @@
+/*
+ * Todo lo que se mueve, con la misma paleta de siempre.
+ * El movimiento por scroll lo maneja publico/js/animaciones.js.
+ */
+
+/* Lo que va a entrar animado no se ve antes de empezar (ver js/previo.js) */
+.js [data-revelar]:not(.revelado) {
+    visibility: hidden;
+}
+
+/* ---------- Portada ---------- */
+
+.palabra {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.letra {
+    display: inline-block;
+    will-change: transform;
+}
+
+.ecualizador {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4px;
+    height: 34px;
+    margin-top: 28px;
+    transform-origin: bottom;
+}
+
+.ecualizador span {
+    width: 5px;
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(#d25525, #0e5050);
+    transform: scaleY(0.2);
+    transform-origin: bottom;
+}
+
+/* ---------- Menú ---------- */
+
+.progreso {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #d25525;
+    transform: scaleX(0);
+    transform-origin: left;
+    pointer-events: none;
+    z-index: 10001;
+}
+
+@media screen and (min-width: 901px) {
+    nav,
+    .logo-container .logo {
+        transition: height 0.35s ease;
+    }
+
+    nav.compacta {
+        height: 68px;
+    }
+
+    nav.compacta .logo-container .logo {
+        height: 44px;
+    }
+}
+
+/* El desplegable de géneros aparece suave en lugar de saltar */
+.genero-list {
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 10px);
+    transition: opacity 0.2s ease, transform 0.25s ease, visibility 0.2s;
+}
+
+.nav-list-item-genero:hover .genero-list,
+.nav-list-item-genero:focus-within .genero-list,
+.btn-genero:checked ~ .genero-list {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.menu-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.btn-nav:checked + .menu-icon {
+    transform: rotate(90deg);
+    color: #d25525;
+}
+
+@media screen and (max-width: 900px) {
+    .btn-nav:checked ~ .nav-container {
+        animation: entrar-menu 0.3s ease both;
+    }
+}
+
+@keyframes entrar-menu {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+}
+
+/* ---------- Secciones y tarjetas ---------- */
+
+/* El fondo pasa a una capa más alta que su sección, para poder moverla */
+.con-parallax [data-parallax] {
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.con-parallax [data-parallax]::before {
+    content: "";
+    position: absolute;
+    inset: -14% 0;
+    z-index: -1;
+    background: inherit;
+    transform: translate3d(0, var(--desplazo, 0), 0);
+    will-change: transform;
+}
+
+.description,
+.indie-description,
+.pop-description,
+.rock-description {
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.description:hover,
+.indie-description:hover,
+.pop-description:hover,
+.rock-description:hover {
+    border-color: #d25525;
+    box-shadow: 0 10px 30px rgba(210, 85, 37, 0.18);
+}
+
+.btn-participar:active,
+.btn-agregar:active,
+.btn:active,
+.btn-submit:active,
+.btn-cancel:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Cambio de página ---------- */
+
+@view-transition {
+    navigation: auto;
+}
+
+nav {
+    view-transition-name: menu;
+}
+
+::view-transition-old(root) {
+    animation: salir-pagina 0.2s ease both;
+}
+
+::view-transition-new(root) {
+    animation: entrar-pagina 0.3s ease both;
+}
+
+@keyframes salir-pagina {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes entrar-pagina {
+    from {
+        opacity: 0;
+    }
+}
+
+/* ---------- Quien pidió menos movimiento no ve nada de esto ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after,
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,21 @@
+<%# Cambio de contraseña del usuario logueado. %><%- include('partes/head') %>
+<body>
+    <%- include('partes/nav_simple') %>
+    <div class="formulario-container">
+        <%- include('partes/mensajes') %>
+        <form class="formulario" align="center" method="post" data-revelar="abajo">
+            <%- include('partes/csrf') %>
+            <h1 align="center">Cambiar Clave</h1>
+            <h2>Clave Actual</h2>
+            <input type="password" id="clave-actual" class="input" name="clave-actual" autocomplete="current-password">
+            <h2>Nueva Clave</h2>
+            <input type="password" id="password" class="input" name="password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
+            <h2>Confirmar Clave</h2>
+            <input type="password" id="new-password" class="input" name="new-password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
+
+            <input type="submit" name="btn-cambiar" class="btn" value="Cambiar">
+        </form>
+    </div>
+    <%- include('partes/pie') %>
+</body>
+</html>

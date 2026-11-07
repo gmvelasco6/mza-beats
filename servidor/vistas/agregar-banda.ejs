@@ -1,0 +1,35 @@
+<%# Carga de una banda nueva. %><%- include('partes/head') %>
+<body>
+    <%- include('partes/nav_simple', { textoVolver: 'Volver a Inicio' }) %>
+    <main>
+        <div class="formulario-container">
+            <form class="formulario" method="POST" data-revelar="abajo">
+                <%- include('partes/csrf') %>
+                <h1>Agregar Banda</h1>
+
+                <%- include('partes/mensajes') %>
+
+                <h2>Nombre de la banda:</h2>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ejemplo: Los Rockeros" value="<%= valores.nombre %>" maxlength="<%= limites.bandaNombreMaximo %>">
+
+                <h2>Cuéntanos sobre la banda:</h2>
+                <textarea id="descripcion" name="descripcion" required placeholder="Describe la historia de la banda, su estilo musical, integrantes, etc." cols="50" rows="6" maxlength="<%= limites.textoMaximo %>"><%= valores.descripcion %></textarea>
+
+                <p>Por favor, mandá fotos de tu banda al siguiente correo:<a href="mailto:mzabeatsbandas@gmail.com"> mzabeatsbandas@gmail.com</a></p>
+
+                <h2>Género musical:</h2>
+                <select id="genero" name="genero" required>
+                    <option value="">Selecciona un género</option>
+                    <% for (const [clave, datosGenero] of Object.entries(generos)) { %>
+                        <option value="<%= clave %>" <%= valores.genero === clave ? 'selected' : '' %>><%= datosGenero.nombre %></option>
+                    <% } %>
+                </select>
+
+                <button type="submit" class="btn-submit">Guardar Banda</button>
+                <a class="btn-cancel" href="/">Cancelar</a>
+            </form>
+        </div>
+    </main>
+    <%- include('partes/pie') %>
+</body>
+</html>

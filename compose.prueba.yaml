@@ -1,0 +1,13 @@
+# Base descartable con las cuentas de prueba. Se usa junto con compose.yaml:
+#   docker compose -p mzabeats-prueba --env-file pruebas/prueba.env \
+#     -f compose.yaml -f compose.prueba.yaml up --build -d
+services:
+  db:
+    # Docker no deja montar un archivo dentro de una carpeta de sólo lectura,
+    # así que acá se montan uno por uno
+    volumes: !override
+      - datos-db:/var/lib/mysql
+      - ./database/01_esquema.sql:/docker-entrypoint-initdb.d/01_esquema.sql:ro
+      - ./database/02_bandas.sql:/docker-entrypoint-initdb.d/02_bandas.sql:ro
+      - ./database/03_intentos_login.sql:/docker-entrypoint-initdb.d/03_intentos_login.sql:ro
+      - ./pruebas/semilla.sql:/docker-entrypoint-initdb.d/90_semilla.sql:ro

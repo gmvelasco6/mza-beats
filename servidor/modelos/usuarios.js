@@ -1,0 +1,91 @@
+/**
+ * Acceso a la tabla `usuarios`.
+ */
+import { ESTADO_USUARIO, LIMITES } from '../config.js';
+import { ejecutar, fila, filas } from '../lib/db.js';
+import { largo } from '../lib/texto.js';
+
+export function usuarioPorId(id) {
+  return fila('SELECT * FROM usuarios WHERE id = ?', [id]);
+}
+
+export function usuarioPorNombre(nombreUsuario) {
+  return fila('SELECT * FROM usuarios WHERE usuario = ?', [nombreUsuario]);
+}
+
+/** Lista para el panel de administración (sin la columna de la clave). */
+export function usuariosTodos() {
+  return filas('SELECT id, nombre, usuario, estado, cantidad_creaciones FROM usuarios ORDER BY id ASC');
+}
+
+/** ¿Ya hay otra cuenta con ese nombre de usuario? */
+async function usuarioExiste(nombreUsuario, exceptoId) {
+  return (await fila('SELECT id FROM usuarios WHERE usuario = ? AND id <> ?', [nombreUsuario, exceptoId])) !== null;
+}
+
+/** Las cuentas nuevas empiezan como usuario común y sin creaciones disponibles. */
+export function usuarioCrear(nombre, nombreUsuario, claveHash) {
+  return ejecutar(
+    'INSERT INTO usuarios (nombre, usuario, clave, estado, cantidad_creaciones) VALUES (?, ?, ?, ?, 0)',
+    [nombre, nombreUsuario, claveHash, ESTADO_USUARIO],
+  );
+}
+
+export function usuarioActualizarPerfil(id, nombre, nombreUsuario) {
+  return ejecutar('UPDATE usuarios SET nombre = ?, usuario = ? WHERE id = ?', [nombre, nombreUsuario, id]);
+}
+
+export function usuarioActualizarClave(id, claveHash) {
+  return ejecutar('UPDATE usuarios SET clave = ? WHERE id = ?', [claveHash, id]);
+}
+
+export function usuarioActualizarPermisos(id, estado, cantidadCreaciones) {
+  return ejecutar('UPDATE usuarios SET estado = ?, cantidad_creaciones = ? WHERE id = ?', [
+    estado,
+    cantidadCreaciones,
+    id,
+  ]);
+}
+
+/** Resta una creación disponible. Devuelve false si ya no le quedaba ninguna. */
+export async function usuarioDescontarCreacion(id, conexion) {
+  const resultado = await ejecutar(
+    'UPDATE usuarios SET cantidad_creaciones = cantidad_creaciones - 1 WHERE id = ? AND cantidad_creaciones > 0',
+    [id],
+    conexion,
+  );
+  return resultado.affectedRows === 1;
+}
+
+export function usuarioEliminar(id) {
+  return ejecutar('DELETE FROM usuarios WHERE id = ?', [id]);
+}
+
+/** Reglas de nombre y usuario que no necesitan consultar la base. */
+export function validarFormatoDeCuenta(nombre, nombreUsuario) {
+  if (nombre === '' || nombreUsuario === '') {
+    return 'Hay campos vacíos';
+  }
+  if (largo(nombre) > LIMITES.nombreMaximo) {
+    return 'El nombre es demasiado largo';
+  }
+  if (largo(nombreUsuario) < LIMITES.usuarioMinimo || largo(nombreUsuario) > LIMITES.usuarioMaximo) {
+    return `El usuario tiene que tener entre ${LIMITES.usuarioMinimo} y ${LIMITES.usuarioMaximo} caracteres`;
+  }
+  if (!/^[A-Za-z0-9_.-]+$/.test(nombreUsuario)) {
+    return 'El usuario sólo puede tener letras, números, punto, guion y guion bajo';
+  }
+  return null;
+}
+
+/** Valida nombre y usuario de una cuenta. Devuelve el primer error encontrado, o null. */
+export async function validarDatosDeCuenta(nombre, nombreUsuario, exceptoId = 0) {
+  const error = validarFormatoDeCuenta(nombre, nombreUsuario);
+  if (error) {
+    return error;
+  }
+  if (await usuarioExiste(nombreUsuario, exceptoId)) {
+    return 'Usuario existente, elige otro';
+  }
+  return null;
+}

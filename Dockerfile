@@ -1,35 +1,21 @@
-FROM php:8.2-apache
+FROM node:22-alpine@sha256:0e1754758c2df4cfa3e68d59e2e1b7374bb7fd9ea6328eaaacf15cc934af8202
 
-# Instalar extensión mysqli
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+ENV NODE_ENV=production
+WORKDIR /app
 
-# Forzar a Apache y PHP a leer las variables de entorno
-RUN echo "variables_order = \"EGPCS\"" > /usr/local/etc/php/conf.d/custom-env.ini
-RUN echo "PassEnv MYSQLHOST MYSQLUSER MYSQLPASSWORD MYSQLDATABASE MYSQLPORT" >> /etc/apache2/apache2.conf
+# Primero las dependencias: si el código cambia, no se vuelven a descargar
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
 
-# Seguridad: no mostrar versiones ni errores internos, y no listar carpetas
-RUN { \
-        echo 'expose_php = Off'; \
-        echo 'display_errors = Off'; \
-        echo 'log_errors = On'; \
-        echo 'session.use_strict_mode = 1'; \
-    } > /usr/local/etc/php/conf.d/seguridad.ini \
-    && { \
-        echo 'ServerTokens Prod'; \
-        echo 'ServerSignature Off'; \
-    } >> /etc/apache2/conf-available/security.conf \
-    && sed -ri 's/Options Indexes FollowSymLinks/Options FollowSymLinks/' /etc/apache2/apache2.conf
+COPY servidor ./servidor
+COPY publico ./publico
 
-# Copiar el código (ver .dockerignore para lo que queda afuera)
-COPY . /var/www/html/
+# La aplicación no corre como root
+USER node
 
-# Configurar la carpeta frontend como la raíz web pública.
-# backend/ queda fuera y no se puede abrir desde el navegador.
-ENV APACHE_DOCUMENT_ROOT /var/www/html/frontend
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+EXPOSE 3000
 
-RUN a2enmod rewrite
-RUN chown -R www-data:www-data /var/www/html
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD node -e "fetch('http://127.0.0.1:' + (process.env.PORT || 3000) + '/salud').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
 
-EXPOSE 80
+CMD ["node", "servidor/index.js"]

@@ -1,133 +1,145 @@
 # MzaBeats
 
-MzaBeats es una aplicacion web dedicada a difundir bandas y artistas musicales de la provincia de Mendoza, Argentina. Permite explorar bandas por genero, registrarse, iniciar sesion y enviar propuestas para aparecer en la pagina.
+MzaBeats es una aplicación web dedicada a difundir bandas y artistas musicales de la provincia de Mendoza, Argentina. Permite explorar bandas por género, registrarse, iniciar sesión y enviar propuestas para aparecer en la página.
 
 ## Funcionalidades
 
-- Navegacion por los generos Indie, Pop y Rock.
-- Busqueda de bandas por nombre dentro de cada genero.
-- Registro e inicio de sesion de usuarios.
+- Navegación por los géneros Indie, Pop y Rock.
+- Búsqueda de bandas por nombre dentro de cada género, sin recargar la página.
+- Registro e inicio de sesión de usuarios.
 - "Mi cuenta": cambiar nombre, usuario y contraseña.
 - Carga de bandas para usuarios con creaciones disponibles.
 - Formulario "¡Quiero aparecer!" para que las bandas pidan sumarse.
-- Panel de administracion: usuarios, bandas y consultas.
+- Panel de administración: usuarios, bandas y consultas.
+- Animaciones al cargar y al hacer scroll, que respetan la opción "reducir movimiento".
 
-## Tecnologias
+## Tecnologías
 
-- PHP 8 (sin frameworks)
-- Apache
-- MariaDB / MySQL
-- HTML y CSS
-- Docker
+- JavaScript en todo el sitio: Node.js 22 y Express 5 en el servidor.
+- Plantillas EJS: el servidor arma el HTML, así que el sitio funciona sin JavaScript en el navegador.
+- GSAP y ScrollTrigger para las animaciones.
+- MariaDB / MySQL.
+- Docker.
 
 ## Estructura del proyecto
 
 ```text
-frontend/                  Carpeta publica (lo unico que ve el navegador)
-  index.php                Pagina principal
-  generos/                 Una pagina por genero (todas usan la misma vista)
-  vistas/                  Formularios, login, registro y administracion
-  sesion_control/          Cierre de sesion
-  css/ images/ fonts/      Estilos, imagenes y tipografias
-
-backend/                   Codigo privado (no se puede abrir desde el navegador)
-  bootstrap.php            Se incluye al principio de cada pagina: carga todo,
-                           inicia la sesion y verifica el token CSRF
-  config/app.php           Configuracion: roles, generos, limites de los campos
+servidor/                  Código privado (no se puede abrir desde el navegador)
+  index.js                 Arranca el servidor
+  app.js                   Qué hace cada pedido, en orden, antes de llegar a una ruta
+  config.js                Roles, géneros, límites de los campos, variables de entorno
+  generar-hash.js          Genera el hash de una contraseña (para scripts de mantenimiento)
   lib/
-    db.php                 Conexion y funciones para consultar la base
-    auth.php               Login, sesion y permisos
-    csrf.php               Proteccion de formularios
-    helpers.php            Funciones generales: e(), url(), redirigir(), vista()...
-  modelos/                 Una funcion por cada consulta a la base
-    bandas.php
-    usuarios.php
-    consultas.php
-  vistas/                  HTML reutilizable
-    partes/                Head, menus, mensajes
-    genero.php             Pagina de un genero
+    db.js                  Conexión y funciones para consultar la base
+    sesion.js              Sesión, login y permisos
+    claves.js              Generar y comprobar contraseñas
+    seguridad.js           Cabeceras de seguridad y protección CSRF
+    mensajes.js            Avisos que sobreviven a una redirección
+    texto.js               Lectura de formularios y funciones de texto
+  modelos/                 Una función por cada consulta a la base
+  rutas/                   Qué responde cada dirección del sitio
+    sitio.js               Inicio, géneros y "¡Quiero aparecer!"
+    cuenta.js              Login, registro, "Mi cuenta" y cambio de clave
+    bandas.js              Carga de bandas
+    admin.js               Panel de administración
+    viejas.js              Redirige las direcciones .php de la versión anterior
+  vistas/                  Plantillas EJS de cada página
+    partes/                Head, menús, mensajes, pie
+
+publico/                   Lo único que ve el navegador
+  css/                     style, genero-style y php-style son el diseño de cada tipo de página;
+                           comun tiene lo compartido y animaciones todo lo que se mueve
+  js/
+    previo.js              Corre antes de pintar: evita que lo animado se vea antes de tiempo
+    sitio.js               Confirmar antes de borrar y buscador sin recarga
+    animaciones.js         Todas las animaciones
+  fonts/ images/           Tipografías e imágenes
+
+pruebas/
+  unidad/                  Reglas que no necesitan base de datos
+  integracion/             Recorren el sitio de punta a punta
+  semilla.sql              Cuentas de prueba
+  prueba.env               Valores de la base descartable
 
 database/                  Estructura de la base y bandas de ejemplo
-Dockerfile                 Imagen de la web (Apache + PHP)
+Dockerfile                 Imagen de la web
 compose.yaml               Web + base de datos para desarrollo
+compose.prueba.yaml        Agrega las cuentas de prueba
 ```
 
-### Como esta organizada una pagina
+### Cómo está organizada una ruta
 
-Cada archivo de `frontend/` sigue el mismo orden:
+Cada archivo de `servidor/rutas/` sigue el mismo orden:
 
-1. `require` de `backend/bootstrap.php`.
-2. Chequeo de permisos (`requerir_login()`, `requerir_admin()`...).
-3. Si llego un formulario (`es_post()`): validar, guardar con una funcion de `modelos/` y redirigir.
-4. Mostrar el HTML.
+1. Chequeo de permisos (`requerirLogin`, `requerirAdmin`...).
+2. Si llegó un formulario: leerlo con `campo()`, validar, guardar con una función de `modelos/` y redirigir.
+3. Mostrar la plantilla con `res.render()`.
 
-Las consultas SQL estan sólo en `backend/modelos/`. Las paginas nunca escriben SQL.
+Las consultas SQL están sólo en `servidor/modelos/`. Las rutas nunca escriben SQL.
 
 ### Roles (columna `usuarios.estado`)
 
 | Valor | Rol | Puede |
 |---|---|---|
-| 0 | Sin permisos | Iniciar sesion |
+| 0 | Sin permisos | Iniciar sesión |
 | 1 | Usuario | Cargar bandas si tiene creaciones disponibles |
-| 67 | Administrador | Todo, incluido el panel de administracion |
+| 67 | Administrador | Todo, incluido el panel de administración |
 
-Las constantes estan en `backend/config/app.php` (`ESTADO_ADMIN`, etc.).
+Las constantes están en `servidor/config.js` (`ESTADO_ADMIN`, etc.).
 
-### Agregar un genero nuevo
+### Agregar un género nuevo
 
-1. Agregalo en `GENEROS` en `backend/config/app.php`.
-2. Copia `frontend/generos/rock.php` con el nombre del genero y cambia `$genero`.
-3. Subi las imagenes a `frontend/images/<genero>/`.
+1. Agregalo en `GENEROS` en `servidor/config.js`.
+2. Subí las imágenes a `publico/images/<genero>/`.
+3. Agregá el fondo de su sección en `publico/css/style.css`.
 
-El menu, el panel de administracion y el formulario de bandas lo toman solos.
+El menú, las páginas, el panel de administración y el formulario de bandas lo toman solos.
+
+### Agregar una animación
+
+Las plantillas marcan qué se anima con atributos, sin escribir JavaScript:
+
+| Atributo | Qué hace |
+|---|---|
+| `data-revelar="izquierda"`, `"derecha"` o `"abajo"` | Entra desde ese lado al aparecer en pantalla |
+| `data-parallax` | Su fondo se mueve con el scroll (sólo en pantallas grandes) |
+
+Lo demás está en `publico/js/animaciones.js`, con una función por cada efecto. Sin JavaScript o con "reducir movimiento" activado, la página se ve completa y quieta.
 
 ## Seguridad
 
-- Todas las consultas usan sentencias preparadas (sin inyeccion SQL).
-- Todo lo que se muestra pasa por `e()` (sin XSS).
-- Contraseñas con `password_hash()`. Las cuentas viejas en MD5 se actualizan solas la proxima vez que inician sesion.
-- Token CSRF en todos los formularios POST.
-- Bloqueo de 15 minutos después de 5 logins fallidos para un mismo usuario (o 20 desde una misma IP). En una base existente, importá `database/03_intentos_login.sql`.
-- Cookies de sesion `HttpOnly` y `SameSite=Lax`; el id de sesion se renueva al iniciar sesion.
-- Los permisos se verifican en el servidor, no solo escondiendo botones.
-- Los errores internos van al log del servidor; el visitante ve un aviso generico. Para verlos en pantalla mientras programas, usa `APP_DEBUG=1`.
+- Contraseñas con bcrypt. Las cuentas viejas con MD5 se actualizan solas la próxima vez que entran.
+- Consultas preparadas: no hay inyección SQL.
+- Todo lo que muestra una plantilla con `<%= %>` se escapa. `<%- %>` se usa sólo para incluir otras plantillas.
+- Token CSRF en cada formulario y cookies `HttpOnly` y `SameSite=Lax`.
+- Política de contenido (CSP) que sólo permite recursos del propio sitio.
+- Bloqueo temporal del login tras varios intentos fallidos.
 
-## Ejecucion con Docker Compose (recomendado)
+## Cómo levantarlo
 
 ```bash
-cp .env.example .env      # y cambia las contraseñas
+cp .env.example .env      # y cambiá las contraseñas y SESSION_SECRET
 docker compose up --build
 ```
 
-Abri `http://localhost:8080/`. La primera vez se crean las tablas y se cargan las bandas de ejemplo desde `database/`.
+Abrí <http://localhost:8080>. La primera vez se crean las tablas con los archivos de `database/`. La tabla `sesiones` la crea la aplicación sola.
 
-## Ejecucion local con XAMPP
+Para trabajar sin Docker, con una base propia: `npm ci` y `npm run dev`, con las variables `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE` y `SESSION_SECRET` definidas.
 
-1. Clona el proyecto dentro de `htdocs`.
-2. Inicia Apache y MySQL desde el panel de XAMPP.
-3. En phpMyAdmin crea la base `mzabeats` e importa `database/01_esquema.sql` y `database/02_bandas.sql`.
-4. Abri la carpeta `frontend/` del proyecto, por ejemplo `http://localhost/Mzbeats/ProyectoMza/frontend/`.
+Para ver estadísticas con Umami, definí `UMAMI_WEBSITE_ID` (y `UMAMI_SCRIPT_URL` si no está en `/u/script.js`).
 
-Sin variables de entorno, la conexion usa:
+## Pruebas
 
-```text
-MYSQLHOST=localhost
-MYSQLUSER=root
-MYSQLPASSWORD=
-MYSQLDATABASE=mzabeats
-MYSQLPORT=3306
+```bash
+npm test                  # reglas, sin base de datos
 ```
 
-## Estadísticas de visitas (opcional)
+Las de integración usan una base descartable:
 
-Si definís la variable `UMAMI_WEBSITE_ID` (el id del sitio en [Umami](https://umami.is)), cada página incluye el script de estadísticas. Por defecto se carga desde `/u/script.js`; se puede cambiar con `UMAMI_SCRIPT_URL`. Sin esas variables no se agrega nada.
+```bash
+docker compose -p mzabeats-prueba --env-file pruebas/prueba.env -f compose.yaml -f compose.prueba.yaml up --build -d
+BASE_URL=http://localhost:8083 npm run test:integracion
+docker compose -p mzabeats-prueba --env-file pruebas/prueba.env -f compose.yaml -f compose.prueba.yaml down -v
+```
 
-## Despliegue en Render u otro servidor con Docker
-
-Construi la imagen con el `Dockerfile` y configura las variables `MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE` y `MYSQLPORT`.
-
-No subas contraseñas ni otros datos sensibles al repositorio.
-
-## Licencia
-
-Este proyecto se desarrolla con fines educativos y de difusion cultural.
+Empezá siempre con una base nueva: algunas pruebas dependen de lo que guardaron las anteriores.

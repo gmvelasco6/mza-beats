@@ -1,0 +1,27 @@
+<%# "Mi cuenta": el usuario logueado cambia su nombre y su nombre de usuario. %><%- include('partes/head') %>
+<body>
+    <%- include('partes/nav_simple') %>
+    <main class="table-container-usuario">
+        <h1 class="h1-usuario" align="center" data-revelar="abajo">Mi cuenta</h1>
+        <%- include('partes/mensajes') %>
+        <form id="form-cuenta" method="POST"><%- include('partes/csrf') %></form>
+        <table class="table-usuarios" cellpadding="5" data-revelar="abajo">
+            <tr>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Clave</th>
+                <th>Acción</th>
+            </tr>
+            <tr align="center">
+                <td><input type="text" name="nombre" form="form-cuenta" value="<%= nombreMostrado %>" maxlength="<%= limites.nombreMaximo %>"></td>
+                <td><input type="text" name="usuario" form="form-cuenta" value="<%= usuarioMostrado %>" maxlength="<%= limites.usuarioMaximo %>"></td>
+                <td><a class="cambiar-contraseña" href="/cuenta/clave">Cambiar</a></td>
+                <td>
+                    <button type="submit" name="actualizar" form="form-cuenta" class="btn-update-usuario">Actualizar</button>
+                </td>
+            </tr>
+        </table>
+    </main>
+    <%- include('partes/pie') %>
+</body>
+</html>
