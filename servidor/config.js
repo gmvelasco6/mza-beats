@@ -41,6 +41,26 @@ export const BLOQUEO_LOGIN = {
 export const IMAGEN_BANDA_POR_DEFECTO = 'images/logo/logoMzaBeats.png';
 
 /**
+ * Dibujos para la foto de perfil. Los usuarios sólo eligen entre estos: no
+ * pueden subir imágenes. Para sumar uno, agregá acá su clave y su nombre, y
+ * el archivo publico/images/avatares/<clave>.svg.
+ */
+export const AVATARES = [
+  { clave: 'guitarra', nombre: 'Guitarra' },
+  { clave: 'bateria', nombre: 'Batería' },
+  { clave: 'microfono', nombre: 'Micrófono' },
+  { clave: 'vinilo', nombre: 'Vinilo' },
+  { clave: 'auriculares', nombre: 'Auriculares' },
+  { clave: 'casete', nombre: 'Casete' },
+  { clave: 'parlante', nombre: 'Parlante' },
+  { clave: 'teclado', nombre: 'Teclado' },
+  { clave: 'nota', nombre: 'Corchea' },
+  { clave: 'cordillera', nombre: 'Cordillera' },
+  { clave: 'uvas', nombre: 'Uvas' },
+  { clave: 'copa', nombre: 'Copa de vino' },
+];
+
+/**
  * Géneros del sitio.
  *
  * Para agregar un género nuevo:
@@ -79,11 +99,11 @@ export const GENEROS = {
       dando lugar a propuestas frescas y originales que combinan
       lo melódico con lo experimental.
       Artistas como Mariana Päraway han llevado el pop mendocino a un nivel
-      más íntimo y sofisticado, fusionando sintetizadores,
-      sonidos andinos y letras cargadas de emoción.
+      más íntimo y sofisticado, fusionando pasajes pop,
+      folclóricos, electrónicos y experimentales.
       También destacan bandas como Spaghetti Western,
-      que incorporan elementos electrónicos y una estética retro que los
-      hace únicos dentro del género. El pop mendocino no se limita a lo comercial,
+      que mezclan soul, jazz, funk y rock con elementos latinos.
+      El pop mendocino no se limita a lo comercial,
       sino que explora distintas sonoridades con identidad propia,
       influenciado por la diversidad cultural y el espíritu artístico de la región.
       Estos proyectos suelen presentarse en espacios culturales independientes,
@@ -96,11 +116,10 @@ export const GENEROS = {
     imagenInicio: 'images/inicio/rock.png',
     intro: `El rock mendocino tiene una historia sólida y vibrante,
       con bandas que han sabido combinar la potencia del género con un
-      fuerte arraigo local. Desde los años 90,
-      grupos como Chancho Va comenzaron a marcar el rumbo con un estilo directo y
-      letras comprometidas, mientras que bandas como Monos en Bolas
-      y La Skandalosa Tripulación sumaron nuevas capas al sonido rockero,
-      mezclando funk, ska y reggae.
+      fuerte arraigo local. Desde comienzos de los años 2000,
+      grupos como Chancho Va marcaron el rumbo con un estilo directo y
+      letras comprometidas, mientras que bandas como
+      La Skandalosa Tripulación sumaron nuevas capas al sonido rockero.
       La escena actual mantiene viva la energía del rock con propuestas
       que van desde lo alternativo hasta el hard rock,
       consolidándose en escenarios locales, festivales provinciales y

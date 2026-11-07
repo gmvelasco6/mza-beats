@@ -365,25 +365,94 @@ describe('mi cuenta', () => {
   });
 });
 
-describe('panel de administración', () => {
-  const idEn = (html, usuario) => {
-    const tramo = html.slice(html.indexOf(`value="${usuario}" readonly`));
-    return tramo.match(/form-usuario-(\d+)/)[1];
-  };
+describe('foto de perfil', () => {
+  test('muestra los dibujos y guarda el elegido', async () => {
+    const cliente = await comoUsuario('sin-permisos');
+    const cuenta = await cliente.get('/cuenta');
+    for (const clave of ['guitarra', 'cordillera', 'copa']) {
+      assert.ok(cuenta.html.includes(`/images/avatares/${clave}.svg`), clave);
+      assert.equal((await visitante().get(`/images/avatares/${clave}.svg`)).estado, 200, clave);
+    }
 
-  test('muestra usuarios, bandas y consultas, pero nunca las claves', async () => {
+    const respuesta = await cliente.post('/cuenta/foto', { avatar: 'vinilo' }, '/cuenta');
+    assert.equal(respuesta.estado, 302);
+    const pagina = await seguir(cliente, respuesta);
+    assert.ok(pagina.html.includes('Foto de perfil actualizada'));
+    assert.match(pagina.html, /value="vinilo"[^>]*checked/);
+    assert.ok((await cliente.get('/')).html.includes('src="/images/avatares/vinilo.svg" class="img-usuario"'));
+  });
+
+  test('no acepta nada que no sea uno de los dibujos', async () => {
+    const cliente = await comoUsuario('sin-permisos');
+    const ataques = ['https://mal.com/x.png', '../../secreto', 'no-existe', '<script>'];
+    for (const avatar of ataques) {
+      const respuesta = await cliente.post('/cuenta/foto', { avatar }, '/cuenta');
+      const pagina = await seguir(cliente, respuesta);
+      assert.ok(pagina.html.includes('Elegí uno de los dibujos'), avatar);
+      assert.ok((await cliente.get('/')).html.includes('src="/images/avatares/vinilo.svg"'), avatar);
+    }
+  });
+
+  test('se puede volver a la imagen por defecto', async () => {
+    const cliente = await comoUsuario('sin-permisos');
+    await cliente.post('/cuenta/foto', { avatar: '' }, '/cuenta');
+    assert.ok((await cliente.get('/')).html.includes('src="/images/inicio/usuario.png" class="img-usuario"'));
+  });
+
+  test('hace falta haber entrado', async () => {
+    const respuesta = await visitante().post('/cuenta/foto', { avatar: 'copa' }, '/login');
+    assert.equal(respuesta.estado, 302);
+    assert.equal(respuesta.cabeceras.get('location'), '/');
+  });
+
+  test('no hay forma de subir archivos', async () => {
+    const cliente = await comoUsuario('sin-permisos');
+    assert.ok(!(await cliente.get('/cuenta')).html.includes('type="file"'));
+  });
+});
+
+describe('panel de administración', () => {
+  const idDeUsuario = (html, usuario) => html.match(new RegExp(`data-usuario="${usuario}" data-id="(\\d+)"`))[1];
+  const idDeBanda = (html, banda) => html.match(new RegExp(`id="banda-(\\d+)" data-banda="${banda}"`))[1];
+
+  test('sólo entra un administrador a cada sección', async () => {
+    const comun = await comoUsuario('sin-permisos');
+    for (const ruta of ['/admin', '/admin/usuarios', '/admin/bandas', '/admin/pedidos']) {
+      assert.equal((await visitante().get(ruta)).estado, 302, ruta);
+      assert.equal((await comun.get(ruta)).estado, 302, ruta);
+    }
+  });
+
+  test('el resumen muestra pedidos, cartelera y usuarios', async () => {
     const cliente = await comoUsuario('admin-prueba');
     const { estado, html } = await cliente.get('/admin');
     assert.equal(estado, 200);
-    for (const texto of ['Bandas Indie', 'Bandas Pop', 'Bandas Rock', 'admin-prueba', 'Chancho Va', 'Banda Consultante', '67 = Administrador']) {
+    for (const texto of ['Panel de MzaBeats', 'Cartelera', 'Chancho Va', 'Banda Consultante', 'Hay 1 banda esperando respuesta', 'Ver pedidos']) {
       assert.ok(html.includes(texto), texto);
     }
     assert.ok(!html.includes('$2y$'));
   });
 
+  test('cada sección muestra lo suyo y ninguna muestra claves', async () => {
+    const cliente = await comoUsuario('admin-prueba');
+    const usuarios = await cliente.get('/admin/usuarios');
+    assert.ok(usuarios.html.includes('admin-prueba'));
+    assert.ok(usuarios.html.includes('<option value="67"'));
+    assert.ok(!usuarios.html.includes('$2y$'));
+
+    const bandas = await cliente.get('/admin/bandas?genero=rock');
+    assert.ok(bandas.html.includes('Chancho Va'));
+    assert.ok(!bandas.html.includes('Mi Amigo Invencible"'));
+    assert.ok((await cliente.get('/admin/bandas?genero=no-existe')).html.includes('Mi Amigo Invencible'));
+
+    const pedidos = await cliente.get('/admin/pedidos');
+    assert.ok(pedidos.html.includes('Banda Consultante'));
+    assert.ok(pedidos.html.includes('Responder por correo'));
+  });
+
   test('actualiza permisos y rechaza valores inválidos', async () => {
     const cliente = await comoUsuario('admin-prueba');
-    const id = idEn((await cliente.get('/admin')).html, 'descartable');
+    const id = idDeUsuario((await cliente.get('/admin/usuarios')).html, 'descartable');
     const casos = [
       [{ estado: '5', cantidad_creaciones: '0' }, 'Estado inválido'],
       [{ estado: '1', cantidad_creaciones: '-1' }, 'mayor o igual a 0'],
@@ -391,10 +460,9 @@ describe('panel de administración', () => {
       [{ estado: '1', cantidad_creaciones: '2' }, 'Usuario actualizado'],
     ];
     for (const [envio, mensaje] of casos) {
-      const respuesta = await cliente.post('/admin', { accion: 'actualizar-usuario', id, ...envio }, '/admin');
-      assert.equal(respuesta.cabeceras.get('location'), '/admin#tabla-usuarios');
-      const pagina = await cliente.get('/admin');
-      assert.ok(pagina.html.includes(mensaje), mensaje);
+      const respuesta = await cliente.post('/admin', { accion: 'actualizar-usuario', id, ...envio }, '/admin/usuarios');
+      assert.equal(respuesta.cabeceras.get('location'), '/admin/usuarios');
+      assert.ok((await seguir(cliente, respuesta)).html.includes(mensaje), mensaje);
     }
     const permitido = await comoUsuario('descartable');
     assert.equal((await permitido.get('/agregar-banda')).estado, 200);
@@ -402,64 +470,69 @@ describe('panel de administración', () => {
 
   test('un administrador no puede quitarse el rol ni eliminarse', async () => {
     const cliente = await comoUsuario('admin-prueba');
-    const id = idEn((await cliente.get('/admin')).html, 'admin-prueba');
+    const pagina = await cliente.get('/admin/usuarios');
+    const id = idDeUsuario(pagina.html, 'admin-prueba');
 
-    await cliente.post('/admin', { accion: 'actualizar-usuario', id, estado: '1', cantidad_creaciones: '0' }, '/admin');
-    assert.ok((await cliente.get('/admin')).html.includes('No podés quitarte el rol'));
+    const rol = await cliente.post('/admin', { accion: 'actualizar-usuario', id, estado: '1', cantidad_creaciones: '0' }, '/admin/usuarios');
+    assert.ok((await seguir(cliente, rol)).html.includes('No podés quitarte el rol'));
 
-    await cliente.post('/admin', { accion: 'eliminar-usuario', id }, '/admin');
-    assert.ok((await cliente.get('/admin')).html.includes('No podés eliminar tu propia cuenta'));
+    const baja = await cliente.post('/admin', { accion: 'eliminar-usuario', id }, '/admin/usuarios');
+    assert.ok((await seguir(cliente, baja)).html.includes('No podés eliminar tu propia cuenta'));
   });
 
   test('eliminar un usuario cierra su sesión abierta', async () => {
     const descartable = await comoUsuario('descartable');
     const cliente = await comoUsuario('admin-prueba');
-    const id = idEn((await cliente.get('/admin')).html, 'descartable');
-    await cliente.post('/admin', { accion: 'eliminar-usuario', id }, '/admin');
-    assert.ok((await cliente.get('/admin')).html.includes('Usuario eliminado'));
+    const id = idDeUsuario((await cliente.get('/admin/usuarios')).html, 'descartable');
+    const respuesta = await cliente.post('/admin', { accion: 'eliminar-usuario', id }, '/admin/usuarios');
+    assert.ok((await seguir(cliente, respuesta)).html.includes('Usuario eliminado'));
     assert.ok((await descartable.get('/')).html.includes('Log in'));
   });
 
-  test('edita una banda y valida sus rutas de imagen', async () => {
+  test('edita una banda, valida sus fotos y vuelve a ella', async () => {
     const cliente = await comoUsuario('admin-prueba');
-    const { html } = await cliente.get('/admin');
-    const id = html.slice(html.indexOf('value="Banda Cargada"')).match(/form-banda-(\d+)/)[1];
-    const banda = { accion: 'actualizar-banda', id, nombre: 'Banda Editada', descripcion: 'Texto', genero: 'indie' };
+    const { html } = await cliente.get('/admin/bandas?genero=pop');
+    const id = idDeBanda(html, 'Banda Cargada');
+    const banda = { accion: 'actualizar-banda', id, genero_actual: 'pop', nombre: 'Banda Editada', descripcion: 'Primer párrafo.\nSegundo párrafo.', genero: 'indie' };
+    const pagina = '/admin/bandas?genero=pop';
 
-    await cliente.post('/admin', { ...banda, imagen_principal: 'https://mal.com/x.png', imagen_fondo: '' }, '/admin');
-    assert.ok((await cliente.get('/admin')).html.includes('Las imágenes tienen que ser rutas'));
+    const mala = await cliente.post('/admin', { ...banda, imagen_principal: 'https://mal.com/x.png', imagen_fondo: '' }, pagina);
+    assert.equal(mala.cabeceras.get('location'), `/admin/bandas?genero=pop#banda-${id}`);
+    assert.ok((await seguir(cliente, mala)).html.includes('Las imágenes tienen que ser rutas'));
 
-    const bien = await cliente.post('/admin', { ...banda, imagen_principal: 'images/indie/01.png', imagen_fondo: 'images/indie/01-bg.png' }, '/admin');
-    assert.equal(bien.cabeceras.get('location'), '/admin#tabla-indie');
-    assert.ok((await cliente.get('/admin')).html.includes('Banda &#34;Banda Editada&#34; actualizada'));
+    const bien = await cliente.post('/admin', { ...banda, imagen_principal: 'images/indie/01.png', imagen_fondo: 'images/indie/01-bg.png' }, pagina);
+    assert.equal(bien.cabeceras.get('location'), `/admin/bandas?genero=indie#banda-${id}`);
+    assert.ok((await seguir(cliente, bien)).html.includes('Banda &#34;Banda Editada&#34; actualizada'));
 
     const genero = await visitante().get('/generos/indie');
     assert.ok(genero.html.includes('Banda Editada'));
     assert.ok(genero.html.includes('src="/images/indie/01.png"'));
+    assert.ok(genero.html.includes('<p>Primer párrafo.</p><p>Segundo párrafo.</p>'));
   });
 
-  test('elimina una banda y una consulta', async () => {
+  test('elimina una banda y un pedido', async () => {
     const cliente = await comoUsuario('admin-prueba');
-    let { html } = await cliente.get('/admin');
-    const idBanda = html.slice(html.indexOf('value="Banda Editada"')).match(/form-banda-(\d+)/)[1];
-    await cliente.post('/admin', { accion: 'eliminar-banda', id: idBanda }, '/admin');
-    assert.ok((await cliente.get('/admin')).html.includes('Banda eliminada'));
+    const { html } = await cliente.get('/admin/bandas?genero=indie');
+    const id = idDeBanda(html, 'Banda Editada');
+    const baja = await cliente.post('/admin', { accion: 'eliminar-banda', id, genero_actual: 'indie' }, '/admin/bandas?genero=indie');
+    assert.equal(baja.cabeceras.get('location'), '/admin/bandas?genero=indie');
+    assert.ok((await seguir(cliente, baja)).html.includes('Banda eliminada'));
     assert.ok(!(await visitante().get('/generos/indie')).html.includes('Banda Editada'));
 
-    ({ html } = await cliente.get('/admin'));
-    const tramo = html.slice(html.indexOf('value="Banda Consultante"'));
-    const idConsulta = tramo.match(/name="id" value="(\d+)"/)[1];
-    const respuesta = await cliente.post('/admin', { accion: 'eliminar-consulta', id: idConsulta }, '/admin');
-    assert.equal(respuesta.cabeceras.get('location'), '/admin#tabla-consultas');
-    const final = await cliente.get('/admin');
-    assert.ok(final.html.includes('Consulta eliminada'));
+    const pedidos = await cliente.get('/admin/pedidos');
+    const idPedido = pedidos.html.match(/data-consulta="Banda Consultante" data-id="(\d+)"/)[1];
+    const respuesta = await cliente.post('/admin', { accion: 'eliminar-consulta', id: idPedido }, '/admin/pedidos');
+    assert.equal(respuesta.cabeceras.get('location'), '/admin/pedidos');
+    const final = await seguir(cliente, respuesta);
+    assert.ok(final.html.includes('Pedido eliminado'));
+    assert.ok(final.html.includes('No hay bandas esperando respuesta'));
     assert.ok(!final.html.includes('Banda Consultante'));
   });
 
   test('una acción desconocida no hace nada', async () => {
     const cliente = await comoUsuario('admin-prueba');
     for (const accion of ['no-existe', 'constructor', '__proto__']) {
-      const { estado, cabeceras } = await cliente.post('/admin', { accion, id: '1' }, '/admin');
+      const { estado, cabeceras } = await cliente.post('/admin', { accion, id: '1' }, '/admin/usuarios');
       assert.equal(estado, 302, accion);
       assert.equal(cabeceras.get('location'), '/admin');
     }

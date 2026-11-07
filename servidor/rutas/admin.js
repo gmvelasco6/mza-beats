@@ -1,8 +1,13 @@
 /**
- * Panel de administración: usuarios, bandas por género y consultas.
+ * Panel de administración. Cada sección es su propia página:
  *
- * Cada botón manda un campo "accion" que dice exactamente qué hacer. Después
- * de guardar se recarga la página, así F5 no repite la acción.
+ *   /admin            Resumen: pedidos pendientes y cartelera de bandas
+ *   /admin/usuarios   Permisos de cada cuenta
+ *   /admin/bandas     Bandas de un género, con su formulario de edición
+ *   /admin/pedidos    Bandas que pidieron aparecer en el sitio
+ *
+ * Todos los formularios van a POST /admin con un campo "accion" que dice
+ * exactamente qué hacer. Después de guardar se redirige, así F5 no repite la acción.
  */
 import { Router } from 'express';
 import { ESTADO_ADMIN, ESTADOS, GENEROS } from '../config.js';
@@ -14,6 +19,7 @@ import {
   bandaEliminar,
   bandasPorGenero,
   generoEsValido,
+  imagenDeBanda,
   rutaImagenEsValida,
   validarBanda,
 } from '../modelos/bandas.js';
@@ -23,22 +29,60 @@ import { usuarioActualizarPermisos, usuarioEliminar, usuariosTodos } from '../mo
 export const rutasAdmin = Router();
 rutasAdmin.use('/admin', requerirAdmin);
 
+const CLAVES_DE_GENERO = Object.keys(GENEROS);
+
+/** Las bandas de cada género, en el orden del sitio. */
+async function bandasDeTodosLosGeneros() {
+  const listas = await Promise.all(CLAVES_DE_GENERO.map((clave) => bandasPorGenero(clave)));
+  return Object.fromEntries(CLAVES_DE_GENERO.map((clave, posicion) => [clave, listas[posicion]]));
+}
+
+/** Lo que necesita la barra del panel en todas sus páginas. */
+async function datosDelPanel(req, res, next) {
+  const consultas = await consultasTodas();
+  res.locals.consultas = consultas;
+  res.locals.pedidosPendientes = consultas.length;
+  res.locals.imagenDeBanda = imagenDeBanda;
+  next();
+}
+
+rutasAdmin.use('/admin', datosDelPanel);
+
+function vistaDelPanel(res, vista, titulo, seccion, datos = {}) {
+  res.render(`admin/${vista}`, { titulo, hojaDeEstilo: 'panel', seccion, ...datos });
+}
+
 rutasAdmin.get('/admin', async (_req, res) => {
-  const bandasDeCadaGenero = {};
-  for (const clave of Object.keys(GENEROS)) {
-    bandasDeCadaGenero[clave] = await bandasPorGenero(clave);
-  }
-  res.render('admin', {
-    titulo: 'Administrar Bandas',
-    hojaDeEstilo: 'php-style',
-    estados: [...ESTADOS],
+  const [usuarios, bandasDeCadaGenero] = await Promise.all([usuariosTodos(), bandasDeTodosLosGeneros()]);
+  const totalBandas = Object.values(bandasDeCadaGenero).reduce((total, lista) => total + lista.length, 0);
+  const sinFoto = Object.values(bandasDeCadaGenero).flat().filter((banda) => banda.imagen_principal === '').length;
+  vistaDelPanel(res, 'resumen', 'Panel de MzaBeats', 'resumen', { usuarios, bandasDeCadaGenero, totalBandas, sinFoto });
+});
+
+rutasAdmin.get('/admin/usuarios', async (_req, res) => {
+  vistaDelPanel(res, 'usuarios', 'Usuarios', 'usuarios', {
     usuarios: await usuariosTodos(),
-    bandasDeCadaGenero,
-    consultas: await consultasTodas(),
+    estados: [...ESTADOS],
+    estadoAdmin: ESTADO_ADMIN,
   });
 });
 
-/** Cada acción hace lo suyo y devuelve la sección a la que volver. */
+rutasAdmin.get('/admin/bandas', async (req, res) => {
+  const bandasDeCadaGenero = await bandasDeTodosLosGeneros();
+  const pedido = campo(req.query, 'genero');
+  vistaDelPanel(res, 'bandas', 'Bandas', 'bandas', {
+    bandasDeCadaGenero,
+    generoActivo: generoEsValido(pedido) ? pedido : CLAVES_DE_GENERO[0],
+  });
+});
+
+rutasAdmin.get('/admin/pedidos', (_req, res) => {
+  vistaDelPanel(res, 'pedidos', 'Pedidos', 'pedidos');
+});
+
+const paginaDeBandas = (genero) => (generoEsValido(genero) ? `/admin/bandas?genero=${genero}` : '/admin/bandas');
+
+/** Cada acción hace lo suyo y devuelve la dirección a la que volver. */
 const ACCIONES = {
   async 'actualizar-banda'(req, id) {
     const datos = {
@@ -54,17 +98,17 @@ const ACCIONES = {
     }
     if (error) {
       mensajeGuardar(req, 'error', error);
-    } else {
-      await bandaActualizar(id, datos);
-      mensajeGuardar(req, 'ok', `Banda "${datos.nombre}" actualizada`);
+      return `${paginaDeBandas(campo(req.body, 'genero_actual'))}#banda-${id}`;
     }
-    return generoEsValido(datos.genero) ? datos.genero : 'usuarios';
+    await bandaActualizar(id, datos);
+    mensajeGuardar(req, 'ok', `Banda "${datos.nombre}" actualizada`);
+    return `${paginaDeBandas(datos.genero)}#banda-${id}`;
   },
 
   async 'eliminar-banda'(req, id) {
     await bandaEliminar(id);
     mensajeGuardar(req, 'ok', 'Banda eliminada');
-    return null;
+    return paginaDeBandas(campo(req.body, 'genero_actual'));
   },
 
   async 'actualizar-usuario'(req, id) {
@@ -82,7 +126,7 @@ const ACCIONES = {
       await usuarioActualizarPermisos(id, estado, creaciones);
       mensajeGuardar(req, 'ok', 'Usuario actualizado');
     }
-    return 'usuarios';
+    return '/admin/usuarios';
   },
 
   async 'eliminar-usuario'(req, id) {
@@ -92,20 +136,20 @@ const ACCIONES = {
       await usuarioEliminar(id);
       mensajeGuardar(req, 'ok', 'Usuario eliminado');
     }
-    return 'usuarios';
+    return '/admin/usuarios';
   },
 
   async 'eliminar-consulta'(req, id) {
     await consultaEliminar(id);
-    mensajeGuardar(req, 'ok', 'Consulta eliminada');
-    return 'consultas';
+    mensajeGuardar(req, 'ok', 'Pedido eliminado');
+    return '/admin/pedidos';
   },
 };
 
 rutasAdmin.post('/admin', async (req, res) => {
   const nombreAccion = campo(req.body, 'accion');
-  const seccion = Object.hasOwn(ACCIONES, nombreAccion)
+  const destino = Object.hasOwn(ACCIONES, nombreAccion)
     ? await ACCIONES[nombreAccion](req, entero(req.body, 'id') ?? 0)
-    : null;
-  res.redirect(seccion ? `/admin#tabla-${seccion}` : '/admin');
+    : '/admin';
+  res.redirect(destino);
 });

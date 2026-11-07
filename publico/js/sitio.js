@@ -12,6 +12,25 @@ document.addEventListener('click', (evento) => {
   }
 });
 
+/** Al elegir un dibujo, la foto de arriba muestra cómo va a quedar. */
+document.addEventListener('change', ({ target }) => {
+  const vista = document.querySelector('[data-avatar-vista]');
+  if (vista && target.matches('[data-avatar-ruta]')) {
+    vista.src = target.dataset.avatarRuta;
+  }
+});
+
+/** Al volver a una banda del panel (#banda-12), se abre para seguir editándola. */
+function abrirBandaDeLaDireccion() {
+  const destino = window.location.hash && document.querySelector(window.location.hash);
+  if (destino instanceof HTMLDetailsElement) {
+    destino.open = true;
+    destino.scrollIntoView({ block: 'nearest' });
+  }
+}
+
+abrirBandaDeLaDireccion();
+
 function iniciarBuscador() {
   const formulario = document.querySelector('.buscador-container');
   const resultados = document.getElementById('resultados');

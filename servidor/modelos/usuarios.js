@@ -1,7 +1,7 @@
 /**
  * Acceso a la tabla `usuarios`.
  */
-import { ESTADO_USUARIO, LIMITES } from '../config.js';
+import { AVATARES, ESTADO_USUARIO, LIMITES } from '../config.js';
 import { ejecutar, fila, filas } from '../lib/db.js';
 import { largo } from '../lib/texto.js';
 
@@ -15,7 +15,7 @@ export function usuarioPorNombre(nombreUsuario) {
 
 /** Lista para el panel de administración (sin la columna de la clave). */
 export function usuariosTodos() {
-  return filas('SELECT id, nombre, usuario, estado, cantidad_creaciones FROM usuarios ORDER BY id ASC');
+  return filas('SELECT id, nombre, usuario, estado, cantidad_creaciones, avatar FROM usuarios ORDER BY id ASC');
 }
 
 /** ¿Ya hay otra cuenta con ese nombre de usuario? */
@@ -37,6 +37,23 @@ export function usuarioActualizarPerfil(id, nombre, nombreUsuario) {
 
 export function usuarioActualizarClave(id, claveHash) {
   return ejecutar('UPDATE usuarios SET clave = ? WHERE id = ?', [claveHash, id]);
+}
+
+/** La clave de uno de los dibujos, o null para volver a la imagen por defecto. */
+export function usuarioActualizarAvatar(id, avatar) {
+  return ejecutar('UPDATE usuarios SET avatar = ? WHERE id = ?', [avatar, id]);
+}
+
+/** Sólo se aceptan los dibujos del sitio. Vacío significa "sin dibujo". */
+export function avatarEsValido(avatar) {
+  return avatar === '' || AVATARES.some(({ clave }) => clave === avatar);
+}
+
+/** La imagen de perfil de un usuario. */
+export function rutaAvatar(usuario) {
+  return avatarEsValido(usuario?.avatar ?? '') && usuario?.avatar
+    ? `/images/avatares/${usuario.avatar}.svg`
+    : '/images/inicio/usuario.png';
 }
 
 export function usuarioActualizarPermisos(id, estado, cantidadCreaciones) {

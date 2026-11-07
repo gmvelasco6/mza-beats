@@ -84,3 +84,15 @@ h1[id],
     display: inline-block;
     text-align: center;
 }
+
+/* La foto de perfil del menú siempre es un círculo */
+.img-usuario {
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Las biografías tienen varios párrafos */
+.description p + p {
+    margin-top: 0.9em;
+}

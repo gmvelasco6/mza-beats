@@ -1,0 +1,23 @@
+<%#
+  Barra de "Mi cuenta" y del panel: el logo, las secciones y quién está conectado.
+  seccion  La sección actual del panel (sólo en las páginas del panel)
+%><header class="barra">
+    <div class="barra-fila">
+        <a class="barra-logo" href="/"><img src="/images/logo/logoMzaBeats.png" alt="MzaBeats, ir al inicio"></a>
+        <nav class="barra-enlaces" aria-label="Secciones">
+            <% if (locals.seccion) { %>
+                <a href="/admin"<% if (seccion === 'resumen') { %> aria-current="page"<% } %>>Resumen</a>
+                <a href="/admin/pedidos"<% if (seccion === 'pedidos') { %> aria-current="page"<% } %>>Pedidos<% if (pedidosPendientes > 0) { %> <span class="cuenta-pendiente"><%= pedidosPendientes %></span><% } %></a>
+                <a href="/admin/bandas"<% if (seccion === 'bandas') { %> aria-current="page"<% } %>>Bandas</a>
+                <a href="/admin/usuarios"<% if (seccion === 'usuarios') { %> aria-current="page"<% } %>>Usuarios</a>
+            <% } else { %>
+                <a href="/">Inicio</a>
+                <% if (esAdmin) { %><a href="/admin">Panel</a><% } %>
+            <% } %>
+        </nav>
+        <a class="barra-usuario" href="/cuenta">
+            <img class="avatar avatar-chico" src="<%= rutaAvatar(usuario) %>" alt="" width="32" height="32">
+            <span><%= usuario.usuario %></span>
+        </a>
+    </div>
+</header>

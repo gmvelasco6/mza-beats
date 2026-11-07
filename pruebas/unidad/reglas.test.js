@@ -2,7 +2,9 @@
  * Reglas que no necesitan base de datos ni servidor: contraseñas y validaciones.
  */
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
+import { AVATARES } from '../../servidor/config.js';
 import {
   claveEsCorrecta,
   claveHash,
@@ -11,9 +13,9 @@ import {
   validarClaveNueva,
 } from '../../servidor/lib/claves.js';
 import { campo, comoTexto, emailEsValido, entero, escaparLike, largo } from '../../servidor/lib/texto.js';
-import { generoEsValido, rutaImagenEsValida, validarBanda } from '../../servidor/modelos/bandas.js';
+import { generoEsValido, imagenDeBanda, rutaImagenEsValida, validarBanda } from '../../servidor/modelos/bandas.js';
 import { validarConsulta } from '../../servidor/modelos/consultas.js';
-import { validarFormatoDeCuenta } from '../../servidor/modelos/usuarios.js';
+import { avatarEsValido, rutaAvatar, validarFormatoDeCuenta } from '../../servidor/modelos/usuarios.js';
 
 const CLAVE = 'clave-de-prueba';
 const HASH_DE_PHP = '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO';
@@ -115,4 +117,31 @@ test('valida el formato de una cuenta', () => {
   assert.match(validarFormatoDeCuenta('N', 'ab'), /entre 3 y 50/);
   assert.match(validarFormatoDeCuenta('N', 'con espacio'), /sólo puede tener/);
   assert.equal(validarFormatoDeCuenta('N', 'user.name-1_x'), null);
+});
+
+test('sólo acepta los dibujos del sitio como foto de perfil', () => {
+  assert.equal(avatarEsValido(''), true);
+  assert.equal(avatarEsValido('guitarra'), true);
+  for (const malo of ['otro', '../../x', 'https://mal.com/x.png', 'guitarra.svg', 'GUITARRA']) {
+    assert.equal(avatarEsValido(malo), false, malo);
+  }
+  assert.equal(rutaAvatar({ avatar: 'copa' }), '/images/avatares/copa.svg');
+  for (const usuario of [{ avatar: null }, { avatar: '' }, { avatar: '../x' }, null]) {
+    assert.equal(rutaAvatar(usuario), '/images/inicio/usuario.png');
+  }
+});
+
+test('todos los dibujos de la lista existen', () => {
+  for (const { clave } of AVATARES) {
+    const dibujo = readFileSync(new URL(`../../publico/images/avatares/${clave}.svg`, import.meta.url), 'utf8');
+    assert.match(dibujo, /^<svg /, clave);
+    assert.ok(!/<script|href=|on[a-z]+=/i.test(dibujo), clave);
+  }
+});
+
+test('una banda sin foto o con una ruta inválida usa el logo', () => {
+  const logo = 'images/logo/logoMzaBeats.png';
+  assert.equal(imagenDeBanda({ imagen_principal: '' }), logo);
+  assert.equal(imagenDeBanda({ imagen_principal: 'https://mal.com/x.png' }), logo);
+  assert.equal(imagenDeBanda({ imagen_principal: 'images/rock/02.png' }), 'images/rock/02.png');
 });

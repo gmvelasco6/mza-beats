@@ -1,0 +1,925 @@
+/*
+ * "Mi cuenta" y panel de administración: pantallas de trabajo, con la paleta
+ * de MzaBeats. Las superficies se separan por un escalón de tono, sin bordes ni
+ * sombras, y el naranja queda para lo que hay que atender.
+ */
+@font-face {
+    font-family: 'Kanit Regular';
+    src: url('../fonts/Kanit-Regular.ttf') format('truetype');
+    font-display: swap;
+}
+
+:root {
+    --fondo: #031414;
+    --superficie: #062424;
+    --elevada: #0b3131;
+    --control: #021010;
+    --borde-control: #1d5a5a;
+    --texto: #fff0de;
+    --apagado: #b5c7c0;
+    --naranja: #d25525;
+    --naranja-texto: #f08a5f;
+    --peligro: #ff9a85;
+    --radio: 12px;
+    --radio-chico: 8px;
+    --separacion: 16px;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-padding-top: 16px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--fondo);
+    color: var(--texto);
+    font: 400 15px/1.5 'Kanit Regular', system-ui, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+small {
+    display: block;
+    color: var(--apagado);
+    font-size: 13px;
+}
+
+:focus-visible {
+    outline: 2px solid var(--naranja-texto);
+    outline-offset: 2px;
+}
+
+.num {
+    font-variant-numeric: tabular-nums;
+}
+
+.solo-lectores {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+strong {
+    font-weight: 400;
+}
+
+/* ---------- Barra ---------- */
+
+/* El mismo tono que el fondo del logo, para que se funda con la barra */
+.barra {
+    background-color: var(--superficie);
+}
+
+.barra-fila,
+.lienzo {
+    width: 100%;
+    max-width: 1152px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.barra-fila {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    min-height: 64px;
+}
+
+.barra-logo img {
+    height: 36px;
+    width: auto;
+}
+
+/* El nombre de transición es único por página, y estos menús no lo llevan */
+nav.barra-enlaces,
+nav.filtros {
+    padding-left: 0;
+    padding-right: 0;
+    view-transition-name: none;
+}
+
+.barra-enlaces {
+    display: flex;
+    flex: 1;
+    gap: 24px;
+}
+
+.barra-enlaces a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    color: var(--apagado);
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.barra-enlaces a:hover,
+.barra-enlaces a[aria-current="page"] {
+    color: var(--texto);
+}
+
+.cuenta-pendiente {
+    color: var(--naranja-texto);
+    font-variant-numeric: tabular-nums;
+}
+
+.barra-usuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    color: var(--apagado);
+    transition: color 0.2s ease;
+}
+
+.barra-usuario:hover {
+    color: var(--texto);
+}
+
+/* ---------- Lienzo y título ---------- */
+
+.lienzo {
+    flex: 1;
+    padding-top: 24px;
+    padding-bottom: 64px;
+}
+
+.lienzo-angosto {
+    max-width: 720px;
+}
+
+.fila-titulo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.fila-titulo-accion {
+    margin-left: auto;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.bajada {
+    margin-top: 4px;
+    color: var(--apagado);
+}
+
+.bajada a {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+}
+
+/* ---------- Avatares ---------- */
+
+.avatar {
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--elevada);
+}
+
+.avatar-chico {
+    width: 32px;
+    height: 32px;
+}
+
+.avatar-grande {
+    width: 72px;
+    height: 72px;
+}
+
+.avatares {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 8px;
+    border: none;
+}
+
+.avatar-opcion {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 4px 8px;
+    border-radius: var(--radio-chico);
+    color: var(--apagado);
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.avatar-opcion img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+}
+
+.avatar-opcion input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+}
+
+.avatar-opcion:hover {
+    background-color: var(--elevada);
+    color: var(--texto);
+}
+
+.avatar-opcion:hover img {
+    transform: scale(1.06);
+}
+
+.avatar-opcion:has(input:checked) {
+    background-color: var(--elevada);
+    color: var(--texto);
+}
+
+.avatar-opcion:has(input:checked) img {
+    outline: 3px solid var(--naranja);
+    outline-offset: 2px;
+}
+
+.avatar-opcion:has(input:focus-visible) {
+    outline: 2px solid var(--naranja-texto);
+}
+
+/* ---------- Tarjetas y ajustes ---------- */
+
+.tarjeta {
+    padding: 20px;
+    border-radius: var(--radio);
+    background-color: var(--superficie);
+}
+
+.tarjeta > h2 {
+    margin-bottom: 14px;
+}
+
+.tarjeta-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.tarjeta-pie {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.tarjeta-pie-separado {
+    justify-content: space-between;
+}
+
+.ajuste {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 32px;
+    padding: 24px 0;
+}
+
+.ajuste-texto p {
+    margin-top: 4px;
+    color: var(--apagado);
+}
+
+.vacio {
+    color: var(--apagado);
+}
+
+/* ---------- Campos y botones ---------- */
+
+.campo {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.campo > span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.campo small {
+    margin-top: 6px;
+}
+
+body input[type="text"],
+body input[type="password"],
+body input[type="number"],
+body select,
+body textarea {
+    width: 100%;
+    margin: 0;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--borde-control);
+    border-radius: var(--radio-chico);
+    background-color: var(--control);
+    color: var(--texto);
+    font: inherit;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+body input:focus,
+body select:focus,
+body textarea:focus {
+    border-color: var(--naranja-texto);
+    box-shadow: none;
+}
+
+textarea {
+    display: block;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+::placeholder {
+    color: #8fa8a0;
+    opacity: 1;
+}
+
+.campos-dos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--separacion);
+}
+
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radio-chico);
+    font: inherit;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.boton:active {
+    transform: scale(0.97);
+}
+
+.boton-principal {
+    background-color: var(--texto);
+    color: var(--fondo);
+}
+
+.boton-principal:hover {
+    background-color: #ffffff;
+}
+
+.boton-secundario {
+    background-color: var(--elevada);
+    color: var(--texto);
+}
+
+.boton-secundario:hover {
+    background-color: #114040;
+}
+
+.boton-peligro {
+    background: none;
+    color: var(--peligro);
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.boton-peligro:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+}
+
+/* ---------- Avisos ---------- */
+
+.advertencia,
+.verificado {
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    border-radius: var(--radio-chico);
+    text-align: left;
+}
+
+.advertencia {
+    background-color: #351b18;
+    color: var(--peligro);
+}
+
+.verificado {
+    background-color: #123124;
+    color: #77dba8;
+}
+
+/* ---------- Resumen ---------- */
+
+.cifras {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-bottom: var(--separacion);
+    border-radius: var(--radio);
+    background-color: var(--superficie);
+}
+
+.cifras > div {
+    padding: 16px 20px;
+}
+
+.cifras dt {
+    color: var(--apagado);
+    font-size: 14px;
+}
+
+.cifras dd {
+    font-size: 24px;
+    line-height: 1.3;
+}
+
+.columnas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--separacion);
+}
+
+/* La última tarjeta ocupa lo que falte, para que las dos columnas terminen juntas */
+.columna-lateral {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--separacion);
+}
+
+.cartelera {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.cartelera h3 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cartelera h3 a {
+    color: var(--naranja-texto);
+}
+
+.cartelera h3 span {
+    color: var(--apagado);
+}
+
+.cartelera li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px;
+    margin: 0 -6px;
+    border-radius: var(--radio-chico);
+    transition: background-color 0.2s ease;
+}
+
+.cartelera li a:hover {
+    background-color: var(--elevada);
+}
+
+.cartelera img {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radio-chico);
+    object-fit: cover;
+    background-color: var(--elevada);
+}
+
+.aviso {
+    color: var(--naranja-texto);
+}
+
+.lista-simple li {
+    padding: 8px 0;
+}
+
+.persona {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.enlace-pie {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--apagado);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+}
+
+/* ---------- Usuarios ---------- */
+
+.tarjeta-tabla {
+    padding: 8px 20px;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th {
+    padding: 10px 12px 10px 0;
+    color: var(--apagado);
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.tabla td {
+    padding: 10px 12px 10px 0;
+    border-top: 1px solid var(--elevada);
+    vertical-align: middle;
+}
+
+.tabla th.num,
+.tabla td.num {
+    text-align: right;
+}
+
+.tabla td.num input {
+    width: 88px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.tabla select {
+    width: 170px;
+}
+
+.celda-persona {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.celda-acciones form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+/* ---------- Bandas ---------- */
+
+.filtros {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: var(--separacion);
+}
+
+.filtros a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 16px;
+    border-radius: var(--radio-chico);
+    border: 1.5px solid transparent;
+    background-color: var(--superficie);
+    color: var(--apagado);
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.filtros a strong {
+    color: var(--texto);
+    font-weight: 400;
+}
+
+.filtros a:hover,
+.filtros a[aria-current="page"] {
+    color: var(--texto);
+}
+
+.filtros a[aria-current="page"] {
+    border-color: var(--naranja);
+}
+
+/* minmax(0, 1fr): sin esto, el resumen de una línea ensancha toda la página */
+.lista-bandas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+}
+
+.banda {
+    border-radius: var(--radio);
+    background-color: var(--superficie);
+}
+
+.banda summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px 12px 12px;
+    border-radius: var(--radio);
+    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.banda summary::-webkit-details-marker {
+    display: none;
+}
+
+.banda summary:hover {
+    background-color: var(--elevada);
+}
+
+.banda summary img {
+    flex: none;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radio-chico);
+    object-fit: cover;
+    background-color: var(--elevada);
+}
+
+.banda-resumen {
+    min-width: 0;
+    flex: 1;
+}
+
+.banda-resumen small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.banda-editar {
+    flex: none;
+    color: var(--apagado);
+}
+
+.banda[open] .banda-editar {
+    color: var(--naranja-texto);
+}
+
+.banda-formulario {
+    padding: 8px 20px 20px;
+}
+
+/* ---------- Pedidos ---------- */
+
+.pedido {
+    margin-bottom: var(--separacion);
+}
+
+.tarjeta.pedido > h2 {
+    margin-bottom: 2px;
+}
+
+.pedido-email {
+    color: var(--apagado);
+}
+
+.pedido-razon {
+    margin-top: 12px;
+    max-width: 62ch;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+/* ---------- Pie ---------- */
+
+footer {
+    padding: 20px 24px;
+    color: var(--apagado);
+    font-size: 13px;
+    text-align: center;
+}
+
+/* ---------- Pantallas medianas y celulares ---------- */
+
+@media screen and (max-width: 900px) {
+    .columnas,
+    .ajuste {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .ajuste {
+        gap: 12px;
+    }
+
+    .cartelera {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .barra-fila {
+        flex-wrap: wrap;
+        gap: 0 16px;
+        min-height: 0;
+        padding: 8px 16px 0;
+    }
+
+    .barra-logo {
+        margin-right: auto;
+    }
+
+    .barra-logo img {
+        height: 32px;
+    }
+
+    .barra-enlaces {
+        order: 3;
+        flex-basis: 100%;
+        gap: 20px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .lienzo {
+        padding: 16px 16px 48px;
+    }
+
+    .fila-titulo {
+        flex-wrap: wrap;
+    }
+
+    .fila-titulo-accion {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .avatares {
+        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    }
+
+    .boton,
+    body input[type="text"],
+    body input[type="password"],
+    body input[type="number"],
+    body select,
+    body textarea {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .tarjeta-fila {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .campos-dos {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .cifras {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cifras > div {
+        padding: 12px 16px;
+    }
+
+    .tarjeta {
+        padding: 16px;
+    }
+
+    /* La tabla de usuarios pasa a una lista de bloques */
+    .tarjeta-tabla {
+        padding: 4px 16px;
+    }
+
+    .tabla thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .tabla,
+    .tabla tbody,
+    .tabla tr,
+    .tabla td {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla tr {
+        padding: 12px 0;
+    }
+
+    .tabla tr + tr {
+        border-top: 1px solid var(--elevada);
+    }
+
+    .tabla td {
+        padding: 6px 0;
+        border: none;
+    }
+
+    .tabla td.celda-persona {
+        display: flex;
+    }
+
+    .tabla td[data-etiqueta] {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: left;
+    }
+
+    .tabla td[data-etiqueta]::before {
+        content: attr(data-etiqueta);
+        color: var(--apagado);
+    }
+
+    .tabla select,
+    .tabla td.num input {
+        width: 180px;
+    }
+
+    .celda-acciones form {
+        justify-content: space-between;
+    }
+
+    /* Bandas */
+    .filtros a {
+        padding: 8px 12px;
+    }
+
+    .banda summary {
+        gap: 12px;
+        padding: 8px 12px 8px 8px;
+    }
+
+    .banda summary img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .banda-formulario {
+        padding: 8px 16px 16px;
+    }
+
+    .tarjeta-pie .boton-principal {
+        flex: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition: none !important;
+    }
+}

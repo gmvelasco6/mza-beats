@@ -1,7 +1,7 @@
 /**
  * Acceso a la tabla `bandas`.
  */
-import { GENEROS, LIMITES } from '../config.js';
+import { GENEROS, IMAGEN_BANDA_POR_DEFECTO, LIMITES } from '../config.js';
 import { ejecutar, filas } from '../lib/db.js';
 import { escaparLike, largo } from '../lib/texto.js';
 
@@ -50,6 +50,13 @@ export function rutaImagenEsValida(ruta) {
     ruta === '' ||
     (/^images\/[A-Za-z0-9_\-/]+\.(png|jpe?g|webp|gif)$/.test(ruta) && !ruta.includes('..'))
   );
+}
+
+/** La foto de una banda, o el logo del sitio si todavía no tiene. */
+export function imagenDeBanda(banda) {
+  return banda.imagen_principal !== '' && rutaImagenEsValida(banda.imagen_principal)
+    ? banda.imagen_principal
+    : IMAGEN_BANDA_POR_DEFECTO;
 }
 
 /** Valida los datos de una banda. Devuelve el primer error encontrado, o null. */

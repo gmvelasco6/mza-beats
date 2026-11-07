@@ -1,21 +1,34 @@
 <%# Cambio de contraseña del usuario logueado. %><%- include('partes/head') %>
 <body>
-    <%- include('partes/nav_simple') %>
-    <div class="formulario-container">
+    <%- include('partes/barra_panel') %>
+    <main class="lienzo lienzo-angosto">
+        <div class="fila-titulo">
+            <div>
+                <h1>Cambiar contraseña</h1>
+                <p class="bajada"><a href="/cuenta">Volver a mi cuenta</a></p>
+            </div>
+        </div>
         <%- include('partes/mensajes') %>
-        <form class="formulario" align="center" method="post" data-revelar="abajo">
+        <form class="tarjeta" method="post">
             <%- include('partes/csrf') %>
-            <h1 align="center">Cambiar Clave</h1>
-            <h2>Clave Actual</h2>
-            <input type="password" id="clave-actual" class="input" name="clave-actual" autocomplete="current-password">
-            <h2>Nueva Clave</h2>
-            <input type="password" id="password" class="input" name="password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
-            <h2>Confirmar Clave</h2>
-            <input type="password" id="new-password" class="input" name="new-password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
-
-            <input type="submit" name="btn-cambiar" class="btn" value="Cambiar">
+            <label class="campo">
+                <span>Contraseña actual</span>
+                <input type="password" id="clave-actual" name="clave-actual" autocomplete="current-password">
+            </label>
+            <label class="campo">
+                <span>Contraseña nueva</span>
+                <input type="password" id="password" name="password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password" aria-describedby="regla-clave">
+                <small id="regla-clave">Al menos <%= limites.claveMinimo %> caracteres.</small>
+            </label>
+            <label class="campo">
+                <span>Repetir la contraseña nueva</span>
+                <input type="password" id="new-password" name="new-password" minlength="<%= limites.claveMinimo %>" autocomplete="new-password">
+            </label>
+            <div class="tarjeta-pie">
+                <button type="submit" name="btn-cambiar" class="boton boton-principal">Cambiar contraseña</button>
+            </div>
         </form>
-    </div>
+    </main>
     <%- include('partes/pie') %>
 </body>
 </html>

@@ -1,0 +1,80 @@
+<%# Resumen del panel: qué hay que atender primero y la cartelera completa de bandas. %><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/barra_panel') %>
+    <main class="lienzo">
+        <div class="fila-titulo">
+            <div>
+                <h1>Panel de MzaBeats</h1>
+                <p class="bajada">
+                    <% if (pedidosPendientes === 0) { %>No hay bandas esperando respuesta.<% } else if (pedidosPendientes === 1) { %>Hay 1 banda esperando respuesta.<% } else { %>Hay <%= pedidosPendientes %> bandas esperando respuesta.<% } %>
+                </p>
+            </div>
+            <% if (pedidosPendientes > 0) { %>
+                <a class="boton boton-principal fila-titulo-accion" href="/admin/pedidos">Ver pedidos</a>
+            <% } %>
+        </div>
+
+        <%- include('../partes/mensajes') %>
+
+        <dl class="cifras">
+            <div><dt>Pedidos</dt><dd class="num"><%= pedidosPendientes %></dd></div>
+            <div><dt>Bandas</dt><dd class="num"><%= totalBandas %></dd></div>
+            <div><dt>Bandas sin foto</dt><dd class="num"><%= sinFoto %></dd></div>
+            <div><dt>Usuarios</dt><dd class="num"><%= usuarios.length %></dd></div>
+        </dl>
+
+        <div class="columnas">
+            <section class="tarjeta" aria-labelledby="titulo-cartelera">
+                <h2 id="titulo-cartelera">Cartelera</h2>
+                <div class="cartelera">
+                    <% for (const [clave, genero] of Object.entries(generos)) { %>
+                        <div>
+                            <h3><a href="/admin/bandas?genero=<%= clave %>"><%= genero.nombre %></a> <span class="num"><%= bandasDeCadaGenero[clave].length %></span></h3>
+                            <% if (bandasDeCadaGenero[clave].length === 0) { %>
+                                <p class="vacio">Todavía no hay bandas.</p>
+                            <% } %>
+                            <ul>
+                                <% for (const banda of bandasDeCadaGenero[clave]) { %>
+                                    <li>
+                                        <a href="/admin/bandas?genero=<%= clave %>#banda-<%= banda.id %>">
+                                            <img src="/<%= imagenDeBanda(banda) %>" alt="" width="56" height="56" loading="lazy">
+                                            <span><%= banda.nombre %><% if (banda.imagen_principal === '') { %><small class="aviso">Sin foto</small><% } %></span>
+                                        </a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
+
+            <div class="columna-lateral">
+                <section class="tarjeta" aria-labelledby="titulo-pedidos">
+                    <h2 id="titulo-pedidos">Pedidos recientes</h2>
+                    <% if (consultas.length === 0) { %>
+                        <p class="vacio">Cuando una banda complete “¡Quiero aparecer!”, su pedido aparece acá.</p>
+                    <% } %>
+                    <ul class="lista-simple">
+                        <% for (const consulta of consultas.slice(-3).reverse()) { %>
+                            <li><a href="/admin/pedidos"><%= consulta.nombre %><small><%= consulta.email %></small></a></li>
+                        <% } %>
+                    </ul>
+                </section>
+                <section class="tarjeta" aria-labelledby="titulo-personas">
+                    <h2 id="titulo-personas">Usuarios</h2>
+                    <ul class="lista-simple">
+                        <% for (const persona of usuarios.slice(-4).reverse()) { %>
+                            <li class="persona">
+                                <img class="avatar avatar-chico" src="<%= rutaAvatar(persona) %>" alt="" width="32" height="32" loading="lazy">
+                                <span><%= persona.nombre %><small>@<%= persona.usuario %></small></span>
+                            </li>
+                        <% } %>
+                    </ul>
+                    <a class="enlace-pie" href="/admin/usuarios">Ver todos</a>
+                </section>
+            </div>
+        </div>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>

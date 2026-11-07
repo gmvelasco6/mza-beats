@@ -3,13 +3,15 @@
  * Siempre se edita la cuenta de la sesión, nunca un id que venga del formulario.
  */
 import { Router } from 'express';
-import { BLOQUEO_LOGIN, LIMITES } from '../config.js';
+import { AVATARES, BLOQUEO_LOGIN, ESTADOS, LIMITES } from '../config.js';
 import { campo, comoTexto } from '../lib/texto.js';
 import { mensajeGuardar } from '../lib/mensajes.js';
 import { claveEsCorrecta, claveHash, validarClaveNueva } from '../lib/claves.js';
 import { cerrarSesion, intentarLogin, regenerarSesion, requerirLogin } from '../lib/sesion.js';
 import { loginBloqueado, loginLimpiarFallos, loginRegistrarFallo } from '../modelos/intentos-login.js';
 import {
+  avatarEsValido,
+  usuarioActualizarAvatar,
   usuarioActualizarClave,
   usuarioActualizarPerfil,
   usuarioCrear,
@@ -86,11 +88,13 @@ rutasCuenta.post('/registro', soloVisitantes, async (req, res) => {
 function mostrarCuenta(res, error, nombre, usuario) {
   res.render('cuenta', {
     titulo: 'Mi cuenta',
-    hojaDeEstilo: 'php-style',
+    hojaDeEstilo: 'panel',
     error,
     nombreMostrado: nombre,
     usuarioMostrado: usuario,
     limites: LIMITES,
+    avatares: AVATARES,
+    rol: ESTADOS.get(res.locals.usuario.estado) ?? 'Usuario',
   });
 }
 
@@ -112,10 +116,23 @@ rutasCuenta.post('/cuenta', requerirLogin, async (req, res) => {
   res.redirect('/cuenta');
 });
 
+/* ---------- Foto de perfil ---------- */
+
+rutasCuenta.post('/cuenta/foto', requerirLogin, async (req, res) => {
+  const avatar = campo(req.body, 'avatar');
+  if (avatarEsValido(avatar)) {
+    await usuarioActualizarAvatar(req.usuario.id, avatar === '' ? null : avatar);
+    mensajeGuardar(req, 'ok', 'Foto de perfil actualizada');
+  } else {
+    mensajeGuardar(req, 'error', 'Elegí uno de los dibujos de la lista');
+  }
+  res.redirect('/cuenta');
+});
+
 /* ---------- Cambiar clave ---------- */
 
 function mostrarCambioDeClave(res, error = null) {
-  res.render('cambiar-clave', { titulo: 'Cambiar Clave', hojaDeEstilo: 'php-style', error, limites: LIMITES });
+  res.render('cambiar-clave', { titulo: 'Cambiar contraseña', hojaDeEstilo: 'panel', error, limites: LIMITES });
 }
 
 rutasCuenta.get('/cuenta/clave', requerirLogin, (_req, res) => mostrarCambioDeClave(res));

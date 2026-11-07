@@ -15,6 +15,7 @@ import { rutasBandas } from './rutas/bandas.js';
 import { rutasCuenta } from './rutas/cuenta.js';
 import { rutasSitio } from './rutas/sitio.js';
 import { rutasViejas } from './rutas/viejas.js';
+import { rutaAvatar } from './modelos/usuarios.js';
 
 const CARPETA = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.dirname(CARPETA);
@@ -30,6 +31,7 @@ export function crearApp() {
   app.set('trust proxy', 'loopback, linklocal, uniquelocal');
 
   app.locals.generos = GENEROS;
+  app.locals.rutaAvatar = rutaAvatar;
   app.locals.umamiId = ENTORNO.umamiId;
   app.locals.umamiScript = ENTORNO.umamiScript;
 

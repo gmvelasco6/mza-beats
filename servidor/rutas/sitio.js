@@ -2,10 +2,10 @@
  * Páginas públicas: inicio, géneros y formulario "¡Quiero aparecer!".
  */
 import { Router } from 'express';
-import { GENEROS, IMAGEN_BANDA_POR_DEFECTO, LIMITES } from '../config.js';
+import { GENEROS, LIMITES } from '../config.js';
 import { campo } from '../lib/texto.js';
 import { mensajeGuardar } from '../lib/mensajes.js';
-import { bandasPorGenero, generoEsValido, rutaImagenEsValida } from '../modelos/bandas.js';
+import { bandasPorGenero, generoEsValido, imagenDeBanda, rutaImagenEsValida } from '../modelos/bandas.js';
 import { consultaCrear, validarConsulta } from '../modelos/consultas.js';
 
 export const rutasSitio = Router();
@@ -16,9 +16,7 @@ rutasSitio.get('/', (_req, res) => {
 
 /** Datos de una banda listos para mostrar, sin rutas de imagen inválidas. */
 function bandaParaMostrar(banda) {
-  const imagen = banda.imagen_principal !== '' && rutaImagenEsValida(banda.imagen_principal)
-    ? banda.imagen_principal
-    : IMAGEN_BANDA_POR_DEFECTO;
+  const imagen = imagenDeBanda(banda);
   const fondo = banda.imagen_fondo !== '' && rutaImagenEsValida(banda.imagen_fondo)
     ? `--item-bg: url('/${banda.imagen_fondo}');`
     : '';

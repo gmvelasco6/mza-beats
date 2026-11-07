@@ -1,0 +1,66 @@
+<%# Usuarios: rol y creaciones disponibles de cada cuenta. %><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/barra_panel') %>
+    <main class="lienzo">
+        <div class="fila-titulo">
+            <div>
+                <h1>Usuarios</h1>
+                <p class="bajada"><%= usuarios.length %> <%= usuarios.length === 1 ? 'cuenta' : 'cuentas' %>. Las creaciones son las bandas que cada una todavía puede cargar.</p>
+            </div>
+        </div>
+
+        <%- include('../partes/mensajes') %>
+
+        <div class="tarjeta tarjeta-tabla">
+            <table class="tabla">
+                <thead>
+                    <tr>
+                        <th scope="col">Persona</th>
+                        <th scope="col">Rol</th>
+                        <th scope="col" class="num">Creaciones</th>
+                        <th scope="col"><span class="solo-lectores">Acciones</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const fila of usuarios) { %>
+                        <% const formulario = `form-usuario-${fila.id}`; const soyYo = fila.id === usuario.id; %>
+                        <tr data-usuario="<%= fila.usuario %>" data-id="<%= fila.id %>">
+                            <td class="celda-persona">
+                                <img class="avatar avatar-chico" src="<%= rutaAvatar(fila) %>" alt="" width="32" height="32" loading="lazy">
+                                <span><%= fila.nombre %><small>@<%= fila.usuario %><% if (soyYo) { %> · sos vos<% } %></small></span>
+                            </td>
+                            <td data-etiqueta="Rol">
+                                <% if (soyYo) { %>
+                                    <input type="hidden" name="estado" form="<%= formulario %>" value="<%= estadoAdmin %>">
+                                    Administrador
+                                <% } else { %>
+                                    <select name="estado" form="<%= formulario %>" aria-label="Rol de <%= fila.usuario %>">
+                                        <% for (const [valor, texto] of estados) { %>
+                                            <option value="<%= valor %>"<% if (fila.estado === valor) { %> selected<% } %>><%= texto %></option>
+                                        <% } %>
+                                    </select>
+                                <% } %>
+                            </td>
+                            <td data-etiqueta="Creaciones" class="num">
+                                <input type="number" min="0" name="cantidad_creaciones" form="<%= formulario %>" value="<%= fila.cantidad_creaciones %>" aria-label="Creaciones de <%= fila.usuario %>">
+                            </td>
+                            <td class="celda-acciones">
+                                <form id="<%= formulario %>" method="POST" action="/admin">
+                                    <%- include('../partes/csrf') %>
+                                    <input type="hidden" name="id" value="<%= fila.id %>">
+                                    <button type="submit" name="accion" value="actualizar-usuario" class="boton boton-secundario">Guardar</button>
+                                    <% if (!soyYo) { %>
+                                        <button type="submit" name="accion" value="eliminar-usuario" class="boton boton-peligro"
+                                            data-confirmar="¿Eliminar al usuario <%= fila.usuario %>?">Eliminar</button>
+                                    <% } %>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>

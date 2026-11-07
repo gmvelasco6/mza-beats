@@ -1,7 +1,7 @@
 <%# Saludo y enlaces de sesión. Se usa dos veces en el menú: móvil y escritorio. %>
 <ul class="user-list">
     <% if (usuario) { %>
-        <a href="/cuenta"><img src="/images/inicio/usuario.png" class="img-usuario" alt="img-usuario"></a>
+        <a href="/cuenta"><img src="<%= rutaAvatar(usuario) %>" class="img-usuario" alt="Mi cuenta"></a>
         <div>
             <li>Hola! <%= usuario.usuario %></li>
             <li class="linea"> | </li>

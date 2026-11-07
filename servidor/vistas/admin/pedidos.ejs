@@ -1,0 +1,35 @@
+<%# Bandas que completaron "¡Quiero aparecer!". %><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/barra_panel') %>
+    <main class="lienzo lienzo-angosto">
+        <div class="fila-titulo">
+            <div>
+                <h1>Pedidos</h1>
+                <p class="bajada"><% if (consultas.length === 0) { %>No hay bandas esperando respuesta.<% } else { %><%= consultas.length %> <%= consultas.length === 1 ? 'banda quiere' : 'bandas quieren' %> aparecer en el sitio.<% } %></p>
+            </div>
+        </div>
+
+        <%- include('../partes/mensajes') %>
+
+        <% if (consultas.length === 0) { %>
+            <p class="tarjeta vacio">Cuando una banda complete “¡Quiero aparecer!”, su pedido aparece acá.</p>
+        <% } %>
+
+        <% for (const fila of consultas) { %>
+            <article class="tarjeta pedido" data-consulta="<%= fila.nombre %>" data-id="<%= fila.id %>">
+                <h2><%= fila.nombre %></h2>
+                <p class="pedido-email"><%= fila.email %></p>
+                <p class="pedido-razon"><%= fila.razon %></p>
+                <form class="tarjeta-pie tarjeta-pie-separado" method="POST" action="/admin">
+                    <%- include('../partes/csrf') %>
+                    <input type="hidden" name="id" value="<%= fila.id %>">
+                    <button type="submit" name="accion" value="eliminar-consulta" class="boton boton-peligro"
+                        data-confirmar="¿Eliminar el pedido de <%= fila.nombre %>?">Eliminar</button>
+                    <a class="boton boton-principal" href="mailto:<%= encodeURIComponent(fila.email) %>?subject=<%= encodeURIComponent('Tu pedido en MzaBeats') %>">Responder por correo</a>
+                </form>
+            </article>
+        <% } %>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<%# Bandas de un género. Cada una se abre para editarla sin salir de la lista. %><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/barra_panel') %>
+    <main class="lienzo">
+        <div class="fila-titulo">
+            <div>
+                <h1>Bandas</h1>
+                <p class="bajada">Tocá una banda para editar su descripción y sus fotos.</p>
+            </div>
+        </div>
+
+        <%- include('../partes/mensajes') %>
+
+        <nav class="filtros" aria-label="Géneros">
+            <% for (const [clave, genero] of Object.entries(generos)) { %>
+                <a href="/admin/bandas?genero=<%= clave %>"<% if (clave === generoActivo) { %> aria-current="page"<% } %>>
+                    <span><%= genero.nombre %></span>
+                    <strong class="num"><%= bandasDeCadaGenero[clave].length %></strong>
+                </a>
+            <% } %>
+        </nav>
+
+        <% if (bandasDeCadaGenero[generoActivo].length === 0) { %>
+            <p class="tarjeta vacio">Todavía no hay bandas en <%= generos[generoActivo].nombre %>.</p>
+        <% } %>
+
+        <div class="lista-bandas">
+            <% for (const banda of bandasDeCadaGenero[generoActivo]) { %>
+                <details class="banda" id="banda-<%= banda.id %>" data-banda="<%= banda.nombre %>">
+                    <summary>
+                        <img src="/<%= imagenDeBanda(banda) %>" alt="" width="64" height="64" loading="lazy">
+                        <span class="banda-resumen">
+                            <strong><%= banda.nombre %></strong>
+                            <small><%= banda.descripcion.slice(0, 110) %><% if (banda.descripcion.length > 110) { %>…<% } %></small>
+                        </span>
+                        <span class="banda-editar">Editar</span>
+                    </summary>
+                    <form class="banda-formulario" method="POST" action="/admin">
+                        <%- include('../partes/csrf') %>
+                        <input type="hidden" name="id" value="<%= banda.id %>">
+                        <input type="hidden" name="genero_actual" value="<%= generoActivo %>">
+                        <div class="campos-dos">
+                            <label class="campo">
+                                <span>Nombre</span>
+                                <input type="text" name="nombre" value="<%= banda.nombre %>" required>
+                            </label>
+                            <label class="campo">
+                                <span>Género</span>
+                                <select name="genero">
+                                    <% for (const [clave, genero] of Object.entries(generos)) { %>
+                                        <option value="<%= clave %>"<% if (banda.genero === clave) { %> selected<% } %>><%= genero.nombre %></option>
+                                    <% } %>
+                                </select>
+                            </label>
+                        </div>
+                        <label class="campo">
+                            <span>Descripción</span>
+                            <textarea name="descripcion" rows="10" required aria-describedby="ayuda-<%= banda.id %>"><%= banda.descripcion %></textarea>
+                            <small id="ayuda-<%= banda.id %>">Cada salto de línea es un párrafo en la página.</small>
+                        </label>
+                        <div class="campos-dos">
+                            <label class="campo">
+                                <span>Foto principal</span>
+                                <input type="text" name="imagen_principal" value="<%= banda.imagen_principal %>" placeholder="images/rock/02.png">
+                            </label>
+                            <label class="campo">
+                                <span>Foto de fondo</span>
+                                <input type="text" name="imagen_fondo" value="<%= banda.imagen_fondo %>" placeholder="images/rock/02-bg.png">
+                            </label>
+                        </div>
+                        <div class="tarjeta-pie tarjeta-pie-separado">
+                            <button type="submit" name="accion" value="eliminar-banda" class="boton boton-peligro"
+                                data-confirmar="¿Eliminar la banda <%= banda.nombre %>?">Eliminar banda</button>
+                            <button type="submit" name="accion" value="actualizar-banda" class="boton boton-principal">Guardar cambios</button>
+                        </div>
+                    </form>
+                </details>
+            <% } %>
+        </div>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>
