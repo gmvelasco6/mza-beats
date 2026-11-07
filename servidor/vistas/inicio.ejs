@@ -14,6 +14,7 @@
             <% if (posicion > 0) { %><hr><% } %>
             <section class="<%= clave %>-container" data-parallax>
                 <img src="/<%= genero.imagenInicio %>" alt="imagen_<%= genero.nombre %>" class="<%= clave %>-img"
+                    <% if (posicion > 0) { %>loading="lazy"<% } %> decoding="async"
                     data-revelar="<%= posicion % 2 === 0 ? 'izquierda' : 'derecha' %>">
                 <div class="<%= clave %>-description" data-revelar="<%= posicion % 2 === 0 ? 'derecha' : 'izquierda' %>">
                     <h2>Sección <%= genero.nombre %></h2>

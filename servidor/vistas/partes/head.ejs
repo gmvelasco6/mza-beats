@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="/css/animaciones.css">
     <link rel="shortcut icon" href="/images/logo/page-icon.png" type="image/x-icon">
     <title><%= titulo %></title>
+    <!-- Sin esto, las animaciones quedan en cola detrás de las fotos y la página tarda en aparecer -->
+    <link rel="preload" href="/vendor/gsap/gsap.min.js" as="script">
+    <link rel="preload" href="/vendor/gsap/ScrollTrigger.min.js" as="script">
+    <link rel="preload" href="/js/animaciones.js" as="script">
     <script src="/js/previo.js"></script>
     <script defer src="/vendor/gsap/gsap.min.js"></script>
     <script defer src="/vendor/gsap/ScrollTrigger.min.js"></script>

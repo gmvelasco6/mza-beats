@@ -37,7 +37,7 @@
                 <%# Las bandas se muestran alternando la imagen a izquierda y derecha %>
                 <hr>
                 <div class="<%= posicion % 2 === 0 ? 'section' : 'section-reverse' %>" style="<%= banda.fondo %>" data-parallax>
-                    <div data-revelar="<%= posicion % 2 === 0 ? 'izquierda' : 'derecha' %>"><img class="img" src="/<%= banda.imagen %>" alt="<%= banda.nombre %>"></div>
+                    <div data-revelar="<%= posicion % 2 === 0 ? 'izquierda' : 'derecha' %>"><img class="img" src="/<%= banda.imagen %>" alt="<%= banda.nombre %>" loading="lazy" decoding="async"></div>
                     <div class="description" data-revelar="<%= posicion % 2 === 0 ? 'derecha' : 'izquierda' %>">
                         <h2><%= banda.nombre %></h2>
                         <p><%= banda.descripcion %></p>
