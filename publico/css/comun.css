@@ -96,3 +96,121 @@ h1[id],
 .description p + p {
     margin-top: 0.9em;
 }
+
+/* ---------- Pie: términos y privacidad ---------- */
+
+.pie-legal a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.pie-legal span {
+    margin: 0 4px;
+    opacity: 0.6;
+}
+
+/* ---------- Registro y pedidos: aceptación y aviso de datos ---------- */
+
+.formulario .aceptar {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    align-self: stretch;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+}
+
+.formulario .aceptar input {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+    accent-color: #d25525;
+}
+
+.formulario .aceptar a,
+.formulario .aviso-datos a {
+    color: #e8703f;
+}
+
+.formulario .aviso-datos {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    opacity: 0.85;
+    text-align: left;
+}
+
+/* ---------- Páginas legales ---------- */
+
+.legal {
+    flex: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 120px 20px 60px;
+    line-height: 1.65;
+    text-align: left;
+}
+
+.legal h1 {
+    color: #d25525;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.legal h2 {
+    color: #e8703f;
+    font-size: 1.2rem;
+    margin: 32px 0 8px;
+}
+
+.legal p,
+.legal li {
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.legal ul {
+    padding-left: 22px;
+}
+
+.legal a {
+    color: #e8703f;
+}
+
+.legal code {
+    font-size: 0.9em;
+}
+
+.legal-borrador {
+    display: inline-block;
+    padding: 4px 12px;
+    border: 1px solid #e8703f;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.legal-falta {
+    background-color: rgba(255, 77, 77, 0.15);
+    padding: 0 4px;
+}
+
+.legal-aaip {
+    font-size: 0.85rem;
+    opacity: 0.85;
+}
+
+@media screen and (max-width: 600px) {
+    .legal {
+        padding-top: 100px;
+    }
+
+    .legal h1 {
+        font-size: 1.6rem;
+    }
+}

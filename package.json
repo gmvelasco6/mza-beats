@@ -11,7 +11,8 @@
     "start": "node servidor/index.js",
     "dev": "node --watch servidor/index.js",
     "test": "node --test \"pruebas/unidad/*.test.js\"",
-    "test:integracion": "node --test --test-concurrency=1 \"pruebas/integracion/*.test.js\""
+    "test:integracion": "node --test --test-concurrency=1 \"pruebas/integracion/*.test.js\"",
+    "imagenes": "node scripts/imagenes-webp.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -27,5 +28,8 @@
     "express-mysql-session": {
       "mysql2": "$mysql2"
     }
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

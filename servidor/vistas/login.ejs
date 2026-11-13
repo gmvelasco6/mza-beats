@@ -8,9 +8,9 @@
 
             <%- include('partes/mensajes') %>
 
-            <h2>Usuario</h2>
+            <label class="etiqueta" for="user">Usuario</label>
             <input type="text" id="user" class="input" name="user" value="<%= valorUsuario %>" autocomplete="username">
-            <h2>Contraseña</h2>
+            <label class="etiqueta" for="password">Contraseña</label>
             <input type="password" id="password" class="input" name="password" autocomplete="current-password">
             <p>¿No has creado un usuario? <a href="/registro">Regístrate</a></p>
             <input type="submit" name="btn-iniciar" class="btn" value="Iniciar Sesion">

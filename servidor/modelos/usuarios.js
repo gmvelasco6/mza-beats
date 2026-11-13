@@ -1,8 +1,8 @@
 /**
  * Acceso a la tabla `usuarios`.
  */
-import { AVATARES, ESTADO_USUARIO, LIMITES } from '../config.js';
-import { ejecutar, fila, filas } from '../lib/db.js';
+import { AVATARES, ESTADO_ADMIN, ESTADO_USUARIO, LIMITES } from '../config.js';
+import { ejecutar, fila, filas, transaccion } from '../lib/db.js';
 import { largo } from '../lib/texto.js';
 
 export function usuarioPorId(id) {
@@ -24,10 +24,11 @@ async function usuarioExiste(nombreUsuario, exceptoId) {
 }
 
 /** Las cuentas nuevas empiezan como usuario común y sin creaciones disponibles. */
-export function usuarioCrear(nombre, nombreUsuario, claveHash) {
+export function usuarioCrear(nombre, nombreUsuario, claveHash, conexion) {
   return ejecutar(
     'INSERT INTO usuarios (nombre, usuario, clave, estado, cantidad_creaciones) VALUES (?, ?, ?, ?, 0)',
     [nombre, nombreUsuario, claveHash, ESTADO_USUARIO],
+    conexion,
   );
 }
 
@@ -74,8 +75,26 @@ export async function usuarioDescontarCreacion(id, conexion) {
   return resultado.affectedRows === 1;
 }
 
+/**
+ * Borra la cuenta y todo lo que se guardaba de ella: sus aceptaciones y sus
+ * intentos de login. Las sesiones que tenga abiertas dejan de valer solas
+ * (lib/sesion.js no encuentra la cuenta y las cierra).
+ */
 export function usuarioEliminar(id) {
-  return ejecutar('DELETE FROM usuarios WHERE id = ?', [id]);
+  return transaccion(async (conexion) => {
+    const cuenta = await fila('SELECT usuario FROM usuarios WHERE id = ?', [id], conexion);
+    await ejecutar('DELETE FROM aceptaciones WHERE usuario_id = ?', [id], conexion);
+    if (cuenta) {
+      await ejecutar('DELETE FROM intentos_login WHERE usuario = ?', [cuenta.usuario], conexion);
+    }
+    return ejecutar('DELETE FROM usuarios WHERE id = ?', [id], conexion);
+  });
+}
+
+/** ¿Es el único administrador? Entonces no puede borrar su cuenta: el panel quedaría sin dueño. */
+export async function esElUnicoAdmin(id) {
+  const otros = await fila('SELECT COUNT(*) AS total FROM usuarios WHERE estado = ? AND id <> ?', [ESTADO_ADMIN, id]);
+  return otros.total === 0;
 }
 
 /** Reglas de nombre y usuario que no necesitan consultar la base. */

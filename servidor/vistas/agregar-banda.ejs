@@ -9,15 +9,15 @@
 
                 <%- include('partes/mensajes') %>
 
-                <h2>Nombre de la banda:</h2>
+                <label class="etiqueta" for="nombre">Nombre de la banda:</label>
                 <input type="text" id="nombre" name="nombre" required placeholder="Ejemplo: Los Rockeros" value="<%= valores.nombre %>" maxlength="<%= limites.bandaNombreMaximo %>">
 
-                <h2>Cuéntanos sobre la banda:</h2>
+                <label class="etiqueta" for="descripcion">Cuéntanos sobre la banda:</label>
                 <textarea id="descripcion" name="descripcion" required placeholder="Describe la historia de la banda, su estilo musical, integrantes, etc." cols="50" rows="6" maxlength="<%= limites.textoMaximo %>"><%= valores.descripcion %></textarea>
 
                 <p>Por favor, mandá fotos de tu banda al siguiente correo:<a href="mailto:mzabeatsbandas@gmail.com"> mzabeatsbandas@gmail.com</a></p>
 
-                <h2>Género musical:</h2>
+                <label class="etiqueta" for="genero">Género musical:</label>
                 <select id="genero" name="genero" required>
                     <option value="">Selecciona un género</option>
                     <% for (const [clave, datosGenero] of Object.entries(generos)) { %>

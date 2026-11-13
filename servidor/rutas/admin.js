@@ -49,7 +49,7 @@ async function datosDelPanel(req, res, next) {
 rutasAdmin.use('/admin', datosDelPanel);
 
 function vistaDelPanel(res, vista, titulo, seccion, datos = {}) {
-  res.render(`admin/${vista}`, { titulo, hojaDeEstilo: 'panel', seccion, ...datos });
+  res.render(`admin/${vista}`, { titulo, hojaDeEstilo: 'panel', sinIndexar: true, seccion, ...datos });
 }
 
 rutasAdmin.get('/admin', async (_req, res) => {

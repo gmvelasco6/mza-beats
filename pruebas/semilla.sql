@@ -10,4 +10,5 @@ INSERT INTO `usuarios` (`nombre`, `usuario`, `clave`, `estado`, `cantidad_creaci
 ('Puede cargar', 'cargador', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 1),
 ('Para bloquear', 'bloqueable', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 0),
 ('Para cambiar', 'cambiante', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 0),
-('Para eliminar', 'descartable', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 0);
+('Para eliminar', 'descartable', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 0),
+('Se va sola', 'se-va', '$2y$10$XLwadZPmEKgg5lcj8f6LqughG8jnHk5HeYRC/tR1UwGHJSeS.FDmO', 1, 0);

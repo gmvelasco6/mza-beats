@@ -4,7 +4,7 @@
   claseNav     Clase CSS extra del <nav> (el panel admin usa "nav-admin")
 %>
 <nav<% if (locals.claseNav) { %> class="<%= claseNav %>"<% } %>>
-    <img class="logo" src="/images/logo/logoMzaBeats.png" alt="MzaBeats">
+    <img class="logo" src="/images/logo/logoMzaBeats.png" alt="MzaBeats" width="300" height="125">
     <ul class="nav-list">
         <li class="nav-list-item"><a class="link" href="/"><%= locals.textoVolver || 'Ir a Inicio' %></a></li>
     </ul>

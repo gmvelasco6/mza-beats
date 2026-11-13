@@ -1,0 +1,50 @@
+<%#
+  Términos y condiciones. BORRADOR: revisar con abogado.
+  Si cambian en algo importante, subí VERSION_LEGALES en config.js.
+%><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/nav_simple') %>
+    <main class="legal">
+        <p class="legal-borrador">Borrador pendiente de revisión legal. Vigente desde el <%= version %>.</p>
+        <h1>Términos y condiciones</h1>
+        <p>Al usar MzaBeats aceptás estas reglas. Son pocas y están escritas para que se entiendan.</p>
+
+        <h2>Qué es MzaBeats</h2>
+        <p>Un sitio gratuito y sin fines de lucro que muestra bandas y artistas de Mendoza. No vendemos nada ni
+            cobramos por aparecer.</p>
+
+        <h2>Tu cuenta</h2>
+        <ul>
+            <li>Cada cuenta es de una persona. Cuidá tu contraseña: lo que se haga con tu cuenta es tu responsabilidad.</li>
+            <li>Podés eliminarla cuando quieras desde <a href="/cuenta">Mi cuenta</a>.</li>
+            <li>Podemos suspender o borrar cuentas que se usen para molestar, engañar o dañar el sitio.</li>
+        </ul>
+
+        <h2>Lo que cargás</h2>
+        <ul>
+            <li>Si tenés permiso para cargar bandas, lo que escribas tiene que ser cierto, propio o de alguien que te
+                autorizó, y no puede ofender ni discriminar a nadie.</li>
+            <li>Al cargarlo nos permitís mostrarlo en el sitio. Sigue siendo tuyo.</li>
+            <li>Quienes administran el sitio pueden corregir o quitar lo que no cumpla estas reglas.</li>
+        </ul>
+
+        <h2>Las bandas, sus fotos y sus textos</h2>
+        <p>Los nombres, las fotos y la música pertenecen a cada banda o a quien sacó cada foto. Si sos parte de una
+            banda o autor de una imagen y querés corregir algo, que se te nombre o que lo quitemos, escribinos al
+            correo de la <a href="/privacidad">política de privacidad</a> y lo resolvemos.</p>
+
+        <h2>Disponibilidad</h2>
+        <p>El sitio funciona en un servidor propio y puede estar fuera de servicio a veces, por mantenimiento o por
+            problemas técnicos. Lo ofrecemos tal como está, sin garantías de que funcione siempre ni de que la información
+            de cada banda esté al día.</p>
+
+        <h2>Ley aplicable</h2>
+        <p>Estos términos se rigen por las leyes de la República Argentina. Ante un conflicto, intervienen los tribunales
+            ordinarios de la Provincia de Mendoza.</p>
+
+        <h2>Cambios</h2>
+        <p>Si los cambiamos en algo importante, actualizamos la fecha de arriba y lo avisamos en el sitio.</p>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>

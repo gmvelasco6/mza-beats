@@ -7,7 +7,8 @@ MzaBeats es una aplicación web dedicada a difundir bandas y artistas musicales 
 - Navegación por los géneros Indie, Pop y Rock.
 - Búsqueda de bandas por nombre dentro de cada género, sin recargar la página.
 - Registro e inicio de sesión de usuarios.
-- "Mi cuenta": cambiar nombre, usuario y contraseña.
+- "Mi cuenta": cambiar nombre, usuario y contraseña, descargar los datos guardados y eliminar la cuenta.
+- Política de privacidad (`/privacidad`) y términos (`/terminos`), aceptados al registrarse.
 - Carga de bandas para usuarios con creaciones disponibles.
 - Formulario "¡Quiero aparecer!" para que las bandas pidan sumarse.
 - Panel de administración: usuarios, bandas y consultas.
@@ -91,10 +92,22 @@ Las constantes están en `servidor/config.js` (`ESTADO_ADMIN`, etc.).
 ### Agregar un género nuevo
 
 1. Agregalo en `GENEROS` en `servidor/config.js`.
-2. Subí las imágenes a `publico/images/<genero>/`.
+2. Subí las imágenes a `publico/images/<genero>/` y corré `npm run imagenes`.
 3. Agregá el fondo de su sección en `publico/css/style.css`.
 
 El menú, las páginas, el panel de administración y el formulario de bandas lo toman solos.
+
+### Imágenes, tipografías y caché
+
+- Cada PNG o JPG tiene al lado una copia WebP más liviana. El servidor entrega la WebP a los navegadores que la aceptan, sin cambiar la dirección: la base y el CSS siguen nombrando el `.png`. Después de agregar o cambiar una imagen, corré `npm run imagenes` y subí las `.webp` nuevas.
+- Kanit se sirve en `woff2` con sólo los caracteres del castellano (18 KB en vez de 164). Los `.ttf` quedan como respaldo.
+- Las plantillas piden el CSS y el JS con `recurso('/css/x.css')`, que agrega la huella del contenido (`?v=...`). Esas direcciones se guardan un año; las imágenes y tipografías, un mes; el resto, una hora.
+
+### Términos y privacidad
+
+Los textos están en `servidor/vistas/legales/` y son un borrador para revisar con un abogado. Describen lo que el sitio hace de verdad: si cambia qué datos se guardan, por cuánto tiempo o con quién se comparten, hay que cambiarlos y subir `VERSION_LEGALES` en `servidor/config.js`. Cada cuenta nueva guarda qué versión aceptó en la tabla `aceptaciones`.
+
+Quién responde por los datos se configura con `RESPONSABLE_NOMBRE` y `RESPONSABLE_EMAIL`. Mientras falten, la página lo marca como pendiente.
 
 ### Agregar una animación
 
@@ -114,7 +127,9 @@ Lo demás está en `publico/js/animaciones.js`, con una función por cada efecto
 - Todo lo que muestra una plantilla con `<%= %>` se escapa. `<%- %>` se usa sólo para incluir otras plantillas.
 - Token CSRF en cada formulario y cookies `HttpOnly` y `SameSite=Lax`.
 - Política de contenido (CSP) que sólo permite recursos del propio sitio.
-- Bloqueo temporal del login tras varios intentos fallidos.
+- Bloqueo temporal del login tras varios intentos fallidos, y tope de envíos por IP en el registro y en "¡Quiero aparecer!" (`servidor/lib/limite.js`).
+- Cambiar la contraseña cierra las demás sesiones abiertas de la cuenta.
+- `Strict-Transport-Security` cuando el pedido llega por HTTPS y `Permissions-Policy` sin cámara, micrófono ni ubicación.
 
 ## Cómo levantarlo
 

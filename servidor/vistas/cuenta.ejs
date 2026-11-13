@@ -75,6 +75,17 @@
             </div>
         </section>
 
+        <section class="ajuste" aria-labelledby="titulo-mis-datos">
+            <div class="ajuste-texto">
+                <h2 id="titulo-mis-datos">Tus datos guardados</h2>
+                <p>Bajá un archivo con todo lo que MzaBeats guarda de tu cuenta. Más detalles en la <a href="/privacidad">política de privacidad</a>.</p>
+            </div>
+            <div class="tarjeta tarjeta-fila">
+                <p>Un archivo JSON, que se abre con cualquier editor de texto.</p>
+                <a class="boton boton-secundario" href="/cuenta/datos" download>Descargar mis datos</a>
+            </div>
+        </section>
+
         <section class="ajuste" aria-labelledby="titulo-sesion">
             <div class="ajuste-texto">
                 <h2 id="titulo-sesion">Sesión</h2>
@@ -84,6 +95,23 @@
                 <%- include('partes/csrf') %>
                 <p>Conectado como <strong>@<%= usuario.usuario %></strong></p>
                 <button type="submit" class="boton boton-secundario">Cerrar sesión</button>
+            </form>
+        </section>
+
+        <section class="ajuste ajuste-peligro" id="eliminar" aria-labelledby="titulo-eliminar">
+            <div class="ajuste-texto">
+                <h2 id="titulo-eliminar">Eliminar la cuenta</h2>
+                <p>Se borran tu cuenta y sus datos en el momento. No se puede deshacer. Las bandas que cargaste siguen en el sitio.</p>
+            </div>
+            <form class="tarjeta" method="post" action="/cuenta/eliminar">
+                <%- include('partes/csrf') %>
+                <label class="campo">
+                    <span>Tu contraseña actual</span>
+                    <input type="password" name="clave-actual" autocomplete="current-password" required>
+                </label>
+                <div class="tarjeta-pie">
+                    <button type="submit" class="boton boton-peligro">Eliminar mi cuenta</button>
+                </div>
             </form>
         </section>
     </main>

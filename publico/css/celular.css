@@ -22,13 +22,13 @@
         text-wrap: balance;
     }
 
-    .intro h3 {
+    .intro .bajada-portada {
         font-size: 1.125rem;
         line-height: 1.5;
         text-wrap: pretty;
     }
 
-    .intro h3 br {
+    .intro .bajada-portada br {
         display: none;
     }
 
@@ -245,7 +245,8 @@
         padding: 20px;
     }
 
-    .formulario h2 {
+    .formulario h2,
+    .formulario .etiqueta {
         line-height: 1.3;
     }
 

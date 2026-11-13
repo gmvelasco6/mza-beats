@@ -22,7 +22,7 @@ function soloConCreaciones(req, res, next) {
 }
 
 function mostrarFormulario(res, error = null, valores = {}) {
-  res.render('agregar-banda', { titulo: 'Agregar Banda', hojaDeEstilo: 'php-style', error, valores, limites: LIMITES });
+  res.render('agregar-banda', { titulo: 'Agregar Banda', hojaDeEstilo: 'php-style', sinIndexar: true, error, valores, limites: LIMITES });
 }
 
 rutasBandas.get('/agregar-banda', soloConCreaciones, (_req, res) => mostrarFormulario(res));

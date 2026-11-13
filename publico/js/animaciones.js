@@ -106,7 +106,7 @@
 
   function animarPortada() {
     const titulo = document.querySelector('.intro h1');
-    const bajada = document.querySelector('.intro h3');
+    const bajada = document.querySelector('.intro .bajada-portada');
     if (!titulo || !bajada) {
       return;
     }

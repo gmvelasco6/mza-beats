@@ -7,6 +7,7 @@ import compression from 'compression';
 import express from 'express';
 import { ENTORNO, GENEROS } from './config.js';
 import { fila } from './lib/db.js';
+import { cacheSegunArchivo, crearRecurso, webpSiConviene } from './lib/estaticos.js';
 import { mensajes } from './lib/mensajes.js';
 import { cabeceras, csrf } from './lib/seguridad.js';
 import { cargarUsuario, crearSesiones } from './lib/sesion.js';
@@ -39,9 +40,16 @@ export function crearApp() {
   app.use(cabeceras);
 
   // Lo público no necesita sesión ni base de datos
-  const estaticos = { maxAge: '1h', index: false };
-  app.use(express.static(path.join(RAIZ, 'publico'), estaticos));
-  app.use('/vendor/gsap', express.static(path.join(RAIZ, 'node_modules/gsap/dist'), estaticos));
+  const PUBLICO = path.join(RAIZ, 'publico');
+  const GSAP = path.join(RAIZ, 'node_modules/gsap/dist');
+  app.locals.recurso = crearRecurso([
+    ['/vendor/gsap/', GSAP],
+    ['/', PUBLICO],
+  ]);
+  const estaticos = { index: false, setHeaders: cacheSegunArchivo };
+  app.use(webpSiConviene(PUBLICO));
+  app.use(express.static(PUBLICO, estaticos));
+  app.use('/vendor/gsap', express.static(GSAP, estaticos));
 
   app.get('/salud', async (_req, res) => {
     await fila('SELECT 1 AS ok');

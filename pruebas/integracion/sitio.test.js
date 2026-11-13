@@ -41,6 +41,52 @@ describe('páginas públicas', () => {
     assert.equal(cabeceras.get('x-frame-options'), 'DENY');
     assert.equal(cabeceras.get('x-content-type-options'), 'nosniff');
     assert.equal(cabeceras.get('x-powered-by'), null);
+    assert.match(cabeceras.get('permissions-policy'), /camera=()/);
+    assert.match(cabeceras.get('content-security-policy'), /object-src 'none'/);
+    // Las pruebas entran por HTTP: HSTS sólo se manda por HTTPS
+    assert.equal(cabeceras.get('strict-transport-security'), null);
+  });
+
+  test('el CSS y el JS llevan huella y se guardan un año', async () => {
+    const { html } = await visitante().get('/');
+    const css = html.match(/href="(\/css\/style\.css\?v=[0-9a-f]{10})"/)?.[1];
+    assert.ok(css, 'el inicio no pide el CSS con huella');
+    assert.match(html, /src="\/vendor\/gsap\/gsap\.min\.js\?v=[0-9a-f]{10}"/);
+    const conHuella = await visitante().get(css);
+    assert.equal(conHuella.estado, 200);
+    assert.match(conHuella.cabeceras.get('cache-control'), /max-age=31536000, immutable/);
+    const sinHuella = await visitante().get('/css/style.css');
+    assert.match(sinHuella.cabeceras.get('cache-control'), /max-age=3600/);
+  });
+
+  test('entrega WebP a quien la acepta y PNG al resto', async () => {
+    const ruta = '/images/indie/00.png';
+    const conWebp = await visitante().pedir(ruta, { headers: { accept: 'image/avif,image/webp,*/*' } });
+    assert.equal(conWebp.cabeceras.get('content-type'), 'image/webp');
+    assert.match(conWebp.cabeceras.get('vary'), /Accept/);
+    assert.match(conWebp.cabeceras.get('cache-control'), /max-age=2592000/);
+    const sinWebp = await visitante().pedir(ruta, { headers: { accept: 'image/png,*/*' } });
+    assert.equal(sinWebp.cabeceras.get('content-type'), 'image/png');
+    assert.ok(Number(sinWebp.cabeceras.get('content-length')) > Number(conWebp.cabeceras.get('content-length')));
+  });
+
+  test('las páginas legales existen y el pie las enlaza', async () => {
+    for (const [ruta, texto] of [['/privacidad', 'Ley 25.326'], ['/terminos', 'Provincia de Mendoza']]) {
+      const { estado, html } = await visitante().get(ruta);
+      assert.equal(estado, 200, ruta);
+      assert.ok(html.includes(texto), ruta);
+      assert.ok(html.includes('Borrador pendiente de revisión legal'), ruta);
+    }
+    for (const ruta of ['/', '/login', '/formulario', '/generos/rock']) {
+      const { html } = await visitante().get(ruta);
+      assert.ok(html.includes('href="/privacidad"') && html.includes('href="/terminos"'), ruta);
+    }
+  });
+
+  test('cada página tiene descripción y las privadas no se indexan', async () => {
+    assert.match((await visitante().get('/')).html, /<meta name="description" content="[^"]{20,}">/);
+    assert.ok(!(await visitante().get('/')).html.includes('noindex'));
+    assert.ok((await visitante().get('/login')).html.includes('<meta name="robots" content="noindex">'));
   });
 
   test('cada género muestra sus bandas', async () => {
@@ -169,7 +215,20 @@ describe('formulario "¡Quiero aparecer!"', () => {
 });
 
 describe('registro', () => {
-  const datos = { name: 'Nueva', user: 'nueva-cuenta', password: 'clave-nueva-123', 'password-confirm': 'clave-nueva-123' };
+  const datos = {
+    name: 'Nueva',
+    user: 'nueva-cuenta',
+    password: 'clave-nueva-123',
+    'password-confirm': 'clave-nueva-123',
+    acepto: 'si',
+  };
+
+  test('la casilla de los términos viene sin marcar', async () => {
+    const { html } = await visitante().get('/registro');
+    const casilla = html.match(/<input type="checkbox" id="acepto"[^>]*>/)?.[0] ?? '';
+    assert.ok(casilla.includes('name="acepto"'));
+    assert.ok(!casilla.includes('checked'));
+  });
 
   test('rechaza datos inválidos', async () => {
     const casos = [
@@ -179,6 +238,8 @@ describe('registro', () => {
       [{ ...datos, user: 'admin-prueba' }, 'Usuario existente'],
       [{ ...datos, password: 'corta', 'password-confirm': 'corta' }, 'al menos 8'],
       [{ ...datos, 'password-confirm': 'otra-clave-123' }, 'no coinciden'],
+      [{ ...datos, acepto: '' }, 'tenés que aceptar los términos'],
+      [{ ...datos, acepto: 'no' }, 'tenés que aceptar los términos'],
     ];
     for (const [envio, mensaje] of casos) {
       const { estado, html } = await visitante().post('/registro', envio);
@@ -353,6 +414,7 @@ describe('mi cuenta', () => {
   });
 
   test('la clave nueva sirve, la vieja no, y la sesión sigue abierta', async () => {
+    const otraSesion = await comoUsuario('cambiante2');
     const cliente = await comoUsuario('cambiante2');
     const respuesta = await cliente.post('/cuenta/clave', {
       'clave-actual': CLAVE, password: 'clave-final-123', 'new-password': 'clave-final-123',
@@ -362,6 +424,49 @@ describe('mi cuenta', () => {
     await comoUsuario('cambiante2', 'clave-final-123');
     const conLaVieja = await visitante().entrar('cambiante2');
     assert.ok(conLaVieja.html.includes('Acceso denegado'));
+    // La sesión desde donde se cambió sigue; la que estaba abierta en otro lado, no
+    assert.ok((await cliente.get('/')).html.includes('Hola! cambiante2'));
+    assert.ok((await otraSesion.get('/')).html.includes('Log in'));
+  });
+});
+
+describe('tus datos', () => {
+  test('descarga lo que se guarda de la cuenta, sin la clave', async () => {
+    const cliente = await comoUsuario('nueva-cuenta', 'clave-nueva-123');
+    const { estado, cabeceras, html } = await cliente.get('/cuenta/datos');
+    assert.equal(estado, 200);
+    assert.match(cabeceras.get('content-disposition'), /attachment; filename="?mzabeats-nueva-cuenta\.json"?/);
+    const datos = JSON.parse(html);
+    assert.equal(datos.cuenta.usuario, 'nueva-cuenta');
+    assert.equal(datos.terminos_aceptados.length, 1, 'el registro guardó la aceptación');
+    assert.ok(!html.includes('$2y$') && !html.includes('$2b$'));
+    assert.equal((await visitante().get('/cuenta/datos')).estado, 302);
+  });
+
+  test('eliminar la cuenta pide la contraseña', async () => {
+    const cliente = await comoUsuario('se-va');
+    for (const clave of ['', 'incorrecta']) {
+      const respuesta = await cliente.post('/cuenta/eliminar', { 'clave-actual': clave }, '/cuenta');
+      assert.ok((await seguir(cliente, respuesta)).html.includes('escribí tu contraseña actual'));
+    }
+    assert.ok((await cliente.get('/')).html.includes('Hola! se-va'));
+  });
+
+  test('eliminar la cuenta la borra y cierra todas sus sesiones', async () => {
+    const otraSesion = await comoUsuario('se-va');
+    const cliente = await comoUsuario('se-va');
+    const respuesta = await cliente.post('/cuenta/eliminar', { 'clave-actual': CLAVE }, '/cuenta');
+    assert.equal(respuesta.cabeceras.get('location'), '/login');
+    assert.ok((await seguir(cliente, respuesta)).html.includes('fueron eliminados'));
+    assert.ok((await otraSesion.get('/')).html.includes('Log in'));
+    assert.ok((await visitante().entrar('se-va')).html.includes('Acceso denegado'));
+  });
+
+  test('el único administrador no puede eliminar su cuenta', async () => {
+    const cliente = await comoUsuario('admin-prueba');
+    const respuesta = await cliente.post('/cuenta/eliminar', { 'clave-actual': CLAVE }, '/cuenta');
+    assert.ok((await seguir(cliente, respuesta)).html.includes('único administrador'));
+    assert.ok((await cliente.get('/admin')).html.includes('Panel'));
   });
 });
 
@@ -536,5 +641,21 @@ describe('panel de administración', () => {
       assert.equal(estado, 302, accion);
       assert.equal(cabeceras.get('location'), '/admin');
     }
+  });
+});
+
+describe('límite de pedidos', () => {
+  test('frena los pedidos repetidos desde la misma IP', async () => {
+    const cliente = visitante();
+    let ultimo;
+    for (let vez = 0; vez < 6; vez += 1) {
+      ultimo = await cliente.post('/formulario', { nombre: `Spam ${vez}`, razon: 'una y otra vez', email: 'spam@example.com' });
+      if (ultimo.estado === 429) {
+        break;
+      }
+    }
+    assert.equal(ultimo.estado, 429);
+    assert.ok(ultimo.html.includes('Probá de nuevo en'));
+    assert.ok(ultimo.html.includes('Spam'), 'conserva lo escrito');
   });
 });

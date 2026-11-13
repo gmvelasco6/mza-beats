@@ -1,0 +1,81 @@
+<%#
+  Política de privacidad. BORRADOR: revisar con abogado.
+  Describe lo que el sitio hace de verdad; si cambia el código (un dato
+  nuevo, otro proveedor, otro plazo), hay que cambiar esto y subir
+  VERSION_LEGALES en config.js.
+%><%- include('../partes/head') %>
+<body>
+    <%- include('../partes/nav_simple') %>
+    <main class="legal">
+        <p class="legal-borrador">Borrador pendiente de revisión legal. Vigente desde el <%= version %>.</p>
+        <h1>Política de privacidad</h1>
+        <p>MzaBeats es un sitio sin fines de lucro que reúne a bandas y artistas de Mendoza, Argentina.
+            Acá contamos qué datos guardamos, para qué y cómo podés verlos, corregirlos o borrarlos.</p>
+
+        <h2>Quién responde por tus datos</h2>
+        <p>
+            <% if (responsable.nombre) { %><%= responsable.nombre %><% } else { %><span class="legal-falta">[Falta completar: nombre del responsable]</span><% } %>,
+            en Mendoza, Argentina.
+            Contacto:
+            <% if (responsable.email) { %><a href="mailto:<%= responsable.email %>"><%= responsable.email %></a><% } else { %><span class="legal-falta">[Falta completar: correo de contacto]</span><% } %>.
+        </p>
+
+        <h2>Qué datos guardamos y para qué</h2>
+        <ul>
+            <li><strong>Si creás una cuenta:</strong> tu nombre, tu nombre de usuario, tu contraseña cifrada
+                (nadie puede leerla, ni siquiera quienes administran el sitio), el dibujo que elegís como foto
+                de perfil, tus permisos y la fecha en que aceptaste estos documentos. Los usamos para que puedas
+                entrar y, si te damos permiso, cargar bandas.</li>
+            <li><strong>Si mandás el formulario “¡Quiero aparecer!”:</strong> el nombre de la banda, lo que
+                nos cuentes y tu correo. Los usamos sólo para responderte sobre tu pedido.</li>
+            <li><strong>Para proteger las cuentas:</strong> cuando alguien escribe mal la contraseña guardamos
+                el usuario que probó y la dirección IP, para frenar a quien prueba claves sin parar.</li>
+            <li><strong>Estadísticas de visitas:</strong> contamos qué páginas se visitan con Umami, que funciona
+                en nuestro propio servidor, no usa cookies y no guarda tu dirección IP. No sabemos quién sos por eso.</li>
+        </ul>
+        <p>No pedimos más datos que estos, no los vendemos y no los usamos para publicidad.</p>
+
+        <h2>Cookies</h2>
+        <p>Usamos una sola cookie, <code>mzabeats_sesion</code>, para mantenerte con la sesión iniciada y para
+            proteger los formularios. Es necesaria para que el sitio funcione y dura como máximo un día.
+            No hay cookies de publicidad ni de seguimiento, por eso no te mostramos un cartel para aceptarlas.</p>
+
+        <h2>Cuánto tiempo los guardamos</h2>
+        <ul>
+            <li>Los datos de tu cuenta, hasta que la borres o nos pidas borrarla.</li>
+            <li>Los pedidos de “¡Quiero aparecer!”, <%= mesesDePedidos %> meses. Después se borran solos.</li>
+            <li>Los intentos fallidos de inicio de sesión, 24 horas.</li>
+            <li>La sesión, un día.</li>
+        </ul>
+
+        <h2>Dónde están y con quién los compartimos</h2>
+        <p>Los datos están en un servidor propio, en Mendoza. No los compartimos con nadie. Para que el sitio se
+            pueda visitar desde internet usamos Tailscale (Tailscale Inc., Estados Unidos), que transporta las
+            conexiones cifradas de punta a punta: no puede leer lo que mandás ni lo que guardamos.</p>
+
+        <h2>Tus derechos</h2>
+        <p>Podés pedir ver, corregir, actualizar o borrar tus datos. La mayoría lo podés hacer solo desde
+            <a href="/cuenta">Mi cuenta</a>:</p>
+        <ul>
+            <li><strong>Ver y descargar</strong> todo lo que guardamos de tu cuenta, en un archivo.</li>
+            <li><strong>Corregir</strong> tu nombre y tu usuario.</li>
+            <li><strong>Eliminar</strong> tu cuenta y sus datos, en el momento.</li>
+        </ul>
+        <p>Para todo lo demás (por ejemplo, borrar un pedido que mandaste), escribinos al correo de contacto.
+            Respondemos los pedidos de acceso dentro de los 10 días corridos y los de corrección o borrado dentro de
+            los 5 días hábiles, como indica la Ley 25.326 de Protección de los Datos Personales.</p>
+        <p class="legal-aaip">La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la
+            Ley N.º 25.326, tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten
+            afectados en sus derechos por incumplimiento de las normas vigentes en materia de protección de datos
+            personales.</p>
+
+        <h2>Menores de edad</h2>
+        <p>Si tenés menos de 13 años, pedile a una persona adulta responsable que lea esto con vos antes de crear una
+            cuenta. Si sos madre, padre o tutor y creés que un menor nos dio datos, escribinos y los borramos.</p>
+
+        <h2>Cambios</h2>
+        <p>Si cambiamos algo importante, actualizamos la fecha de arriba y lo avisamos en el sitio.</p>
+    </main>
+    <%- include('../partes/pie') %>
+</body>
+</html>

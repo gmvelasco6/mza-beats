@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Kanit';
-    src: url('../fonts/Kanit-Light.ttf') format('truetype');
+    /* woff2 con sólo los caracteres del castellano: 18 KB en vez de 164 */
+    src: url('../fonts/Kanit-Light.woff2') format('woff2'), url('../fonts/Kanit-Light.ttf') format('truetype');
     font-weight: 300 900;
     font-display: swap;
 }

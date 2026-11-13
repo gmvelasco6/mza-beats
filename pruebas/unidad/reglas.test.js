@@ -14,6 +14,8 @@ import {
 } from '../../servidor/lib/claves.js';
 import { campo, comoTexto, emailEsValido, entero, escaparLike, largo } from '../../servidor/lib/texto.js';
 import { generoEsValido, imagenDeBanda, rutaImagenEsValida, validarBanda } from '../../servidor/modelos/bandas.js';
+import { crearRecurso, webpSiConviene } from '../../servidor/lib/estaticos.js';
+import { Limite } from '../../servidor/lib/limite.js';
 import { validarConsulta } from '../../servidor/modelos/consultas.js';
 import { avatarEsValido, rutaAvatar, validarFormatoDeCuenta } from '../../servidor/modelos/usuarios.js';
 
@@ -144,4 +146,45 @@ test('una banda sin foto o con una ruta inválida usa el logo', () => {
   assert.equal(imagenDeBanda({ imagen_principal: '' }), logo);
   assert.equal(imagenDeBanda({ imagen_principal: 'https://mal.com/x.png' }), logo);
   assert.equal(imagenDeBanda({ imagen_principal: 'images/rock/02.png' }), 'images/rock/02.png');
+});
+
+/* ---------- Límite de envíos ---------- */
+
+test('el límite deja pasar hasta el máximo y se libera con el tiempo', () => {
+  let ahora = 1_000_000;
+  const limite = new Limite(3, 60_000, () => ahora);
+  for (let vez = 0; vez < 3; vez += 1) {
+    assert.equal(limite.superado('1.2.3.4'), false);
+    limite.registrar('1.2.3.4');
+  }
+  assert.equal(limite.superado('1.2.3.4'), true);
+  assert.equal(limite.superado('5.6.7.8'), false, 'cada IP cuenta aparte');
+  assert.equal(limite.minutosDeEspera('1.2.3.4'), 1);
+  ahora += 60_001;
+  assert.equal(limite.superado('1.2.3.4'), false);
+  assert.equal(limite.envios.size, 0, 'no guarda lo vencido');
+});
+
+/* ---------- Archivos públicos ---------- */
+
+test('recurso() agrega la huella del contenido y la recuerda', () => {
+  const recurso = crearRecurso([['/', 'publico']]);
+  const conHuella = recurso('/css/style.css');
+  assert.match(conHuella, /^\/css\/style\.css\?v=[0-9a-f]{10}$/);
+  assert.equal(recurso('/css/style.css'), conHuella);
+  assert.equal(recurso('/css/no-existe.css'), '/css/no-existe.css');
+});
+
+test('sólo cambia por WebP las imágenes que tienen una copia más liviana', () => {
+  const cambiar = webpSiConviene('publico');
+  const pedir = (ruta, accept) => {
+    const req = { method: 'GET', path: ruta, url: ruta, get: () => accept };
+    const res = { vary() {} };
+    cambiar(req, res, () => {});
+    return req.url;
+  };
+  assert.equal(pedir('/images/indie/00.png', 'image/webp,*/*'), '/images/indie/00.webp');
+  assert.equal(pedir('/images/indie/00.png', 'image/png'), '/images/indie/00.png');
+  assert.equal(pedir('/images/no-existe.png', 'image/webp'), '/images/no-existe.png');
+  assert.equal(pedir('/css/style.css', 'image/webp'), '/css/style.css');
 });

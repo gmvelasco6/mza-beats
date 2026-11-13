@@ -5,7 +5,7 @@
  */
 @font-face {
     font-family: 'Kanit Regular';
-    src: url('../fonts/Kanit-Regular.ttf') format('truetype');
+    src: url('../fonts/Kanit-Regular.woff2') format('woff2'), url('../fonts/Kanit-Regular.ttf') format('truetype');
     font-display: swap;
 }
 
@@ -922,4 +922,9 @@ footer {
     *, *::before, *::after {
         transition: none !important;
     }
+}
+
+/* Eliminar la cuenta: el título avisa antes que el botón */
+.ajuste-peligro h2 {
+    color: var(--peligro);
 }

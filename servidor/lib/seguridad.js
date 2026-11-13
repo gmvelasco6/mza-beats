@@ -31,13 +31,31 @@ const POLITICA = [
   "frame-ancestors 'none'",
 ].join('; ');
 
-export function cabeceras(_req, res, next) {
+/** El sitio no usa nada de esto: ninguna página (ni un script inyectado) puede pedirlo. */
+const PERMISOS = [
+  'camera=()',
+  'microphone=()',
+  'geolocation=()',
+  'payment=()',
+  'usb=()',
+  'interest-cohort=()',
+].join(', ');
+
+export function cabeceras(req, res, next) {
   res.set({
     'Content-Security-Policy': POLITICA,
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': PERMISOS,
   });
+  // Sólo cuando el pedido llegó por HTTPS: así el navegador ya no intenta
+  // entrar por HTTP, donde alguien en la misma red podría leer la sesión.
+  // Seis meses y sin includeSubDomains: el dominio es de Tailscale y no
+  // decidimos por los demás subdominios.
+  if (req.secure) {
+    res.set('Strict-Transport-Security', 'max-age=15552000');
+  }
   next();
 }
 

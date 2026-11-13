@@ -7,13 +7,14 @@
         <%- include('partes/mensajes') %>
         <form class="formulario" method="post" data-revelar="abajo">
             <%- include('partes/csrf') %>
-            <h2>Nombre</h2>
+            <label class="etiqueta" for="nombre">Nombre</label>
             <input type="text" id="nombre" class="input" name="nombre" placeholder="Nombre de la Banda" value="<%= valores.nombre %>" required maxlength="<%= limites.bandaNombreMaximo %>">
-            <h2>Razon</h2>
+            <label class="etiqueta" for="razon">Razon</label>
             <textarea id="razon" name="razon" required placeholder="Escribi la razon por la cual queres aparecer en MzaBeats..." cols="35" rows="6" maxlength="<%= limites.consultaRazonMaximo %>"><%= valores.razon %></textarea>
-            <h2>Email</h2>
+            <label class="etiqueta" for="email">Email</label>
             <input type="email" id="email" class="input" name="email" value="<%= valores.email %>" required>
-            <br>
+            <p class="aviso-datos">Usamos tu correo sólo para responderte sobre este pedido y lo borramos a los
+                <%= mesesDePedidos %> meses. Más detalles en la <a href="/privacidad">política de privacidad</a>.</p>
             <input type="submit" name="btn-crear" class="btn" value="Enviar">
         </form>
     </div>

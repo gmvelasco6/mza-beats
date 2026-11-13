@@ -6,8 +6,8 @@
     <main>
         <div class="intro">
             <h1 data-revelar="portada">Bienvenido a MzaBeats</h1>
-            <h3 data-revelar="portada">Mendoza no solo es la tierra del buen vino, sino también, de la buena música.
-                <br>En MzaBeats encontrarás tu próxima banda favorita.</h3>
+            <p class="bajada-portada" data-revelar="portada">Mendoza no solo es la tierra del buen vino, sino también, de la buena música.
+                <br>En MzaBeats encontrarás tu próxima banda favorita.</p>
         </div>
 
         <% Object.entries(generos).forEach(([clave, genero], posicion) => { %>
@@ -41,7 +41,7 @@
         <% if (puedeAgregar) { %>
             <a class="btn-agregar" href="/agregar-banda">Agregar banda</a>
         <% } %>
-        <p>&copy;Todos los derechos reservados</p>
+        <%- include('partes/legales') %>
     </footer>
 </body>
 </html>

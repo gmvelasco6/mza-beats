@@ -37,6 +37,22 @@ export const BLOQUEO_LOGIN = {
   minutos: 15,
 };
 
+/** Envíos por hora y por IP del registro y de "¡Quiero aparecer!" (ver lib/limite.js) */
+export const LIMITES_POR_HORA = {
+  registro: 20,
+  pedidos: 5,
+};
+
+/**
+ * Versión vigente de los términos y de la política de privacidad. Cuando
+ * cambien en algo importante, subí la fecha: cada cuenta guarda qué versión
+ * aceptó (tabla aceptaciones).
+ */
+export const VERSION_LEGALES = '2026-11-12';
+
+/** Los pedidos de "¡Quiero aparecer!" se borran solos después de este tiempo. */
+export const MESES_DE_PEDIDOS = 12;
+
 /** Imagen que se muestra cuando una banda todavía no tiene foto cargada */
 export const IMAGEN_BANDA_POR_DEFECTO = 'images/logo/logoMzaBeats.png';
 
@@ -128,6 +144,15 @@ export const GENEROS = {
       la pasión por el vivo y la conexión genuina con el público,
       convirtiéndolo en uno de los géneros más influyentes de la provincia.`,
   },
+};
+
+/**
+ * Quién responde por el sitio y sus datos, para la política de privacidad.
+ * Se completa en el .env del servidor; mientras falte, la página lo marca.
+ */
+export const RESPONSABLE = {
+  nombre: process.env.RESPONSABLE_NOMBRE || '',
+  email: process.env.RESPONSABLE_EMAIL || '',
 };
 
 /** Lo que viene del entorno (Docker Compose o .env) */

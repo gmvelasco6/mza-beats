@@ -12,4 +12,5 @@ services:
       - ./database/03_intentos_login.sql:/docker-entrypoint-initdb.d/03_intentos_login.sql:ro
       - ./database/04_avatares.sql:/docker-entrypoint-initdb.d/04_avatares.sql:ro
       - ./database/05_descripciones.sql:/docker-entrypoint-initdb.d/05_descripciones.sql:ro
+      - ./database/06_legales.sql:/docker-entrypoint-initdb.d/06_legales.sql:ro
       - ./pruebas/semilla.sql:/docker-entrypoint-initdb.d/90_semilla.sql:ro

@@ -17,6 +17,14 @@ import { usuarioActualizarClave, usuarioPorId, usuarioPorNombre } from '../model
 
 const UN_DIA = 24 * 60 * 60 * 1000;
 
+/**
+ * Un pedacito del hash de la clave, guardado en la sesión al entrar. Si la
+ * clave cambia, el hash cambia y todas las sesiones abiertas con la clave
+ * vieja dejan de valer: alguien que la conocía y había entrado desde otro
+ * lado queda afuera. No sirve para adivinar nada: es la cola de un bcrypt.
+ */
+export const marcaDeClave = (hash) => String(hash ?? '').slice(-16);
+
 export function crearSesiones() {
   if (ENTORNO.secretoSesion.length < 32) {
     throw new Error('Falta SESSION_SECRET: tiene que tener al menos 32 caracteres');
@@ -54,8 +62,15 @@ export async function cargarUsuario(req, res, next) {
   let usuario = null;
   if (req.session.usuarioId) {
     usuario = await usuarioPorId(req.session.usuarioId);
-    if (!usuario) {
-      delete req.session.usuarioId; // la cuenta fue eliminada mientras estaba logueado
+    // Las sesiones abiertas antes de existir la marca la reciben la primera vez
+    if (usuario && req.session.marcaClave === undefined) {
+      req.session.marcaClave = marcaDeClave(usuario.clave);
+    }
+    if (!usuario || req.session.marcaClave !== marcaDeClave(usuario.clave)) {
+      // La cuenta fue eliminada, o su clave cambió desde otra sesión
+      delete req.session.usuarioId;
+      delete req.session.marcaClave;
+      usuario = null;
     }
   }
   req.usuario = usuario;
@@ -82,6 +97,12 @@ export function requerirAdmin(req, res, next) {
   next();
 }
 
+/** Deja la sesión a nombre de la cuenta, atada a su clave actual. */
+export function iniciarSesionDe(req, id, hashDeClave) {
+  req.session.usuarioId = id;
+  req.session.marcaClave = marcaDeClave(hashDeClave);
+}
+
 /** Cambia el id de sesión para que uno robado antes del login no sirva después. */
 export function regenerarSesion(req) {
   return new Promise((resolver, rechazar) => {
@@ -103,11 +124,13 @@ export async function intentarLogin(req, nombreUsuario, clave) {
   if (!(await claveEsCorrecta(clave, usuario.clave))) {
     return false;
   }
-  if (necesitaActualizarse(usuario.clave)) {
-    await usuarioActualizarClave(usuario.id, await claveHash(clave));
+  let hash = usuario.clave;
+  if (necesitaActualizarse(hash)) {
+    hash = await claveHash(clave);
+    await usuarioActualizarClave(usuario.id, hash);
   }
   await regenerarSesion(req);
-  req.session.usuarioId = usuario.id;
+  iniciarSesionDe(req, usuario.id, hash);
   return true;
 }
 
